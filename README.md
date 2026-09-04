@@ -28,12 +28,6 @@ Los valores editables están en el objeto `CONFIG` dentro de `index.html`:
 
 ## Deploy
 
-Este proyecto está pensado para desplegarse en Vercel (plan free), conectando el repositorio para que cada push a `main` dispare un deploy automático. Todavía no está conectado.
+Publicado en Vercel (plan free), conectado a [github.com/rodrialbanese/cumple-sofia-15](https://github.com/rodrialbanese/cumple-sofia-15) — cada push a `main` dispara un deploy automático.
 
-## Setup pendiente
-
-Antes de compartir la invitación, falta completar manualmente:
-
-- [ ] Crear la Google Sheet real y pegar la URL del Apps Script en `CONFIG.googleAppsScriptUrl`.
-- [ ] Agregar la foto real de Sofía en `assets/img/hero.jpg`, crear el álbum de Google Photos y elegir el video de YouTube (actualizando `CONFIG.googlePhotosAlbumUrl` y `CONFIG.youtubeVideoId`).
-- [ ] Crear el repo en GitHub y conectar Vercel.
+**URL en producción:** https://cumple-sofia-15.vercel.app/
