@@ -3,12 +3,13 @@ function doPost(e) {
   var data = JSON.parse(e.postData.contents);
 
   if (sheet.getLastRow() === 0) {
-    sheet.appendRow(['Fecha', 'Nombre', 'Cantidad', 'Confirma', 'Comentario']);
+    sheet.appendRow(['Fecha', 'Nombre', 'Apellido', 'Cantidad', 'Confirma', 'Comentario']);
   }
 
   sheet.appendRow([
     new Date(),
     data.nombre,
+    data.apellido,
     data.cantidad,
     data.confirma,
     data.comentario

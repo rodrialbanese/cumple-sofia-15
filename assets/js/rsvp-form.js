@@ -14,13 +14,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var result = validateRsvp({
       nombre: form.nombre.value,
+      apellido: form.apellido.value,
       cantidad: form.cantidad.value,
       confirma: confirmaInput ? confirmaInput.value : '',
       comentario: form.comentario.value
     });
 
     if (!result.ok) {
-      feedback.textContent = 'Revisá los campos obligatorios (nombre, cantidad y confirmación).';
+      feedback.textContent = 'Revisá los campos obligatorios (nombre, apellido, cantidad y confirmación).';
       return;
     }
 

@@ -3,6 +3,9 @@ function validateRsvp(formValues) {
   var nombre = (formValues.nombre || '').trim();
   if (!nombre) errors.push('nombre');
 
+  var apellido = (formValues.apellido || '').trim();
+  if (!apellido) errors.push('apellido');
+
   var cantidad = Number(formValues.cantidad);
   if (!Number.isInteger(cantidad) || cantidad < 1) errors.push('cantidad');
 
@@ -16,6 +19,7 @@ function validateRsvp(formValues) {
     ok: true,
     payload: {
       nombre: nombre,
+      apellido: apellido,
       cantidad: cantidad,
       confirma: formValues.confirma,
       comentario: (formValues.comentario || '').trim(),
