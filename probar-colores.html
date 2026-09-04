@@ -56,6 +56,7 @@
     <span>Oscuro (auto) → <code id="codeOscuro">#4a1620</code></span>
     <button id="btnCopiar">Copiar valores</button>
     <button id="btnReset">Volver a bordó</button>
+    <button id="btnOk">OK, listo</button>
   </div>
 
   <div id="frameWrap">
@@ -90,6 +91,11 @@
       return rgbToHex(rgb.r * factor, rgb.g * factor, rgb.b * factor);
     }
 
+    function toRgbString(hex) {
+      var rgb = hexToRgb(hex);
+      return rgb.r + ', ' + rgb.g + ', ' + rgb.b;
+    }
+
     function applyColor(hex) {
       var oscuro = darken(hex, 0.68);
       codePrimario.textContent = hex;
@@ -98,7 +104,9 @@
       var doc = frame.contentDocument;
       if (!doc) return;
       doc.documentElement.style.setProperty('--color-bordo', hex);
+      doc.documentElement.style.setProperty('--color-bordo-rgb', toRgbString(hex));
       doc.documentElement.style.setProperty('--color-bordo-oscuro', oscuro);
+      doc.documentElement.style.setProperty('--color-bordo-oscuro-rgb', toRgbString(oscuro));
     }
 
     input.addEventListener('input', function () {
@@ -112,6 +120,11 @@
     document.getElementById('btnReset').addEventListener('click', function () {
       input.value = COLOR_ORIGINAL;
       applyColor(COLOR_ORIGINAL);
+    });
+
+    document.getElementById('btnOk').addEventListener('click', function () {
+      document.getElementById('panel').style.display = 'none';
+      document.getElementById('frameWrap').style.height = '100%';
     });
 
     document.getElementById('btnCopiar').addEventListener('click', function () {

@@ -1,6 +1,8 @@
 :root {
   --color-bordo: #6d2130;
+  --color-bordo-rgb: 109, 33, 48;
   --color-bordo-oscuro: #4a1620;
+  --color-bordo-oscuro-rgb: 74, 22, 32;
   --color-blanco: #ffffff;
   --font-principal: 'Montserrat', Arial, sans-serif;
 }
@@ -76,7 +78,7 @@ html, body {
   justify-content: center;
   text-align: center;
   color: var(--color-blanco);
-  background-image: linear-gradient(180deg, rgba(30,8,15,.55), rgba(74,22,32,.8)), url('../img/hero.jpg');
+  background-image: linear-gradient(180deg, rgba(var(--color-bordo-oscuro-rgb), .55), rgba(var(--color-bordo-oscuro-rgb), .85)), url('../img/hero.jpg');
   background-size: cover;
   background-position: center;
   padding: 24px;
