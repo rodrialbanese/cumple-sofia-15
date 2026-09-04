@@ -1,1 +1,104 @@
-<!-- stub -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MIS XV SOFI</title>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+  <script>
+    var CONFIG = {
+      eventDate: '2026-10-09T21:00:00-03:00',
+      googlePhotosAlbumUrl: 'https://photos.app.goo.gl/REEMPLAZAR_CON_TU_ALBUM',
+      googleAppsScriptUrl: 'https://script.google.com/macros/s/REEMPLAZAR_CON_TU_ID/exec',
+      youtubeVideoId: 'REEMPLAZAR_CON_TU_VIDEO_ID'
+    };
+  </script>
+
+  <div id="gate">
+    <h1 id="gateTitle">MIS XV SOFI</h1>
+    <p id="gateMessage">Quiero que seas parte de este momento tan importante para mí</p>
+    <button id="enterButton">INGRESAR</button>
+  </div>
+
+  <div id="youtubePlayer" style="position:absolute;width:1px;height:1px;overflow:hidden;"></div>
+  <button id="musicToggle" aria-label="Música">❙❙</button>
+
+  <div id="hero">
+    <h1>MIS <strong>XV</strong><br>SOFI</h1>
+    <div class="countdown">
+      <div class="box"><span class="num" id="countDays">0</span><span class="lbl">DÍAS</span></div>
+      <div class="box"><span class="num" id="countHours">00</span><span class="lbl">HORAS</span></div>
+      <div class="box"><span class="num" id="countMinutes">00</span><span class="lbl">MIN</span></div>
+      <div class="box"><span class="num" id="countSeconds">00</span><span class="lbl">SEG</span></div>
+    </div>
+  </div>
+
+  <section class="section blanco" data-aos="fade-up" data-aos-once="true">
+    <h2>¿CUÁNDO?</h2>
+    <p>9 DE OCTUBRE 2026<br>21:00 HS</p>
+  </section>
+
+  <section class="section bordo" data-aos="fade-up" data-aos-once="true">
+    <h2>¿DÓNDE?</h2>
+    <p>LOLA MORA — ESPAÑA 746</p>
+    <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Lola+Mora+Espa%C3%B1a+746" target="_blank" rel="noopener noreferrer">CÓMO LLEGAR</a>
+  </section>
+
+  <section class="section blanco" data-aos="fade-up" data-aos-once="true">
+    <h2>TE INVITO A FESTEJAR ESTA NOCHE <strong>¡IRREPETIBLE!</strong></h2>
+  </section>
+
+  <section class="section bordo" data-aos="fade-up" data-aos-once="true">
+    <h2>QUIERO VER TUS FOTOS</h2>
+    <p>SUBÍ TUS FOTOS DEL EVENTO A MI ÁLBUM COMPARTIDO</p>
+    <a class="btn" id="photosAlbumLink" href="#" target="_blank" rel="noopener noreferrer">IR AL ÁLBUM</a>
+  </section>
+
+  <section class="section blanco" data-aos="fade-up" data-aos-once="true">
+    <h2>REGALOS</h2>
+    <p>LOS REGALOS SE RECIBEN EN LA URNA DEL SALÓN</p>
+  </section>
+
+  <section class="section bordo" data-aos="fade-up" data-aos-once="true">
+    <h2>CONFIRMÁ TU ASISTENCIA</h2>
+    <form id="rsvpForm">
+      <div>
+        <label for="rsvpNombre">NOMBRE</label>
+        <input id="rsvpNombre" name="nombre" type="text" required>
+      </div>
+      <div>
+        <label for="rsvpCantidad">CANTIDAD DE PERSONAS</label>
+        <input id="rsvpCantidad" name="cantidad" type="number" min="1" value="1" required>
+      </div>
+      <div class="radios">
+        <label><input type="radio" name="confirma" value="si" checked> ¡CONFIRMO!</label>
+        <label><input type="radio" name="confirma" value="no"> NO PODRÉ ASISTIR</label>
+      </div>
+      <div>
+        <label for="rsvpComentario">COMENTARIO (OPCIONAL)</label>
+        <textarea id="rsvpComentario" name="comentario" rows="3"></textarea>
+      </div>
+      <button type="submit" class="btn">CONFIRMAR</button>
+      <p id="rsvpFeedback" aria-live="polite"></p>
+    </form>
+  </section>
+
+  <footer id="footer">
+    MIS XV SOFI · 9 DE OCTUBRE 2026
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js" defer></script>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script src="assets/js/countdown.js" defer></script>
+  <script src="assets/js/rsvp.js" defer></script>
+  <script src="assets/js/gate.js" defer></script>
+  <script src="assets/js/music.js" defer></script>
+  <script src="assets/js/rsvp-form.js" defer></script>
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>
