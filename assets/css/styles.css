@@ -1,0 +1,171 @@
+:root {
+  --color-bordo: #6d2130;
+  --color-bordo-oscuro: #4a1620;
+  --color-blanco: #ffffff;
+  --font-principal: 'Montserrat', Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-principal);
+  text-transform: uppercase;
+  background: var(--color-blanco);
+  overflow-x: hidden;
+}
+
+/* Pantalla de entrada */
+#gate {
+  position: fixed;
+  inset: 0;
+  background: var(--color-blanco);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 0 32px;
+  text-align: center;
+  transition: opacity .5s ease;
+}
+#gate h1, #gate p, #gate button {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .8s ease, transform .8s ease;
+}
+#gate h1.show, #gate p.show, #gate button.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+#gate h1 {
+  color: var(--color-bordo);
+  font-size: 1.8rem;
+  letter-spacing: 1px;
+  margin: 0 0 16px;
+  font-weight: 700;
+}
+#gate p {
+  color: var(--color-bordo);
+  font-size: .85rem;
+  letter-spacing: .5px;
+  line-height: 1.6;
+  margin: 0 0 28px;
+  font-weight: 400;
+}
+#gate button {
+  background: var(--color-bordo);
+  color: var(--color-blanco);
+  border: none;
+  padding: 14px 32px;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* Hero */
+#hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--color-blanco);
+  background-image: linear-gradient(180deg, rgba(30,8,15,.55), rgba(74,22,32,.8)), url('../img/hero.jpg');
+  background-size: cover;
+  background-position: center;
+  padding: 24px;
+}
+#hero h1 {
+  font-size: 2.2rem;
+  font-weight: 400;
+  letter-spacing: 2px;
+  margin: 0 0 28px;
+}
+#hero h1 strong { font-weight: 700; }
+
+.countdown { display: flex; gap: 14px; }
+.countdown .box { text-align: center; min-width: 52px; }
+.countdown .num { display: block; font-size: 1.8rem; font-weight: 700; }
+.countdown .lbl { font-size: .62rem; letter-spacing: 1px; opacity: .85; }
+
+/* Secciones alternadas */
+.section { padding: 56px 24px; text-align: center; }
+.section.blanco { background: var(--color-blanco); color: var(--color-bordo); }
+.section.bordo { background: var(--color-bordo); color: var(--color-blanco); }
+.section h2 { font-size: 1rem; letter-spacing: 1.5px; margin: 0 0 14px; font-weight: 700; }
+.section p { font-size: .85rem; line-height: 1.6; margin: 0; font-weight: 400; }
+.section .btn {
+  display: inline-block;
+  margin-top: 20px;
+  border: 1px solid currentColor;
+  padding: 12px 28px;
+  font-size: .75rem;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  color: inherit;
+  background: none;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* RSVP */
+#rsvpForm {
+  max-width: 320px;
+  margin: 24px auto 0;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+#rsvpForm label { font-size: .7rem; letter-spacing: 1px; display: block; margin-bottom: 6px; }
+#rsvpForm input, #rsvpForm textarea {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  font-family: inherit;
+  font-size: .85rem;
+  text-transform: none;
+}
+#rsvpForm .radios { display: flex; gap: 16px; text-transform: none; font-size: .8rem; }
+#rsvpFeedback { margin-top: 14px; font-size: .8rem; }
+
+/* Footer */
+#footer {
+  background: var(--color-bordo-oscuro);
+  color: var(--color-blanco);
+  text-align: center;
+  padding: 32px 24px;
+  font-size: .75rem;
+  letter-spacing: 1px;
+}
+
+/* Botón flotante de música */
+#musicToggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--color-bordo);
+  color: var(--color-blanco);
+  border: none;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  z-index: 90;
+  cursor: pointer;
+}
+#musicToggle.visible { display: flex; }
+
+@media (min-width: 768px) {
+  #gate h1 { font-size: 2.4rem; }
+  #hero h1 { font-size: 3rem; }
+  .section { padding: 80px 24px; max-width: 720px; margin-left: auto; margin-right: auto; }
+}
