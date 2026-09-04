@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Probar colores — MIS XV SOFI</title>
+  <style>
+    html, body { margin: 0; padding: 0; height: 100%; font-family: Arial, sans-serif; }
+    #panel {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      padding: 10px 16px;
+      background: #222;
+      color: #fff;
+      font-size: 13px;
+    }
+    #panel label { display: flex; align-items: center; gap: 6px; }
+    #panel input[type="color"] {
+      width: 40px;
+      height: 32px;
+      border: none;
+      padding: 0;
+      background: none;
+      cursor: pointer;
+    }
+    #panel code {
+      background: #111;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+    #panel button {
+      background: #444;
+      color: #fff;
+      border: 1px solid #666;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    #panel button:hover { background: #555; }
+    #frameWrap { height: calc(100% - 56px); }
+    #siteFrame { width: 100%; height: 100%; border: none; display: block; }
+  </style>
+</head>
+<body>
+
+  <div id="panel">
+    <label>
+      Color principal:
+      <input type="color" id="colorPrimario" value="#6d2130">
+    </label>
+    <span>Bordó → <code id="codePrimario">#6d2130</code></span>
+    <span>Oscuro (auto) → <code id="codeOscuro">#4a1620</code></span>
+    <button id="btnCopiar">Copiar valores</button>
+    <button id="btnReset">Volver a bordó</button>
+  </div>
+
+  <div id="frameWrap">
+    <iframe id="siteFrame" src="index.html"></iframe>
+  </div>
+
+  <script>
+    var COLOR_ORIGINAL = '#6d2130';
+    var input = document.getElementById('colorPrimario');
+    var codePrimario = document.getElementById('codePrimario');
+    var codeOscuro = document.getElementById('codeOscuro');
+    var frame = document.getElementById('siteFrame');
+
+    function hexToRgb(hex) {
+      var v = hex.replace('#', '');
+      return {
+        r: parseInt(v.substr(0, 2), 16),
+        g: parseInt(v.substr(2, 2), 16),
+        b: parseInt(v.substr(4, 2), 16)
+      };
+    }
+
+    function rgbToHex(r, g, b) {
+      function ch(x) {
+        return Math.max(0, Math.min(255, Math.round(x))).toString(16).padStart(2, '0');
+      }
+      return '#' + ch(r) + ch(g) + ch(b);
+    }
+
+    function darken(hex, factor) {
+      var rgb = hexToRgb(hex);
+      return rgbToHex(rgb.r * factor, rgb.g * factor, rgb.b * factor);
+    }
+
+    function applyColor(hex) {
+      var oscuro = darken(hex, 0.68);
+      codePrimario.textContent = hex;
+      codeOscuro.textContent = oscuro;
+
+      var doc = frame.contentDocument;
+      if (!doc) return;
+      doc.documentElement.style.setProperty('--color-bordo', hex);
+      doc.documentElement.style.setProperty('--color-bordo-oscuro', oscuro);
+    }
+
+    input.addEventListener('input', function () {
+      applyColor(input.value);
+    });
+
+    frame.addEventListener('load', function () {
+      applyColor(input.value);
+    });
+
+    document.getElementById('btnReset').addEventListener('click', function () {
+      input.value = COLOR_ORIGINAL;
+      applyColor(COLOR_ORIGINAL);
+    });
+
+    document.getElementById('btnCopiar').addEventListener('click', function () {
+      var texto = '--color-bordo: ' + codePrimario.textContent + ';\n--color-bordo-oscuro: ' + codeOscuro.textContent + ';';
+      navigator.clipboard.writeText(texto).then(function () {
+        var btn = document.getElementById('btnCopiar');
+        var original = btn.textContent;
+        btn.textContent = '¡Copiado!';
+        setTimeout(function () { btn.textContent = original; }, 1500);
+      });
+    });
+  </script>
+</body>
+</html>
