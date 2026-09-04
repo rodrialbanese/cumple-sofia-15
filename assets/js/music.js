@@ -16,9 +16,9 @@ document.addEventListener('DOMContentLoaded', function () {
   document.body.addEventListener('siteEntered', function () {
     toggle.classList.add('visible');
     toggle.textContent = '❙❙';
-    isMusicPlaying = true;
     if (ytPlayer && ytPlayer.playVideo) {
       ytPlayer.playVideo();
+      isMusicPlaying = true;
     }
   });
 

@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-  AOS.init({ duration: 400, once: true });
-
   var photosLink = document.getElementById('photosAlbumLink');
   if (photosLink) {
     photosLink.href = CONFIG.googlePhotosAlbumUrl;
@@ -22,4 +20,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   renderCountdown();
   setInterval(renderCountdown, 1000);
+
+  if (typeof AOS !== 'undefined') {
+    AOS.init({ duration: 400, once: true });
+  }
 });
