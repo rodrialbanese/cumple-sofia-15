@@ -115,6 +115,10 @@ html, body {
   font-family: inherit;
   cursor: pointer;
 }
+.section .btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 
 /* RSVP */
 #rsvpForm {

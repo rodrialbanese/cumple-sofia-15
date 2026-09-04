@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var form = document.getElementById('rsvpForm');
   var feedback = document.getElementById('rsvpFeedback');
   var submitButton = form.querySelector('button[type="submit"].btn');
+  var submitButtonOriginalText = submitButton ? submitButton.textContent : '';
 
   form.addEventListener('submit', function (event) {
     event.preventDefault();
@@ -29,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
     form.dataset.submitting = 'true';
     if (submitButton) {
       submitButton.disabled = true;
+      submitButton.textContent = 'ENVIANDO...';
     }
 
     fetch(CONFIG.googleAppsScriptUrl, {
@@ -42,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
         form.dataset.submitting = 'false';
         if (submitButton) {
           submitButton.disabled = false;
+          submitButton.textContent = submitButtonOriginalText;
         }
       })
       .catch(function () {
@@ -49,6 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
         form.dataset.submitting = 'false';
         if (submitButton) {
           submitButton.disabled = false;
+          submitButton.textContent = submitButtonOriginalText;
         }
       });
   });
