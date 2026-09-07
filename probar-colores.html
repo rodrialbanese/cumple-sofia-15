@@ -50,12 +50,12 @@
   <div id="panel">
     <label>
       Color principal:
-      <input type="color" id="colorPrimario" value="#6d2130">
+      <input type="color" id="colorPrimario" value="#1b7026">
     </label>
-    <span>Bordó → <code id="codePrimario">#6d2130</code></span>
-    <span>Oscuro (auto) → <code id="codeOscuro">#4a1620</code></span>
+    <span>Principal → <code id="codePrimario">#1b7026</code></span>
+    <span>Oscuro (auto) → <code id="codeOscuro">#124c1a</code></span>
     <button id="btnCopiar">Copiar valores</button>
-    <button id="btnReset">Volver a bordó</button>
+    <button id="btnReset">Volver al original</button>
     <button id="btnOk">OK, listo</button>
   </div>
 
@@ -64,7 +64,7 @@
   </div>
 
   <script>
-    var COLOR_ORIGINAL = '#6d2130';
+    var COLOR_ORIGINAL = '#1b7026';
     var input = document.getElementById('colorPrimario');
     var codePrimario = document.getElementById('codePrimario');
     var codeOscuro = document.getElementById('codeOscuro');
@@ -103,10 +103,10 @@
 
       var doc = frame.contentDocument;
       if (!doc) return;
-      doc.documentElement.style.setProperty('--color-bordo', hex);
-      doc.documentElement.style.setProperty('--color-bordo-rgb', toRgbString(hex));
-      doc.documentElement.style.setProperty('--color-bordo-oscuro', oscuro);
-      doc.documentElement.style.setProperty('--color-bordo-oscuro-rgb', toRgbString(oscuro));
+      doc.documentElement.style.setProperty('--color-primario', hex);
+      doc.documentElement.style.setProperty('--color-primario-rgb', toRgbString(hex));
+      doc.documentElement.style.setProperty('--color-primario-oscuro', oscuro);
+      doc.documentElement.style.setProperty('--color-primario-oscuro-rgb', toRgbString(oscuro));
     }
 
     input.addEventListener('input', function () {
@@ -128,7 +128,7 @@
     });
 
     document.getElementById('btnCopiar').addEventListener('click', function () {
-      var texto = '--color-bordo: ' + codePrimario.textContent + ';\n--color-bordo-oscuro: ' + codeOscuro.textContent + ';';
+      var texto = '--color-primario: ' + codePrimario.textContent + ';\n--color-primario-oscuro: ' + codeOscuro.textContent + ';';
       navigator.clipboard.writeText(texto).then(function () {
         var btn = document.getElementById('btnCopiar');
         var original = btn.textContent;

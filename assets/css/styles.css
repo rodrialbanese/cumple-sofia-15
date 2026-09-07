@@ -1,8 +1,8 @@
 :root {
-  --color-bordo: #6d2130;
-  --color-bordo-rgb: 109, 33, 48;
-  --color-bordo-oscuro: #4a1620;
-  --color-bordo-oscuro-rgb: 74, 22, 32;
+  --color-primario: #1b7026;
+  --color-primario-rgb: 27, 112, 38;
+  --color-primario-oscuro: #124c1a;
+  --color-primario-oscuro-rgb: 18, 76, 26;
   --color-blanco: #ffffff;
   --font-principal: 'Montserrat', Arial, sans-serif;
 }
@@ -42,14 +42,14 @@ html, body {
   transform: translateY(0);
 }
 #gate h1 {
-  color: var(--color-bordo);
+  color: var(--color-primario);
   font-size: 1.8rem;
   letter-spacing: 1px;
   margin: 0 0 16px;
   font-weight: 700;
 }
 #gate p {
-  color: var(--color-bordo);
+  color: var(--color-primario);
   font-size: .85rem;
   letter-spacing: .5px;
   line-height: 1.6;
@@ -57,7 +57,7 @@ html, body {
   font-weight: 400;
 }
 #gate button {
-  background: var(--color-bordo);
+  background: var(--color-primario);
   color: var(--color-blanco);
   border: none;
   padding: 14px 32px;
@@ -78,7 +78,7 @@ html, body {
   justify-content: center;
   text-align: center;
   color: var(--color-blanco);
-  background-image: linear-gradient(180deg, rgba(var(--color-bordo-oscuro-rgb), .55), rgba(var(--color-bordo-oscuro-rgb), .85)), url('../img/hero.jpg');
+  background-image: linear-gradient(180deg, rgba(var(--color-primario-oscuro-rgb), .55), rgba(var(--color-primario-oscuro-rgb), .85)), url('../img/hero.jpg');
   background-size: cover;
   background-position: center;
   padding: 24px;
@@ -98,8 +98,8 @@ html, body {
 
 /* Secciones alternadas */
 .section { padding: 56px 24px; text-align: center; }
-.section.blanco { background: var(--color-blanco); color: var(--color-bordo); }
-.section.bordo { background: var(--color-bordo); color: var(--color-blanco); }
+.section.blanco { background: var(--color-blanco); color: var(--color-primario); }
+.section.bordo { background: var(--color-primario); color: var(--color-blanco); }
 .section h2 { font-size: 1rem; letter-spacing: 1.5px; margin: 0 0 14px; font-weight: 700; }
 .section p { font-size: .85rem; line-height: 1.6; margin: 0; font-weight: 400; }
 .section .btn {
@@ -144,7 +144,7 @@ html, body {
 
 /* Footer */
 #footer {
-  background: var(--color-bordo-oscuro);
+  background: var(--color-primario-oscuro);
   color: var(--color-blanco);
   text-align: center;
   padding: 32px 24px;
@@ -160,7 +160,7 @@ html, body {
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background: var(--color-bordo);
+  background: var(--color-primario);
   color: var(--color-blanco);
   border: none;
   display: none;
