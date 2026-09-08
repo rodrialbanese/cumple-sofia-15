@@ -5,220 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mis XV Sofía</title>
   <link rel="icon" type="image/jpeg" href="assets/img/hero.jpg">
+  <meta property="og:title" content="Mis XV Sofía">
+  <meta property="og:description" content="Quiero que seas parte de este momento tan importante para mí">
+  <meta property="og:image" content="assets/img/hero.jpg">
   <link href="https://fonts.googleapis.com/css2?family=Playball&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #f7efe6;
-      --texto: #4a3f3d;
-      --acento: #b5657f;
-      --flor: #93998a;
-    }
-    * { box-sizing: border-box; }
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      background: var(--bg);
-      color: var(--texto);
-      font-family: 'Cormorant Garamond', serif;
-      overflow: hidden;
-    }
-    .script { font-family: 'Playball', cursive; }
-
-    .screen {
-      position: fixed;
-      inset: 0;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 32px 28px;
-    }
-    .screen.active { display: flex; }
-
-    .corner {
-      position: absolute;
-      width: 130px;
-      height: 130px;
-      color: var(--flor);
-      opacity: 0.85;
-    }
-    .corner.tl { top: 0; left: 0; }
-    .corner.tr { top: 0; right: 0; transform: scaleX(-1); }
-    .corner.bl { bottom: 0; left: 0; transform: scaleY(-1); }
-    .corner.br { bottom: 0; right: 0; transform: scale(-1, -1); }
-
-    .edge-top, .edge-bottom {
-      position: absolute;
-      left: 0;
-      width: 100%;
-      height: 90px;
-      color: var(--flor);
-      opacity: 0.8;
-      display: flex;
-      justify-content: space-between;
-      padding: 0 6px;
-    }
-    .edge-top { top: 0; }
-    .edge-bottom { bottom: 0; transform: scaleY(-1); }
-    .edge-top svg, .edge-bottom svg { width: 130px; height: 90px; }
-    .edge-top svg:last-child, .edge-bottom svg:last-child { transform: scaleX(-1); }
-
-    /* Pantalla 1 */
-    #screen1 .titulo { font-size: 18px; letter-spacing: 3px; color: var(--acento); margin-bottom: 4px; }
-    #screen1 .nombre { font-size: 64px; color: var(--acento); margin: 0; line-height: 1; }
-    #screen1 .mensaje { max-width: 300px; margin: 22px auto 0; font-size: 18px; line-height: 1.5; }
-    #screen1 .faltan { margin-top: 34px; }
-    #screen1 .faltan .script { font-size: 22px; color: var(--acento); }
-    .countdown-row { display: flex; gap: 14px; margin-top: 10px; align-items: baseline; justify-content: center; }
-    .countdown-row .num { font-size: 26px; font-weight: 600; }
-    .countdown-row .sep { font-size: 22px; opacity: 0.5; }
-    .countdown-labels { display: flex; gap: 20px; margin-top: 4px; justify-content: center; }
-    .countdown-labels span { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; opacity: 0.7; width: 40px; }
-
-    .nav-arrow {
-      position: absolute;
-      bottom: 26px;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      border: 1px solid var(--acento);
-      background: none;
-      color: var(--acento);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 18px;
-    }
-    #next1 { right: 26px; }
-    #back2 { left: 26px; top: 26px; bottom: auto; }
-
-    /* Pantalla 2 */
-    #screen2 { justify-content: flex-start; padding-top: 90px; padding-bottom: 90px; overflow-y: auto; }
-    #screen2 .fecha-dia { font-size: 16px; letter-spacing: 2px; }
-    #screen2 .fecha-num { font-size: 30px; font-weight: 600; margin: 0 8px; }
-    #screen2 .fecha-row { display: flex; align-items: baseline; justify-content: center; }
-    #screen2 hr { border: none; border-top: 1px solid var(--flor); opacity: 0.4; width: 140px; margin: 16px auto; }
-    #screen2 h3.script { color: var(--acento); font-size: 26px; margin: 0 0 8px; font-weight: normal; }
-    #screen2 p { font-size: 16px; margin: 4px 0; }
-
-    #rsvpFloral { max-width: 280px; margin: 14px auto 0; text-align: left; display: flex; flex-direction: column; gap: 10px; }
-    #rsvpFloral label { font-size: 12px; letter-spacing: 0.5px; opacity: 0.75; display: block; margin-bottom: 2px; }
-    #rsvpFloral input, #rsvpFloral textarea {
-      width: 100%;
-      padding: 8px 10px;
-      border: 1px solid var(--flor);
-      background: transparent;
-      border-radius: 6px;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 16px;
-      color: var(--texto);
-    }
-    #rsvpFloral .radios { display: flex; gap: 14px; font-size: 15px; }
-    .btn-floral {
-      display: inline-block;
-      margin-top: 6px;
-      background: var(--acento);
-      color: #fff;
-      border: none;
-      padding: 10px 30px;
-      border-radius: 999px;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 16px;
-      letter-spacing: 1px;
-      cursor: pointer;
-    }
-    .btn-floral:disabled { opacity: 0.5; cursor: not-allowed; }
-    #feedbackFloral { font-size: 13px; margin-top: 8px; min-height: 16px; }
-  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css">
+  <link rel="stylesheet" href="assets/css/floral.css">
 </head>
 <body>
 
   <script>
     var CONFIG = {
       eventDate: '2026-10-09T21:00:00-03:00',
-      googleAppsScriptUrl: 'https://script.google.com/macros/s/AKfycbxODIdojFf_X3AllXpI5m7Dn4OPKWA2gBv_6fxo5mzck5ZPtlVPpNzznsgBbRGdxoVV/exec'
+      googlePhotosAlbumUrl: 'https://photos.google.com/share/AF1QipNhqGUHAHIWM34rr_YFMeI1V0fNKkUcU9Scaa-2Dez-ibadGv7fESk0ggnkRuXe9g?key=c1pMR0F3QnRRaTZGeWVQMmZBUEpKWm8wS3NEYjhR',
+      googleAppsScriptUrl: 'https://script.google.com/macros/s/AKfycbxODIdojFf_X3AllXpI5m7Dn4OPKWA2gBv_6fxo5mzck5ZPtlVPpNzznsgBbRGdxoVV/exec',
+      youtubeVideoId: 'JDL6R2KS3xg'
     };
   </script>
-
-  <!-- ===== Pantalla 1 ===== -->
-  <div id="screen1" class="screen active">
-    <svg class="corner tl" viewBox="0 0 160 160"><use href="#spray"/></svg>
-    <svg class="corner tr" viewBox="0 0 160 160"><use href="#spray"/></svg>
-    <svg class="corner bl" viewBox="0 0 160 160"><use href="#spray"/></svg>
-    <svg class="corner br" viewBox="0 0 160 160"><use href="#spray"/></svg>
-
-    <div class="titulo">MIS XV</div>
-    <div class="nombre script">Sofía</div>
-    <p class="mensaje">Quiero que seas parte de este momento<br>tan importante para mí. ¡Te espero para<br>vivir juntas una noche inolvidable!</p>
-
-    <div class="faltan">
-      <div class="script">Faltan…</div>
-      <div class="countdown-row">
-        <span class="num" id="fDias">0</span><span class="sep">:</span>
-        <span class="num" id="fHoras">00</span><span class="sep">:</span>
-        <span class="num" id="fMin">00</span><span class="sep">:</span>
-        <span class="num" id="fSeg">00</span>
-      </div>
-      <div class="countdown-labels">
-        <span>días</span><span>horas</span><span>min</span><span>seg</span>
-      </div>
-    </div>
-
-    <button class="nav-arrow" id="next1" aria-label="Siguiente">»</button>
-  </div>
-
-  <!-- ===== Pantalla 2 ===== -->
-  <div id="screen2" class="screen">
-    <svg class="edge-top"><use href="#spray-h" x="0"/><use href="#spray-h" x="0"/></svg>
-    <svg class="edge-bottom"><use href="#spray-h" x="0"/><use href="#spray-h" x="0"/></svg>
-
-    <button class="nav-arrow" id="back2" aria-label="Volver">«</button>
-
-    <div class="fecha-row">
-      <span class="fecha-dia script">Viernes</span>
-      <span class="fecha-num">9</span>
-      <span class="fecha-dia script">Octubre</span>
-    </div>
-    <hr>
-    <p class="script" style="font-size: 20px; color: var(--acento);">A las 21:00 hs</p>
-    <p>LOLA MORA — ESPAÑA 746</p>
-
-    <hr>
-    <h3 class="script">Confirmación de asistencia</h3>
-    <p style="font-size: 14px;">Agradecemos que confirmes tu asistencia</p>
-
-    <form id="rsvpFloral">
-      <div>
-        <label for="fNombre">Nombre</label>
-        <input id="fNombre" name="nombre" type="text" required>
-      </div>
-      <div>
-        <label for="fApellido">Apellido</label>
-        <input id="fApellido" name="apellido" type="text" required>
-      </div>
-      <div>
-        <label for="fCantidad">Cantidad de personas</label>
-        <input id="fCantidad" name="cantidad" type="number" min="1" value="1" required>
-      </div>
-      <div class="radios">
-        <label><input type="radio" name="confirma" value="si" checked> Confirmo</label>
-        <label><input type="radio" name="confirma" value="no"> No podré asistir</label>
-      </div>
-      <div>
-        <label for="fComentario">Comentario (opcional)</label>
-        <textarea id="fComentario" name="comentario" rows="2"></textarea>
-      </div>
-      <button type="submit" class="btn-floral">Confirmar</button>
-      <p id="feedbackFloral" aria-live="polite"></p>
-    </form>
-
-    <hr>
-    <h3 class="script">Obsequio</h3>
-    <p style="font-size: 15px; max-width: 260px;">Nada es más importante que tu presencia, pero si querés hacerme un regalo, hay una urna en el salón.</p>
-  </div>
 
   <!-- rama floral reutilizable -->
   <svg width="0" height="0" style="position: absolute;">
@@ -254,78 +57,104 @@
     </defs>
   </svg>
 
-  <script src="assets/js/countdown.js"></script>
-  <script src="assets/js/rsvp.js"></script>
-  <script>
-    (function () {
-      var targetDate = new Date(CONFIG.eventDate);
-      function renderCountdown() {
-        var r = getTimeRemaining(targetDate, new Date());
-        document.getElementById('fDias').textContent = r.days;
-        document.getElementById('fHoras').textContent = formatTwoDigits(r.hours);
-        document.getElementById('fMin').textContent = formatTwoDigits(r.minutes);
-        document.getElementById('fSeg').textContent = formatTwoDigits(r.seconds);
-      }
-      renderCountdown();
-      setInterval(renderCountdown, 1000);
+  <div id="gate">
+    <svg class="corner tl" viewBox="0 0 160 160"><use href="#spray"/></svg>
+    <svg class="corner tr" viewBox="0 0 160 160"><use href="#spray"/></svg>
+    <svg class="corner bl" viewBox="0 0 160 160"><use href="#spray"/></svg>
+    <svg class="corner br" viewBox="0 0 160 160"><use href="#spray"/></svg>
+    <h1 id="gateTitle">Mis XV Sofía</h1>
+    <p id="gateMessage">Quiero que seas parte de este momento tan importante para mí</p>
+    <button id="enterButton">Ingresar</button>
+  </div>
 
-      var screen1 = document.getElementById('screen1');
-      var screen2 = document.getElementById('screen2');
-      document.getElementById('next1').addEventListener('click', function () {
-        screen1.classList.remove('active');
-        screen2.classList.add('active');
-      });
-      document.getElementById('back2').addEventListener('click', function () {
-        screen2.classList.remove('active');
-        screen1.classList.add('active');
-      });
+  <div id="youtubePlayer" style="position:absolute;width:1px;height:1px;overflow:hidden;"></div>
+  <button id="musicToggle" aria-label="Música">❙❙</button>
 
-      var form = document.getElementById('rsvpFloral');
-      var feedback = document.getElementById('feedbackFloral');
-      var submitButton = form.querySelector('button[type="submit"]');
-      var submitButtonOriginalText = submitButton.textContent;
+  <div id="hero">
+    <svg class="corner tl" viewBox="0 0 160 160"><use href="#spray"/></svg>
+    <svg class="corner tr" viewBox="0 0 160 160"><use href="#spray"/></svg>
+    <svg class="corner bl" viewBox="0 0 160 160"><use href="#spray"/></svg>
+    <svg class="corner br" viewBox="0 0 160 160"><use href="#spray"/></svg>
+    <h1>Mis<br><strong class="script">Sofía</strong><br><span class="xv">XV años</span></h1>
+    <div class="countdown">
+      <div class="box"><span class="num" id="countDays">0</span><span class="lbl">Días</span></div>
+      <div class="box"><span class="num" id="countHours">00</span><span class="lbl">Horas</span></div>
+      <div class="box"><span class="num" id="countMinutes">00</span><span class="lbl">Min</span></div>
+      <div class="box"><span class="num" id="countSeconds">00</span><span class="lbl">Seg</span></div>
+    </div>
+  </div>
 
-      form.addEventListener('submit', function (event) {
-        event.preventDefault();
-        if (form.dataset.submitting === 'true') return;
+  <div class="edge top" style="position: relative; height: 50px;">
+    <svg viewBox="0 0 130 70"><use href="#spray-h"/></svg>
+    <svg viewBox="0 0 130 70"><use href="#spray-h"/></svg>
+  </div>
 
-        var confirmaInput = form.querySelector('input[name="confirma"]:checked');
-        var result = validateRsvp({
-          nombre: form.nombre.value,
-          apellido: form.apellido.value,
-          cantidad: form.cantidad.value,
-          confirma: confirmaInput ? confirmaInput.value : '',
-          comentario: form.comentario.value
-        });
+  <section class="section" data-aos="fade-up" data-aos-once="true">
+    <h2 class="script">¿Cuándo?</h2>
+    <p>9 de Octubre 2026<br>21 hs a 04 hs</p>
+  </section>
 
-        if (!result.ok) {
-          feedback.textContent = 'Revisá los campos obligatorios (nombre, apellido, cantidad y confirmación).';
-          return;
-        }
+  <section class="section" data-aos="fade-up" data-aos-once="true">
+    <h2 class="script">¿Dónde?</h2>
+    <p>Lola Mora — España 746</p>
+    <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Lola+Mora+Espa%C3%B1a+746" target="_blank" rel="noopener noreferrer">Cómo llegar</a>
+  </section>
 
-        feedback.textContent = 'Enviando...';
-        form.dataset.submitting = 'true';
-        submitButton.disabled = true;
-        submitButton.textContent = 'Enviando...';
+  <section class="section" data-aos="fade-up" data-aos-once="true">
+    <h2 class="script">Una noche inolvidable</h2>
+    <p>Te invito a festejar esta noche ¡irrepetible!</p>
+  </section>
 
-        fetch(CONFIG.googleAppsScriptUrl, {
-          method: 'POST',
-          mode: 'no-cors',
-          body: JSON.stringify(result.payload)
-        }).then(function () {
-          feedback.textContent = '¡Confirmación recibida! Gracias.';
-          form.reset();
-          form.dataset.submitting = 'false';
-          submitButton.disabled = false;
-          submitButton.textContent = submitButtonOriginalText;
-        }).catch(function () {
-          feedback.textContent = 'No pudimos enviar tu confirmación. Probá de nuevo en un momento.';
-          form.dataset.submitting = 'false';
-          submitButton.disabled = false;
-          submitButton.textContent = submitButtonOriginalText;
-        });
-      });
-    })();
-  </script>
+  <section class="section" data-aos="fade-up" data-aos-once="true">
+    <h2 class="script">Quiero ver tus fotos</h2>
+    <p>Subí tus fotos del evento a mi álbum compartido</p>
+    <a class="btn" id="photosAlbumLink" href="#" target="_blank" rel="noopener noreferrer">Ir al álbum</a>
+  </section>
+
+  <section class="section" data-aos="fade-up" data-aos-once="true">
+    <h2 class="script">Obsequio</h2>
+    <p>Los regalos se reciben en la urna del salón</p>
+  </section>
+
+  <section class="section" data-aos="fade-up" data-aos-once="true">
+    <h2 class="script">Confirmá tu asistencia</h2>
+    <form id="rsvpForm">
+      <div>
+        <label for="rsvpNombre">Nombre</label>
+        <input id="rsvpNombre" name="nombre" type="text" required>
+      </div>
+      <div>
+        <label for="rsvpApellido">Apellido</label>
+        <input id="rsvpApellido" name="apellido" type="text" required>
+      </div>
+      <div>
+        <label for="rsvpCantidad">Cantidad de personas</label>
+        <input id="rsvpCantidad" name="cantidad" type="number" min="1" value="1" required>
+      </div>
+      <div class="radios">
+        <label><input type="radio" name="confirma" value="si" checked> ¡Confirmo!</label>
+        <label><input type="radio" name="confirma" value="no"> No podré asistir</label>
+      </div>
+      <div>
+        <label for="rsvpComentario">Comentario (opcional)</label>
+        <textarea id="rsvpComentario" name="comentario" rows="3"></textarea>
+      </div>
+      <button type="submit" class="btn">Confirmar</button>
+      <p id="rsvpFeedback" aria-live="polite"></p>
+    </form>
+  </section>
+
+  <footer id="footer">
+    Mis XV Sofía · 9 de Octubre 2026
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js" defer></script>
+  <script src="assets/js/countdown.js" defer></script>
+  <script src="assets/js/rsvp.js" defer></script>
+  <script src="assets/js/gate.js" defer></script>
+  <script src="assets/js/music.js" defer></script>
+  <script src="https://www.youtube.com/iframe_api" defer></script>
+  <script src="assets/js/rsvp-form.js" defer></script>
+  <script src="assets/js/main.js" defer></script>
 </body>
 </html>
