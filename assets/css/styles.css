@@ -147,7 +147,7 @@ html, body {
   background: var(--color-primario-oscuro);
   color: var(--color-blanco);
   text-align: center;
-  padding: 32px 24px;
+  padding: 32px 24px 96px;
   font-size: .75rem;
   letter-spacing: 1px;
 }
