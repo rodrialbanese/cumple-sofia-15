@@ -20,36 +20,37 @@ html, body {
 
 .script { font-family: var(--font-script); font-weight: normal; }
 
-/* Ramas decorativas reutilizables */
-.corner {
+/* Decoración floral: solo en la entrada, con moderación */
+.deco {
   position: absolute;
+  pointer-events: none;
   width: 130px;
-  height: 130px;
-  color: var(--flor);
-  opacity: 0.85;
-  pointer-events: none;
+  height: auto;
 }
-.corner.tl { top: 0; left: 0; }
-.corner.tr { top: 0; right: 0; transform: scaleX(-1); }
-.corner.bl { bottom: 0; left: 0; transform: scaleY(-1); }
-.corner.br { bottom: 0; right: 0; transform: scale(-1, -1); }
+.deco-flower {
+  top: 24px;
+  right: 8px;
+  opacity: 0.9;
+}
+.deco-leaves {
+  bottom: 24px;
+  left: 8px;
+  width: 150px;
+  opacity: 0.9;
+  transform: rotate(8deg);
+}
 
-.edge {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 70px;
-  color: var(--flor);
-  opacity: 0.8;
+.divider {
   display: flex;
-  justify-content: space-between;
-  padding: 0 6px;
-  pointer-events: none;
+  justify-content: center;
+  padding: 20px 0 4px;
+  background: var(--bg);
 }
-.edge svg { width: 120px; height: 70px; }
-.edge svg:last-child { transform: scaleX(-1); }
-.edge.top { top: 0; }
-.edge.bottom { bottom: 0; transform: scaleY(-1); }
+.divider img {
+  width: 60px;
+  height: auto;
+  opacity: 0.6;
+}
 
 /* Pantalla de entrada */
 #gate {

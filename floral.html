@@ -23,45 +23,9 @@
     };
   </script>
 
-  <!-- rama floral reutilizable -->
-  <svg width="0" height="0" style="position: absolute;">
-    <defs>
-      <g id="spray" stroke="currentColor" stroke-width="1" fill="none">
-        <path d="M10 150 C20 120 15 90 35 65 C50 45 70 35 95 20"/>
-        <path d="M25 130 C30 120 40 118 42 128 C40 138 30 140 25 130 Z" transform="rotate(-20 33 129)"/>
-        <path d="M40 100 C46 90 56 88 58 98 C56 108 46 110 40 100 Z" transform="rotate(15 49 99)"/>
-        <path d="M55 75 C61 65 71 63 73 73 C71 83 61 85 55 75 Z" transform="rotate(-10 64 74)"/>
-        <path d="M75 50 C81 40 91 38 93 48 C91 58 81 60 75 50 Z" transform="rotate(20 84 49)"/>
-        <g transform="translate(97,22) scale(0.85)">
-          <circle r="9" cy="-9"/><circle r="9" cx="8.5" cy="-2.7"/><circle r="9" cx="5.2" cy="7.3"/>
-          <circle r="9" cx="-5.2" cy="7.3"/><circle r="9" cx="-8.5" cy="-2.7"/>
-          <circle r="2.3" fill="currentColor" stroke="none"/>
-        </g>
-        <g transform="translate(16,146) scale(0.55)">
-          <circle r="9" cy="-9"/><circle r="9" cx="8.5" cy="-2.7"/><circle r="9" cx="5.2" cy="7.3"/>
-          <circle r="9" cx="-5.2" cy="7.3"/><circle r="9" cx="-8.5" cy="-2.7"/>
-          <circle r="2.3" fill="currentColor" stroke="none"/>
-        </g>
-      </g>
-      <g id="spray-h" stroke="currentColor" stroke-width="1" fill="none">
-        <path d="M0 8 C25 2 45 18 70 10 C95 2 105 14 130 6"/>
-        <path d="M20 6 C22 -2 30 -3 30 5 C30 13 22 14 20 6 Z" transform="rotate(10 25 6)"/>
-        <path d="M55 12 C57 4 65 3 65 11 C65 19 57 20 55 12 Z" transform="rotate(-8 60 12)"/>
-        <path d="M90 5 C92 -3 100 -4 100 4 C100 12 92 13 90 5 Z" transform="rotate(12 95 5)"/>
-        <g transform="translate(115,9) scale(0.5)">
-          <circle r="9" cy="-9"/><circle r="9" cx="8.5" cy="-2.7"/><circle r="9" cx="5.2" cy="7.3"/>
-          <circle r="9" cx="-5.2" cy="7.3"/><circle r="9" cx="-8.5" cy="-2.7"/>
-          <circle r="2.3" fill="currentColor" stroke="none"/>
-        </g>
-      </g>
-    </defs>
-  </svg>
-
   <div id="gate">
-    <svg class="corner tl" viewBox="0 0 160 160"><use href="#spray"/></svg>
-    <svg class="corner tr" viewBox="0 0 160 160"><use href="#spray"/></svg>
-    <svg class="corner bl" viewBox="0 0 160 160"><use href="#spray"/></svg>
-    <svg class="corner br" viewBox="0 0 160 160"><use href="#spray"/></svg>
+    <img class="deco deco-flower" src="assets/img/flor.png" alt="">
+    <img class="deco deco-leaves" src="assets/img/hojas.png" alt="">
     <h1 id="gateTitle">Mis XV Sofía</h1>
     <p id="gateMessage">Quiero que seas parte de este momento tan importante para mí</p>
     <button id="enterButton">Ingresar</button>
@@ -71,10 +35,6 @@
   <button id="musicToggle" aria-label="Música">❙❙</button>
 
   <div id="hero">
-    <svg class="corner tl" viewBox="0 0 160 160"><use href="#spray"/></svg>
-    <svg class="corner tr" viewBox="0 0 160 160"><use href="#spray"/></svg>
-    <svg class="corner bl" viewBox="0 0 160 160"><use href="#spray"/></svg>
-    <svg class="corner br" viewBox="0 0 160 160"><use href="#spray"/></svg>
     <h1>Mis<br><strong class="script">Sofía</strong><br><span class="xv">XV años</span></h1>
     <div class="countdown">
       <div class="box"><span class="num" id="countDays">0</span><span class="lbl">Días</span></div>
@@ -84,9 +44,8 @@
     </div>
   </div>
 
-  <div class="edge top" style="position: relative; height: 50px;">
-    <svg viewBox="0 0 130 70"><use href="#spray-h"/></svg>
-    <svg viewBox="0 0 130 70"><use href="#spray-h"/></svg>
+  <div class="divider">
+    <img src="assets/img/hojas.png" alt="">
   </div>
 
   <section class="section" data-aos="fade-up" data-aos-once="true">
