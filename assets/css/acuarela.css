@@ -175,6 +175,15 @@ html, body {
   opacity: 0.5;
   cursor: not-allowed;
 }
+.section .qr {
+  display: block;
+  width: 120px;
+  height: 120px;
+  margin: 18px auto 0;
+  padding: 8px;
+  background: #fff;
+  border-radius: 8px;
+}
 
 /* RSVP */
 #rsvpForm {
