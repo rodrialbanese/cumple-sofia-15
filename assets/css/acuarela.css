@@ -41,17 +41,29 @@ html, body {
   -webkit-mask-image: radial-gradient(circle at 100% 100%, black 35%, transparent 70%);
   mask-image: radial-gradient(circle at 100% 100%, black 35%, transparent 70%);
 }
+.deco-water.hero-corner {
+  top: 0;
+  right: 0;
+  width: 260px;
+  height: 260px;
+  opacity: 0.55;
+  mix-blend-mode: soft-light;
+  -webkit-mask-image: radial-gradient(circle at 100% 0%, black 35%, transparent 70%);
+  mask-image: radial-gradient(circle at 100% 0%, black 35%, transparent 70%);
+}
 
 .divider {
   display: flex;
   justify-content: center;
-  padding: 20px 0 4px;
+  padding: 22px 0 6px;
   background: var(--bg);
 }
 .divider img {
-  width: 60px;
-  height: auto;
-  opacity: 0.6;
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 50%;
+  opacity: 0.85;
 }
 
 /* Pantalla de entrada */
