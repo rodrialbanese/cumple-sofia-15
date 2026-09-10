@@ -35,6 +35,18 @@ html, body {
   -webkit-mask-image: radial-gradient(circle at 0% 0%, black 35%, transparent 70%);
   mask-image: radial-gradient(circle at 0% 0%, black 35%, transparent 70%);
 }
+.deco-water.tr {
+  top: 0;
+  right: 0;
+  -webkit-mask-image: radial-gradient(circle at 100% 0%, black 35%, transparent 70%);
+  mask-image: radial-gradient(circle at 100% 0%, black 35%, transparent 70%);
+}
+.deco-water.bl {
+  bottom: 0;
+  left: 0;
+  -webkit-mask-image: radial-gradient(circle at 0% 100%, black 35%, transparent 70%);
+  mask-image: radial-gradient(circle at 0% 100%, black 35%, transparent 70%);
+}
 .deco-water.br {
   bottom: 0;
   right: 0;
@@ -42,14 +54,10 @@ html, body {
   mask-image: radial-gradient(circle at 100% 100%, black 35%, transparent 70%);
 }
 .deco-water.hero-corner {
-  top: 0;
-  right: 0;
-  width: 260px;
-  height: 260px;
-  opacity: 0.55;
+  width: 200px;
+  height: 200px;
+  opacity: 0.5;
   mix-blend-mode: soft-light;
-  -webkit-mask-image: radial-gradient(circle at 100% 0%, black 35%, transparent 70%);
-  mask-image: radial-gradient(circle at 100% 0%, black 35%, transparent 70%);
 }
 
 .divider {
@@ -64,6 +72,14 @@ html, body {
   object-fit: cover;
   border-radius: 50%;
   opacity: 0.85;
+}
+.divider.mini {
+  padding: 6px 0;
+}
+.divider.mini img {
+  width: 24px;
+  height: 24px;
+  opacity: 0.5;
 }
 
 /* Pantalla de entrada */
