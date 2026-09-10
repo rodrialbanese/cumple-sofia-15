@@ -61,15 +61,15 @@ html, body {
 }
 .divider .braid {
   width: 120px;
-  height: 18px;
+  height: 25px;
   color: var(--acento);
 }
 .divider.mini {
   padding: 14px 0;
 }
 .divider.mini .braid {
-  width: 84px;
-  height: 13px;
+  width: 86px;
+  height: 18px;
 }
 
 /* Pantalla de entrada */
