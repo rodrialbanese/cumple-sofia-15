@@ -53,33 +53,23 @@ html, body {
   -webkit-mask-image: radial-gradient(circle at 100% 100%, black 35%, transparent 70%);
   mask-image: radial-gradient(circle at 100% 100%, black 35%, transparent 70%);
 }
-.deco-water.hero-corner {
-  width: 200px;
-  height: 200px;
-  opacity: 0.5;
-  mix-blend-mode: soft-light;
-}
-
 .divider {
   display: flex;
   justify-content: center;
-  padding: 22px 0 6px;
+  padding: 22px 0;
   background: var(--bg);
 }
-.divider img {
-  width: 56px;
-  height: 56px;
-  object-fit: cover;
-  border-radius: 50%;
-  opacity: 0.85;
+.divider .braid {
+  width: 120px;
+  height: 18px;
+  color: var(--acento);
 }
 .divider.mini {
-  padding: 6px 0;
+  padding: 14px 0;
 }
-.divider.mini img {
-  width: 24px;
-  height: 24px;
-  opacity: 0.5;
+.divider.mini .braid {
+  width: 84px;
+  height: 13px;
 }
 
 /* Pantalla de entrada */
