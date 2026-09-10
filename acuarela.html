@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mis XV Sofía</title>
+  <link rel="icon" type="image/jpeg" href="assets/img/hero.jpg">
+  <meta property="og:title" content="Mis XV Sofía">
+  <meta property="og:description" content="Quiero que seas parte de este momento tan importante para mí">
+  <meta property="og:image" content="assets/img/hero.jpg">
+  <link href="https://fonts.googleapis.com/css2?family=Playball&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css">
+  <link rel="stylesheet" href="assets/css/acuarela.css">
+</head>
+<body>
+
+  <script>
+    var CONFIG = {
+      eventDate: '2026-10-09T21:00:00-03:00',
+      googlePhotosAlbumUrl: 'https://photos.google.com/share/AF1QipNhqGUHAHIWM34rr_YFMeI1V0fNKkUcU9Scaa-2Dez-ibadGv7fESk0ggnkRuXe9g?key=c1pMR0F3QnRRaTZGeWVQMmZBUEpKWm8wS3NEYjhR',
+      googleAppsScriptUrl: 'https://script.google.com/macros/s/AKfycbxODIdojFf_X3AllXpI5m7Dn4OPKWA2gBv_6fxo5mzck5ZPtlVPpNzznsgBbRGdxoVV/exec',
+      youtubeVideoId: 'JDL6R2KS3xg'
+    };
+  </script>
+
+  <div id="gate">
+    <img class="deco-water tl" src="assets/img/acuarela-1.jpg" alt="">
+    <img class="deco-water br" src="assets/img/acuarela-2.jpg" alt="">
+    <h1 id="gateTitle">Mis XV Sofía</h1>
+    <p id="gateMessage">Quiero que seas parte de este momento tan importante para mí</p>
+    <button id="enterButton">Ingresar</button>
+  </div>
+
+  <div id="youtubePlayer" style="position:absolute;width:1px;height:1px;overflow:hidden;"></div>
+  <button id="musicToggle" aria-label="Música">❙❙</button>
+
+  <div id="hero">
+    <h1>Mis<br><strong class="script">Sofía</strong><br><span class="xv">XV años</span></h1>
+    <div class="countdown">
+      <div class="box"><span class="num" id="countDays">0</span><span class="lbl">Días</span></div>
+      <div class="box"><span class="num" id="countHours">00</span><span class="lbl">Horas</span></div>
+      <div class="box"><span class="num" id="countMinutes">00</span><span class="lbl">Min</span></div>
+      <div class="box"><span class="num" id="countSeconds">00</span><span class="lbl">Seg</span></div>
+    </div>
+  </div>
+
+  <div class="divider">
+    <img src="assets/img/hojas.png" alt="">
+  </div>
+
+  <section class="section" data-aos="fade-up" data-aos-once="true">
+    <h2 class="script">¿Cuándo?</h2>
+    <p>9 de Octubre 2026<br>21 hs a 04 hs</p>
+  </section>
+
+  <section class="section" data-aos="fade-up" data-aos-once="true">
+    <h2 class="script">¿Dónde?</h2>
+    <p>Lola Mora — España 746</p>
+    <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Lola+Mora+Espa%C3%B1a+746" target="_blank" rel="noopener noreferrer">Cómo llegar</a>
+  </section>
+
+  <section class="section" data-aos="fade-up" data-aos-once="true">
+    <h2 class="script">Una noche inolvidable</h2>
+    <p>Te invito a festejar esta noche ¡irrepetible!</p>
+  </section>
+
+  <section class="section" data-aos="fade-up" data-aos-once="true">
+    <h2 class="script">Quiero ver tus fotos</h2>
+    <p>Subí tus fotos del evento a mi álbum compartido</p>
+    <a class="btn" id="photosAlbumLink" href="#" target="_blank" rel="noopener noreferrer">Ir al álbum</a>
+  </section>
+
+  <section class="section" data-aos="fade-up" data-aos-once="true">
+    <h2 class="script">Obsequio</h2>
+    <p>Los regalos se reciben en la urna del salón</p>
+  </section>
+
+  <section class="section" data-aos="fade-up" data-aos-once="true">
+    <h2 class="script">Confirmá tu asistencia</h2>
+    <form id="rsvpForm">
+      <div>
+        <label for="rsvpNombre">Nombre</label>
+        <input id="rsvpNombre" name="nombre" type="text" required>
+      </div>
+      <div>
+        <label for="rsvpApellido">Apellido</label>
+        <input id="rsvpApellido" name="apellido" type="text" required>
+      </div>
+      <div>
+        <label for="rsvpCantidad">Cantidad de personas</label>
+        <input id="rsvpCantidad" name="cantidad" type="number" min="1" value="1" required>
+      </div>
+      <div class="radios">
+        <label><input type="radio" name="confirma" value="si" checked> ¡Confirmo!</label>
+        <label><input type="radio" name="confirma" value="no"> No podré asistir</label>
+      </div>
+      <div>
+        <label for="rsvpComentario">Comentario (opcional)</label>
+        <textarea id="rsvpComentario" name="comentario" rows="3"></textarea>
+      </div>
+      <button type="submit" class="btn">Confirmar</button>
+      <p id="rsvpFeedback" aria-live="polite"></p>
+    </form>
+  </section>
+
+  <footer id="footer">
+    Mis XV Sofía · 9 de Octubre 2026
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js" defer></script>
+  <script src="assets/js/countdown.js" defer></script>
+  <script src="assets/js/rsvp.js" defer></script>
+  <script src="assets/js/gate.js" defer></script>
+  <script src="assets/js/music.js" defer></script>
+  <script src="https://www.youtube.com/iframe_api" defer></script>
+  <script src="assets/js/rsvp-form.js" defer></script>
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>
