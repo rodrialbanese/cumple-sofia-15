@@ -42,7 +42,7 @@
     <img class="deco-water tr" src="assets/img/acuarela-2.jpg" alt="">
     <img class="deco-water bl" src="assets/img/acuarela-2.jpg" alt="">
     <img class="deco-water br" src="assets/img/acuarela-1.jpg" alt="">
-    <h1 id="gateTitle">Mis XV Sofía</h1>
+    <h1 id="gateTitle">Mis XV<br>Sofía</h1>
     <p id="gateMessage">Quiero que seas parte de este momento tan importante para mí</p>
     <button id="enterButton">Ingresar</button>
   </div>
@@ -51,7 +51,7 @@
   <button id="musicToggle" aria-label="Música">❙❙</button>
 
   <div id="hero">
-    <h1>Mis<br><strong class="script">Sofía</strong><br><span class="xv">XV años</span></h1>
+    <h1><strong class="script">Sofía</strong><br><span class="xv">Mis XV</span></h1>
     <div class="countdown">
       <div class="box"><span class="num" id="countDays">0</span><span class="lbl">Días</span></div>
       <div class="box"><span class="num" id="countHours">00</span><span class="lbl">Horas</span></div>
@@ -78,6 +78,13 @@
   <div class="divider mini"><svg class="braid" viewBox="0 0 96 20"><use href="#braid"/></svg></div>
 
   <section class="section" data-aos="fade-up" data-aos-once="true">
+    <h2 class="script">Dress Code</h2>
+    <p>Elegante<br>(Se reservan los colores verde, bordó y blanco)</p>
+  </section>
+
+  <div class="divider mini"><svg class="braid" viewBox="0 0 96 20"><use href="#braid"/></svg></div>
+
+  <section class="section" data-aos="fade-up" data-aos-once="true">
     <h2 class="script">Una noche inolvidable</h2>
     <p>Te invito a festejar esta noche ¡irrepetible!</p>
   </section>
@@ -88,14 +95,14 @@
     <h2 class="script">Quiero ver tus fotos</h2>
     <p>Subí tus fotos del evento a mi álbum compartido</p>
     <a class="btn" id="photosAlbumLink" href="#" target="_blank" rel="noopener noreferrer">Ir al álbum</a>
-    <img class="qr" src="assets/img/qr-album.png" alt="Código QR al álbum de fotos">
   </section>
 
   <div class="divider mini"><svg class="braid" viewBox="0 0 96 20"><use href="#braid"/></svg></div>
 
   <section class="section" data-aos="fade-up" data-aos-once="true">
     <h2 class="script">Obsequio</h2>
-    <p>Los regalos se reciben en la urna del salón</p>
+    <p>Lo más importante es que vengas, pero si deseás hacerme un presente habrá un espacio en el salón o podés hacerlo a la siguiente cuenta</p>
+    <button type="button" class="btn" id="giftInfoBtn">Ver datos de la cuenta</button>
   </section>
 
   <div class="divider mini"><svg class="braid" viewBox="0 0 96 20"><use href="#braid"/></svg></div>
@@ -129,8 +136,21 @@
   </section>
 
   <footer id="footer">
-    Mis XV Sofía · 9 de Octubre 2026
+    Mis XV · Sofía · 9 de Octubre 2026
   </footer>
+
+  <div id="giftModal" class="modal" aria-hidden="true">
+    <div class="modal-overlay" data-close></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="giftModalTitle">
+      <button type="button" class="modal-close" data-close aria-label="Cerrar">×</button>
+      <h3 id="giftModalTitle" class="script">Regalos</h3>
+      <dl class="modal-data">
+        <div><dt>Alias</dt><dd>sofi.sofi</dd></div>
+        <div><dt>CBU</dt><dd>123456789012345678901</dd></div>
+        <div><dt>Titular</dt><dd>Sofia Sofia</dd></div>
+      </dl>
+    </div>
+  </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js" defer></script>
   <script src="assets/js/countdown.js" defer></script>

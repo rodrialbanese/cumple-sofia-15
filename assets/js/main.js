@@ -24,4 +24,24 @@ document.addEventListener('DOMContentLoaded', function () {
   if (typeof AOS !== 'undefined') {
     AOS.init({ duration: 400, once: true });
   }
+
+  var giftBtn = document.getElementById('giftInfoBtn');
+  var giftModal = document.getElementById('giftModal');
+  if (giftBtn && giftModal) {
+    var openGiftModal = function () {
+      giftModal.classList.add('open');
+      giftModal.setAttribute('aria-hidden', 'false');
+    };
+    var closeGiftModal = function () {
+      giftModal.classList.remove('open');
+      giftModal.setAttribute('aria-hidden', 'true');
+    };
+    giftBtn.addEventListener('click', openGiftModal);
+    giftModal.querySelectorAll('[data-close]').forEach(function (el) {
+      el.addEventListener('click', closeGiftModal);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeGiftModal();
+    });
+  }
 });
