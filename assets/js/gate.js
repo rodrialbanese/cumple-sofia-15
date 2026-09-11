@@ -1,14 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
   var title = document.getElementById('gateTitle');
-  var message = document.getElementById('gateMessage');
   var button = document.getElementById('enterButton');
   var gate = document.getElementById('gate');
 
   document.body.style.overflow = 'hidden';
 
   setTimeout(function () { title.classList.add('show'); }, 300);
-  setTimeout(function () { message.classList.add('show'); }, 900);
-  setTimeout(function () { button.classList.add('show'); }, 1500);
+  setTimeout(function () { button.classList.add('show'); }, 900);
 
   button.addEventListener('click', function () {
     document.body.dispatchEvent(new CustomEvent('siteEntered'));
