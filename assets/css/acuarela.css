@@ -155,6 +155,7 @@ html, body {
 
 /* Secciones */
 .section { padding: 56px 24px; text-align: center; background: var(--bg); color: var(--texto); }
+.icon-anim { display: block; width: 72px; height: 72px; margin: 0 auto 10px; }
 .section h2 { font-family: var(--font-script); font-size: 1.8rem; font-weight: normal; color: var(--acento); margin: 0 0 14px; }
 .section p { font-size: 1.05rem; line-height: 1.6; margin: 0; }
 .section .btn {
