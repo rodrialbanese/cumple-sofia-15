@@ -13,44 +13,55 @@ function getOrCreateSheet(name, headerRow) {
 function doPost(e) {
   var data = JSON.parse(e.postData.contents);
 
-  if (data.tipo === 'trivia') {
-    var triviaSheet = getOrCreateSheet('Trivia', ['Fecha', 'Nombre', 'Puntaje']);
-    triviaSheet.appendRow([new Date(), data.nombre, data.puntaje]);
-  } else if (data.tipo === 'live-control') {
-    setLiveState({
-      gameId: data.gameId,
-      phase: data.phase,
-      questionIndex: data.questionIndex,
-      startedAt: data.startedAt
-    });
-  } else if (data.tipo === 'live-join') {
-    var playersSheet = getOrCreateSheet('LiveJugadores', ['Fecha', 'GameId', 'Nombre']);
-    var already = playersSheet.getDataRange().getValues().slice(1).some(function (row) {
-      return String(row[1]) === String(data.gameId) && row[2] === data.nombre;
-    });
-    if (!already) {
-      playersSheet.appendRow([new Date(), data.gameId, data.nombre]);
-    }
-  } else if (data.tipo === 'live-answer') {
-    var answersSheet = getOrCreateSheet('LiveRespuestas', [
-      'Fecha', 'GameId', 'PreguntaIndex', 'Nombre', 'RespuestaIndex', 'Correcta', 'Puntos'
-    ]);
-    var alreadyAnswered = answersSheet.getDataRange().getValues().slice(1).some(function (row) {
-      return String(row[1]) === String(data.gameId) &&
-        Number(row[2]) === Number(data.questionIndex) &&
-        row[3] === data.nombre;
-    });
-    if (!alreadyAnswered) {
-      answersSheet.appendRow([
-        new Date(),
-        data.gameId,
-        data.questionIndex,
-        data.nombre,
-        data.respuestaIndex,
-        data.correcta,
-        data.puntos
+  // El cliente puede mandar el mismo pedido dos veces por caminos
+  // distintos (sendBeacon + fetch) casi al mismo tiempo. Sin esto, los
+  // dos podrían leer la planilla "todavía no está" antes de que el otro
+  // termine de escribir, y quedar duplicado. El lock serializa el
+  // chequeo-y-escritura para que eso no pueda pasar.
+  var lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  try {
+    if (data.tipo === 'trivia') {
+      var triviaSheet = getOrCreateSheet('Trivia', ['Fecha', 'Nombre', 'Puntaje']);
+      triviaSheet.appendRow([new Date(), data.nombre, data.puntaje]);
+    } else if (data.tipo === 'live-control') {
+      setLiveState({
+        gameId: data.gameId,
+        phase: data.phase,
+        questionIndex: data.questionIndex,
+        startedAt: data.startedAt
+      });
+    } else if (data.tipo === 'live-join') {
+      var playersSheet = getOrCreateSheet('LiveJugadores', ['Fecha', 'GameId', 'Nombre']);
+      var already = playersSheet.getDataRange().getValues().slice(1).some(function (row) {
+        return String(row[1]) === String(data.gameId) && row[2] === data.nombre;
+      });
+      if (!already) {
+        playersSheet.appendRow([new Date(), data.gameId, data.nombre]);
+      }
+    } else if (data.tipo === 'live-answer') {
+      var answersSheet = getOrCreateSheet('LiveRespuestas', [
+        'Fecha', 'GameId', 'PreguntaIndex', 'Nombre', 'RespuestaIndex', 'Correcta', 'Puntos'
       ]);
+      var alreadyAnswered = answersSheet.getDataRange().getValues().slice(1).some(function (row) {
+        return String(row[1]) === String(data.gameId) &&
+          Number(row[2]) === Number(data.questionIndex) &&
+          row[3] === data.nombre;
+      });
+      if (!alreadyAnswered) {
+        answersSheet.appendRow([
+          new Date(),
+          data.gameId,
+          data.questionIndex,
+          data.nombre,
+          data.respuestaIndex,
+          data.correcta,
+          data.puntos
+        ]);
+      }
     }
+  } finally {
+    lock.releaseLock();
   }
 
   return ContentService

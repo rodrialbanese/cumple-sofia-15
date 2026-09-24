@@ -32,14 +32,16 @@
       const QUESTIONS = buildLiveQuestions();
       const app = document.getElementById("app");
 
-      let playerName = localStorage.getItem("trivia-live-name") || "";
+      // Por ahora, a propósito, esto NO se guarda en localStorage: cada
+      // vez que se recarga la página arranca en blanco (sin nombre, sin
+      // recordar qué contestó), para simplificar las pruebas.
+      let playerName = "";
       let joinedGameId = null;
       // Lo último que contestamos, para no repetir mientras esperamos el reveal.
-      let answered = JSON.parse(localStorage.getItem("trivia-live-answered") || "null");
+      let answered = null;
 
       function saveAnswered(a) {
         answered = a;
-        localStorage.setItem("trivia-live-answered", JSON.stringify(a));
       }
 
       function renderJoinForm() {
@@ -53,7 +55,6 @@
           const val = document.getElementById("nameInput").value.trim();
           if (!val) return;
           playerName = val;
-          localStorage.setItem("trivia-live-name", playerName);
           renderWaiting();
         });
       }

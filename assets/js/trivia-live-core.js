@@ -75,21 +75,22 @@ function liveJsonp(url) {
   });
 }
 
-// Mandamos el pedido por sendBeacon Y por fetch a la vez. En teoría con
-// sendBeacon alcanza (entrega el POST sin esperar ni seguir la redirección
-// cross-domain de Apps Script, que con fetch() puede tardar hasta un
-// minuto en resolver del lado del navegador aunque el dato ya se haya
-// guardado) — pero en algún celular real sendBeacon no llegó a
-// funcionar y nunca supimos bien por qué. Como el servidor ya descarta
-// duplicados (mismo nombre+partida, o misma respuesta+pregunta), mandar
-// los dos no genera filas repetidas, solo mejora la chance de que al
-// menos uno llegue rápido. El fetch tampoco espera su propia respuesta
-// más de 3 segundos, para no quedar colgado sin necesidad.
+// navigator.sendBeacon entrega el POST sin esperar ni seguir la redirección
+// cross-domain que hace Apps Script — con fetch(), esa redirección puede
+// tardar muchos segundos (a veces más de un minuto) en resolver del lado
+// del navegador, aunque el dato ya se haya guardado. sendBeacon evita eso.
+//
+// OJO: mandábamos por los dos caminos a la vez "por las dudas", pero eso
+// generaba jugadores duplicados (los dos pedidos llegaban casi juntos,
+// leían la planilla antes de que el otro terminara de escribir, y los
+// dos agregaban su fila). Ahora mandamos por UNO solo — sendBeacon si
+// está disponible, si no fetch como resguardo — y la protección contra
+// duplicados de verdad vive en el servidor (con un lock), no acá.
 function livePost(apiUrl, body) {
   var json = JSON.stringify(body);
   if (navigator.sendBeacon) {
     var blob = new Blob([json], { type: "text/plain;charset=UTF-8" });
-    navigator.sendBeacon(apiUrl, blob);
+    if (navigator.sendBeacon(apiUrl, blob)) return;
   }
   var controller = typeof AbortController !== "undefined" ? new AbortController() : null;
   if (controller) setTimeout(function () { controller.abort(); }, 3000);
