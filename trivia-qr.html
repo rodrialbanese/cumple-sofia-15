@@ -24,36 +24,24 @@
       }
 
       .deco {
-        position: absolute;
-        width: 34vh;
-        height: 34vh;
+        position: fixed;
+        width: 30vh;
+        height: 30vh;
         object-fit: cover;
-        opacity: 0.4;
+        opacity: 0.35;
         pointer-events: none;
       }
       .deco.tl {
         top: 0;
         left: 0;
-        -webkit-mask-image: radial-gradient(
-          circle at 0% 0%,
-          black 20%,
-          transparent 58%
-        );
+        -webkit-mask-image: radial-gradient(circle at 0% 0%, black 20%, transparent 58%);
         mask-image: radial-gradient(circle at 0% 0%, black 20%, transparent 58%);
       }
       .deco.br {
         bottom: 0;
         right: 0;
-        -webkit-mask-image: radial-gradient(
-          circle at 100% 100%,
-          black 20%,
-          transparent 58%
-        );
-        mask-image: radial-gradient(
-          circle at 100% 100%,
-          black 20%,
-          transparent 58%
-        );
+        -webkit-mask-image: radial-gradient(circle at 100% 100%, black 20%, transparent 58%);
+        mask-image: radial-gradient(circle at 100% 100%, black 20%, transparent 58%);
       }
 
       .stage {
@@ -62,49 +50,49 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 7vw;
-        padding: 4vh 6vw;
+        gap: 6vw;
+        padding: 3vh 5vw;
         flex-wrap: wrap;
         text-align: center;
+        max-width: 100vw;
       }
 
       .info {
         text-align: center;
+        flex: none;
       }
       .eyebrow {
-        font-size: 2.6vh;
-        letter-spacing: 0.6vh;
+        font-size: 2.2vh;
+        letter-spacing: 0.5vh;
         text-transform: uppercase;
         color: var(--acento);
-        margin: 0 0 1vh;
+        margin: 0 0 0.8vh;
       }
       h1.script {
-        font-size: 9vh;
+        font-size: 7vh;
         line-height: 1.05;
-        margin: 0 0 1.5vh;
+        margin: 0 0 1.2vh;
         color: var(--texto);
       }
       .subtitle {
-        font-size: 3.2vh;
-        margin: 0 0 3vh;
+        font-size: 2.6vh;
+        margin: 0 0 2.4vh;
         color: var(--texto);
-      }
-      .flor {
-        width: 9vh;
       }
 
       .qr-card {
         background: #fff;
         border: 2px solid var(--acento);
-        border-radius: 3vh;
-        padding: 3.2vh;
+        border-radius: 2.4vh;
+        padding: 2.4vh;
         box-shadow: 0 1.5vh 4vh rgba(61, 74, 58, 0.18);
         animation: pulse 2.6s ease-in-out infinite;
+        display: inline-block;
       }
       .qr-card svg {
         display: block;
-        width: 38vh;
-        height: 38vh;
+        width: 26vh;
+        height: 26vh;
       }
       @keyframes pulse {
         0%,
@@ -118,13 +106,89 @@
         }
       }
 
+      .leaderboard {
+        flex: none;
+        width: 40vw;
+        max-width: 620px;
+        text-align: left;
+      }
+      .leaderboard h2 {
+        font-family: var(--font-script);
+        font-weight: normal;
+        font-size: 4.6vh;
+        color: var(--texto);
+        margin: 0 0 1.6vh;
+        text-align: center;
+      }
+      .board {
+        display: flex;
+        flex-direction: column;
+        gap: 0.9vh;
+        max-height: 72vh;
+        overflow-y: auto;
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 1.6vh;
+        background: rgba(255, 255, 255, 0.55);
+        border: 1.5px solid var(--acento);
+        border-radius: 1.2vh;
+        padding: 0.9vh 1.6vh;
+      }
+      .row.first {
+        background: var(--acento);
+        border-color: var(--acento);
+      }
+      .row.first .rank,
+      .row.first .name,
+      .row.first .score {
+        color: #fff;
+      }
+      .rank {
+        font-family: var(--font-script);
+        font-weight: normal;
+        font-size: 2.8vh;
+        color: var(--acento);
+        width: 3.6vh;
+        text-align: center;
+        flex: none;
+      }
+      .name {
+        flex: 1;
+        font-size: 2vh;
+        font-weight: 600;
+        color: var(--texto);
+        overflow-wrap: break-word;
+        word-break: break-word;
+        min-width: 0;
+      }
+      .score {
+        font-size: 2vh;
+        font-weight: 700;
+        color: var(--acento);
+        flex: none;
+      }
+      .empty {
+        color: var(--acento);
+        font-size: 2vh;
+        text-align: center;
+        padding: 2vh 0;
+      }
+
       @media (max-aspect-ratio: 1/1) {
+        .stage {
+          flex-direction: column;
+        }
         h1.script {
-          font-size: 6.5vh;
+          font-size: 5.5vh;
         }
         .qr-card svg {
-          width: 32vh;
-          height: 32vh;
+          width: 24vh;
+          height: 24vh;
+        }
+        .leaderboard {
+          width: 90vw;
         }
       }
     </style>
@@ -138,14 +202,84 @@
         <p class="eyebrow">Mis XV · Sofi</p>
         <h1 class="script">¿Quién la<br />conoce mejor?</h1>
         <p class="subtitle">Escaneá y jugá desde tu celular</p>
-        <img class="flor" src="assets/img/flor.png" alt="" />
-      </div>
-
-      <div>
         <div class="qr-card">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35 35" shape-rendering="crispEdges"><path stroke="#3d4a3a" d="M1 1.5h7m2 0h1m3 0h1m2 0h2m1 0h1m3 0h1m2 0h7M1 2.5h1m5 0h1m2 0h1m1 0h7m2 0h3m1 0h1m1 0h1m5 0h1M1 3.5h1m1 0h3m1 0h1m1 0h1m1 0h4m1 0h4m1 0h3m3 0h1m1 0h3m1 0h1M1 4.5h1m1 0h3m1 0h1m1 0h1m2 0h2m1 0h3m2 0h2m1 0h3m1 0h1m1 0h3m1 0h1M1 5.5h1m1 0h3m1 0h1m1 0h4m1 0h1m1 0h1m2 0h1m2 0h1m1 0h1m2 0h1m1 0h3m1 0h1M1 6.5h1m5 0h1m1 0h1m2 0h2m1 0h3m1 0h1m1 0h3m1 0h1m1 0h1m5 0h1M1 7.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M9 8.5h1m1 0h1m4 0h1m5 0h2M1 9.5h1m1 0h5m3 0h1m1 0h2m1 0h1m1 0h2m5 0h1m1 0h5M1 10.5h2m1 0h1m3 0h2m2 0h1m4 0h1m2 0h1m3 0h1m2 0h2m1 0h4M2 11.5h4m1 0h3m2 0h1m3 0h2m1 0h1m1 0h3m1 0h2m2 0h1m1 0h2M2 12.5h2m1 0h1m3 0h1m5 0h1m6 0h1m2 0h1m1 0h1m1 0h3M2 13.5h1m1 0h1m1 0h2m4 0h2m2 0h1m2 0h1m2 0h1m3 0h1m2 0h2M2 14.5h1m1 0h3m3 0h1m1 0h6m3 0h1m2 0h1m2 0h1m3 0h3M1 15.5h2m1 0h2m1 0h1m2 0h3m7 0h1m1 0h2m1 0h3m3 0h2M1 16.5h2m1 0h1m4 0h1m5 0h1m1 0h1m2 0h4m1 0h5m1 0h1M4 17.5h1m1 0h2m1 0h1m3 0h2m3 0h3m2 0h2m1 0h1m1 0h2m3 0h1M2 18.5h2m1 0h1m2 0h1m1 0h1m2 0h3m1 0h5m1 0h2m2 0h2m1 0h4M2 19.5h2m2 0h2m1 0h6m1 0h1m1 0h1m2 0h1m1 0h1m3 0h3m1 0h2M1 20.5h3m1 0h1m4 0h2m2 0h2m2 0h2m6 0h1m1 0h5M2 21.5h3m2 0h1m1 0h1m3 0h1m2 0h2m2 0h7m1 0h3M1 22.5h1m3 0h1m3 0h1m3 0h1m1 0h2m1 0h2m2 0h1m1 0h1m2 0h1m2 0h1M1 23.5h1m2 0h8m3 0h4m2 0h1m3 0h1m2 0h3m1 0h1M1 24.5h1m1 0h1m4 0h4m1 0h1m1 0h2m2 0h1m2 0h3m1 0h3m1 0h2m1 0h1M1 25.5h1m1 0h1m3 0h4m3 0h1m1 0h3m4 0h8m1 0h2M9 26.5h1m1 0h3m3 0h1m2 0h3m2 0h1m3 0h1m1 0h1m1 0h1M1 27.5h7m6 0h4m1 0h1m2 0h1m1 0h2m1 0h1m1 0h1m1 0h2M1 28.5h1m5 0h1m1 0h1m3 0h1m1 0h3m2 0h6m3 0h3m1 0h1M1 29.5h1m1 0h3m1 0h1m1 0h5m2 0h1m2 0h1m2 0h1m2 0h6m1 0h2M1 30.5h1m1 0h3m1 0h1m1 0h3m1 0h1m2 0h2m3 0h1m1 0h4m2 0h3m1 0h1M1 31.5h1m1 0h3m1 0h1m1 0h1m8 0h1m1 0h1m2 0h6m2 0h1M1 32.5h1m5 0h1m5 0h2m2 0h1m1 0h5m5 0h3M1 33.5h7m1 0h1m1 0h5m2 0h1m1 0h1m2 0h1m1 0h2m1 0h1m1 0h1"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35 35" shape-rendering="crispEdges"><path stroke="#3d4a3a" d="M1 1.5h7m2 0h1m3 0h1m2 0h2m1 0h1m3 0h1m2 0h7M1 2.5h1m5 0h1m2 0h1m1 0h7m2 0h3m1 0h1m1 0h1m5 0h1M1 3.5h1m1 0h3m1 0h1m1 0h1m1 0h4m1 0h4m1 0h3m3 0h1m1 0h3m1 0h1M1 4.5h1m1 0h3m1 0h1m1 0h1m2 0h2m1 0h3m2 0h2m1 0h3m1 0h1m1 0h3m1 0h1M1 5.5h1m1 0h3m1 0h1m1 0h4m1 0h1m1 0h1m2 0h1m2 0h1m1 0h1m2 0h1m1 0h3m1 0h1M1 6.5h1m5 0h1m1 0h1m2 0h2m1 0h3m1 0h1m1 0h3m1 0h1m1 0h1m5 0h1M1 7.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M9 8.5h1m1 0h1m4 0h1m5 0h2M1 9.5h1m1 0h5m3 0h1m1 0h2m1 0h1m1 0h2m5 0h1m1 0h5M1 10.5h2m1 0h1m3 0h2m2 0h1m4 0h1m2 0h1m3 0h1m2 0h2m1 0h4M2 11.5h4m1 0h3m2 0h1m3 0h2m1 0h1m1 0h3m1 0h2m2 0h1m1 0h2M2 12.5h2m1 0h1m3 0h1m5 0h1m6 0h1m2 0h1m1 0h1m1 0h3M2 13.5h1m1 0h1m1 0h2m4 0h2m2 0h1m2 0h1m2 0h1m3 0h1m2 0h2M2 14.5h1m1 0h3m3 0h1m1 0h6m3 0h1m2 0h1m2 0h1m3 0h3M1 15.5h2m1 0h2m1 0h1m2 0h3m7 0h1m1 0h2m1 0h3m3 0h2M1 16.5h2m1 0h1m4 0h1m5 0h1m1 0h1m2 0h4m1 0h5m1 0h1M4 17.5h1m1 0h2m1 0h1m3 0h2m3 0h3m2 0h2m1 0h1m1 0h2m3 0h1M2 18.5h2m1 0h1m2 0h1m1 0h1m2 0h3m1 0h5m1 0h2m2 0h2m1 0h4M2 19.5h2m2 0h2m1 0h6m1 0h1m1 0h1m2 0h1m1 0h1m3 0h3m1 0h2M1 20.5h3m1 0h1m4 0h2m2 0h2m2 0h2m6 0h1m1 0h5M2 21.5h3m2 0h1m1 0h1m3 0h1m2 0h2m2 0h7m1 0h3M1 22.5h1m3 0h1m3 0h1m3 0h1m1 0h2m1 0h2m2 0h1m1 0h1m2 0h1m2 0h1M1 23.5h1m2 0h8m3 0h4m2 0h1m3 0h1m2 0h3m1 0h1M1 24.5h1m1 0h1m4 0h4m1 0h1m1 0h2m2 0h1m2 0h3m1 0h3m1 0h2m1 0h1M1 25.5h1m1 0h1m3 0h4m3 0h1m1 0h3m4 0h8m1 0h2M9 26.5h1m1 0h3m3 0h1m2 0h3m2 0h1m3 0h1m1 0h1m1 0h1M1 27.5h7m6 0h4m1 0h1m2 0h1m1 0h2m1 0h1m1 0h1m1 0h2M1 28.5h1m5 0h1m1 0h1m3 0h1m1 0h3m2 0h6m3 0h3m1 0h1M1 29.5h1m1 0h3m1 0h1m1 0h5m2 0h1m2 0h1m2 0h1m2 0h6m1 0h2M1 30.5h1m1 0h3m1 0h1m1 0h3m1 0h1m2 0h2m3 0h1m1 0h4m2 0h3m1 0h1M1 31.5h1m1 0h3m1 0h1m1 0h1m8 0h1m1 0h1m2 0h6m2 0h1M1 32.5h1m5 0h1m5 0h2m2 0h1m1 0h5m5 0h3M1 33.5h7m1 0h1m1 0h5m2 0h1m1 0h1m2 0h1m1 0h2m1 0h1m1 0h1"/></svg>
         </div>
       </div>
+
+      <div class="leaderboard">
+        <h2>Top 10</h2>
+        <div class="board" id="board"></div>
+        <p class="empty" id="emptyMsg" style="display: none">
+          Todavía nadie jugó — ¡sé el primero!
+        </p>
+      </div>
     </div>
+
+    <script>
+      const GOOGLE_APPS_SCRIPT_URL =
+        "https://script.google.com/macros/s/AKfycbxODIdojFf_X3AllXpI5m7Dn4OPKWA2gBv_6fxo5mzck5ZPtlVPpNzznsgBbRGdxoVV/exec";
+      const REFRESH_MS = 5000;
+      const TOP_N = 10;
+
+      let jsonpCounter = 0;
+      function jsonp(url) {
+        return new Promise((resolve, reject) => {
+          const cbName = "triviaCb" + Date.now() + jsonpCounter++;
+          const script = document.createElement("script");
+          window[cbName] = (data) => {
+            resolve(data);
+            delete window[cbName];
+            script.remove();
+          };
+          script.onerror = () => {
+            reject(new Error("jsonp failed"));
+            delete window[cbName];
+            script.remove();
+          };
+          script.src = url + (url.includes("?") ? "&" : "?") + "callback=" + cbName;
+          document.body.appendChild(script);
+        });
+      }
+
+      function render(entries) {
+        const board = document.getElementById("board");
+        const emptyMsg = document.getElementById("emptyMsg");
+        if (!entries || entries.length === 0) {
+          board.innerHTML = "";
+          emptyMsg.style.display = "block";
+          return;
+        }
+        emptyMsg.style.display = "none";
+        board.innerHTML = entries
+          .slice(0, TOP_N)
+          .map((e, i) => {
+            return (
+              '<div class="row' +
+              (i === 0 ? " first" : "") +
+              '"><span class="rank">' +
+              (i + 1) +
+              '</span><span class="name">' +
+              e.nombre +
+              '</span><span class="score">' +
+              e.puntaje +
+              "</span></div>"
+            );
+          })
+          .join("");
+      }
+
+      function refresh() {
+        jsonp(GOOGLE_APPS_SCRIPT_URL + "?action=trivia-leaderboard")
+          .then((data) => render(data.entries))
+          .catch(() => {
+            // Si falla una actualización, dejamos el último ranking visible
+            // y reintentamos en el próximo ciclo.
+          });
+      }
+
+      refresh();
+      setInterval(refresh, REFRESH_MS);
+    </script>
   </body>
 </html>
