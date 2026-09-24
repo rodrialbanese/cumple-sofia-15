@@ -1,0 +1,206 @@
+.trivia-wrap {
+  position: relative;
+  z-index: 2;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 28px 18px 60px;
+  text-align: center;
+}
+
+.trivia-deco {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  opacity: 0.45;
+  pointer-events: none;
+  z-index: 1;
+}
+.trivia-deco.tl {
+  top: 0;
+  left: 0;
+  -webkit-mask-image: radial-gradient(circle at 0% 0%, black 20%, transparent 55%);
+  mask-image: radial-gradient(circle at 0% 0%, black 20%, transparent 55%);
+}
+.trivia-deco.br {
+  bottom: 0;
+  right: 0;
+  -webkit-mask-image: radial-gradient(circle at 100% 100%, black 20%, transparent 55%);
+  mask-image: radial-gradient(circle at 100% 100%, black 20%, transparent 55%);
+}
+
+.trivia-wrap .eyebrow {
+  font-family: var(--font-principal);
+  font-size: 14px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--acento);
+  margin: 0 0 4px;
+}
+
+.trivia-wrap h1.script {
+  font-size: 46px;
+  margin: 0 0 8px;
+  color: var(--texto);
+}
+
+.trivia-intro {
+  font-size: 14px;
+  color: var(--acento);
+  line-height: 1.5;
+  margin: 0 0 22px;
+}
+
+.trivia-name {
+  margin: 0 0 30px;
+  text-align: left;
+}
+.trivia-name label {
+  display: block;
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: var(--acento);
+  margin: 0 0 6px;
+}
+.trivia-name input {
+  width: 100%;
+  font-family: var(--font-principal);
+  font-size: 17px;
+  padding: 10px 12px;
+  border: 1.5px solid var(--acento);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.6);
+  color: var(--texto);
+}
+
+.trivia-section {
+  text-align: left;
+  margin: 0 0 34px;
+}
+.trivia-section h2 {
+  font-family: var(--font-script);
+  font-weight: normal;
+  font-size: 30px;
+  color: var(--texto);
+  margin: 0 0 4px;
+  text-align: center;
+}
+.trivia-section .points-hint {
+  font-size: 12.5px;
+  color: var(--acento);
+  text-align: center;
+  margin: 0 0 18px;
+}
+
+.trivia-q {
+  margin: 0 0 16px;
+}
+.trivia-q label.q-label {
+  display: block;
+  font-size: 14.5px;
+  font-weight: 600;
+  margin: 0 0 6px;
+}
+
+select.trivia-select {
+  width: 100%;
+  font-family: var(--font-principal);
+  font-size: 15px;
+  padding: 10px 12px;
+  border: 1.5px solid var(--acento);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.6);
+  color: var(--texto);
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--acento) 50%),
+    linear-gradient(135deg, var(--acento) 50%, transparent 50%);
+  background-position: calc(100% - 20px) center, calc(100% - 14px) center;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+
+.toggle-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.toggle-btn {
+  min-width: 0;
+  font-family: var(--font-principal);
+  font-size: 14.5px;
+  padding: 10px 8px;
+  border: 1.5px solid var(--acento);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--texto);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+.toggle-btn.selected {
+  background: var(--acento);
+  color: #fff;
+  font-weight: 600;
+}
+
+.trivia-submit {
+  font-family: var(--font-principal);
+  font-size: 16px;
+  letter-spacing: 1px;
+  color: #fff;
+  background: var(--acento);
+  border: none;
+  border-radius: 999px;
+  padding: 14px 30px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 6px;
+}
+
+.trivia-result {
+  position: fixed;
+  inset: 0;
+  background: rgba(61, 74, 58, 0.94);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 10;
+  text-align: center;
+  padding: 24px;
+}
+.trivia-result.show {
+  display: flex;
+}
+.trivia-result .score-big {
+  font-family: var(--font-script);
+  font-weight: normal;
+  font-size: 100px;
+  color: #fff;
+  margin: 0;
+  line-height: 1;
+}
+.trivia-result .score-of {
+  font-size: 18px;
+  color: var(--bg);
+  margin: 0 0 10px;
+}
+.trivia-result .score-msg {
+  font-size: 20px;
+  color: #fff;
+  max-width: 340px;
+  margin: 0 0 30px;
+}
+.trivia-result button {
+  font-family: var(--font-principal);
+  font-size: 15px;
+  letter-spacing: 1px;
+  color: var(--texto);
+  background: var(--bg);
+  border: none;
+  border-radius: 999px;
+  padding: 10px 26px;
+  cursor: pointer;
+}

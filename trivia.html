@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>¿Quién la conoce mejor? — Mis XV Sofi</title>
+    <link rel="icon" type="image/jpeg" href="assets/img/hero.jpg" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playball&family=Cormorant+Garamond:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/acuarela.css" />
+    <link rel="stylesheet" href="assets/css/trivia.css" />
+  </head>
+  <body>
+    <img class="trivia-deco tl" src="assets/img/acuarela-1.jpg" alt="" />
+    <img class="trivia-deco br" src="assets/img/acuarela-1.jpg" alt="" />
+
+    <div class="trivia-wrap">
+      <p class="eyebrow">Mis XV · Sofi</p>
+      <h1 class="script">¿Quién la conoce mejor?</h1>
+      <p class="trivia-intro">
+        Respondé lo que creas que dijo Sofi. Al final vas a ver tu puntaje.
+      </p>
+
+      <div class="trivia-name">
+        <label for="playerName">Tu nombre</label>
+        <input type="text" id="playerName" placeholder="Escribí tu nombre" />
+      </div>
+
+      <section class="trivia-section">
+        <h2>Sobre ella</h2>
+        <p class="points-hint">2 puntos por acierto</p>
+        <div id="sobreElla"></div>
+      </section>
+
+      <section class="trivia-section">
+        <h2>¿Alguna vez...?</h2>
+        <p class="points-hint">1 punto por acierto</p>
+        <div id="algunaVez"></div>
+      </section>
+
+      <section class="trivia-section">
+        <h2>¿Qué team es?</h2>
+        <p class="points-hint">1 punto por acierto</p>
+        <div id="queTeam"></div>
+      </section>
+
+      <button class="trivia-submit" id="submitBtn">Ver mi puntaje</button>
+    </div>
+
+    <div class="trivia-result" id="resultScreen">
+      <p class="score-big" id="scoreBig">0</p>
+      <p class="score-of" id="scoreOf">de 0 puntos</p>
+      <p class="score-msg" id="scoreMsg"></p>
+      <button id="closeResult">Volver a ver mis respuestas</button>
+    </div>
+
+    <script src="assets/js/trivia-data.js"></script>
+    <script>
+      const MAX_SOBRE_ELLA = TRIVIA_SOBRE_ELLA.length * 2;
+      const MAX_OTHERS = TRIVIA_ALGUNA_VEZ.length + TRIVIA_QUE_TEAM.length;
+      const MAX_TOTAL = MAX_SOBRE_ELLA + MAX_OTHERS;
+
+      const answersKey = "trivia-answers";
+      let answers = JSON.parse(localStorage.getItem(answersKey) || "{}");
+      answers.sobreElla = answers.sobreElla || new Array(TRIVIA_SOBRE_ELLA.length).fill(null);
+      answers.algunaVez = answers.algunaVez || new Array(TRIVIA_ALGUNA_VEZ.length).fill(null);
+      answers.queTeam = answers.queTeam || new Array(TRIVIA_QUE_TEAM.length).fill(null);
+      answers.name = answers.name || "";
+
+      function save() {
+        localStorage.setItem(answersKey, JSON.stringify(answers));
+      }
+
+      document.getElementById("playerName").value = answers.name;
+      document.getElementById("playerName").addEventListener("input", (e) => {
+        answers.name = e.target.value;
+        save();
+      });
+
+      // --- Sobre ella: dropdowns ---
+      const sobreEllaEl = document.getElementById("sobreElla");
+      TRIVIA_SOBRE_ELLA.forEach((q, i) => {
+        const wrap = document.createElement("div");
+        wrap.className = "trivia-q";
+        const label = document.createElement("label");
+        label.className = "q-label";
+        label.textContent = q.question;
+        const select = document.createElement("select");
+        select.className = "trivia-select";
+        const placeholder = document.createElement("option");
+        placeholder.value = "";
+        placeholder.textContent = "Elegí una opción";
+        placeholder.disabled = true;
+        select.appendChild(placeholder);
+        q.options.forEach((opt, oi) => {
+          const option = document.createElement("option");
+          option.value = oi;
+          option.textContent = opt;
+          select.appendChild(option);
+        });
+        select.value = answers.sobreElla[i] === null ? "" : answers.sobreElla[i];
+        if (answers.sobreElla[i] === null) placeholder.selected = true;
+        select.addEventListener("change", () => {
+          answers.sobreElla[i] = parseInt(select.value, 10);
+          save();
+        });
+        wrap.appendChild(label);
+        wrap.appendChild(select);
+        sobreEllaEl.appendChild(wrap);
+      });
+
+      // --- Alguna vez: Sí/No toggle ---
+      const algunaVezEl = document.getElementById("algunaVez");
+      TRIVIA_ALGUNA_VEZ.forEach((q, i) => {
+        const wrap = document.createElement("div");
+        wrap.className = "trivia-q";
+        const label = document.createElement("label");
+        label.className = "q-label";
+        label.textContent = q.question;
+        const pair = document.createElement("div");
+        pair.className = "toggle-pair";
+
+        const btnSi = document.createElement("button");
+        btnSi.type = "button";
+        btnSi.className = "toggle-btn";
+        btnSi.textContent = "Sí";
+        const btnNo = document.createElement("button");
+        btnNo.type = "button";
+        btnNo.className = "toggle-btn";
+        btnNo.textContent = "No";
+
+        function updateToggle() {
+          btnSi.classList.toggle("selected", answers.algunaVez[i] === true);
+          btnNo.classList.toggle("selected", answers.algunaVez[i] === false);
+        }
+        btnSi.addEventListener("click", () => {
+          answers.algunaVez[i] = true;
+          save();
+          updateToggle();
+        });
+        btnNo.addEventListener("click", () => {
+          answers.algunaVez[i] = false;
+          save();
+          updateToggle();
+        });
+        updateToggle();
+
+        pair.appendChild(btnSi);
+        pair.appendChild(btnNo);
+        wrap.appendChild(label);
+        wrap.appendChild(pair);
+        algunaVezEl.appendChild(wrap);
+      });
+
+      // --- Qué team: esto o lo otro ---
+      const queTeamEl = document.getElementById("queTeam");
+      TRIVIA_QUE_TEAM.forEach((q, i) => {
+        const wrap = document.createElement("div");
+        wrap.className = "trivia-q";
+        const pair = document.createElement("div");
+        pair.className = "toggle-pair";
+
+        const btnA = document.createElement("button");
+        btnA.type = "button";
+        btnA.className = "toggle-btn";
+        btnA.textContent = q.optionA;
+        const btnB = document.createElement("button");
+        btnB.type = "button";
+        btnB.className = "toggle-btn";
+        btnB.textContent = q.optionB;
+
+        function updateToggle() {
+          btnA.classList.toggle("selected", answers.queTeam[i] === "A");
+          btnB.classList.toggle("selected", answers.queTeam[i] === "B");
+        }
+        btnA.addEventListener("click", () => {
+          answers.queTeam[i] = "A";
+          save();
+          updateToggle();
+        });
+        btnB.addEventListener("click", () => {
+          answers.queTeam[i] = "B";
+          save();
+          updateToggle();
+        });
+        updateToggle();
+
+        pair.appendChild(btnA);
+        pair.appendChild(btnB);
+        wrap.appendChild(pair);
+        queTeamEl.appendChild(wrap);
+      });
+
+      // --- Scoring ---
+      function computeScore() {
+        let score = 0;
+        TRIVIA_SOBRE_ELLA.forEach((q, i) => {
+          if (answers.sobreElla[i] === q.correct) score += 2;
+        });
+        TRIVIA_ALGUNA_VEZ.forEach((q, i) => {
+          if (answers.algunaVez[i] === q.correct) score += 1;
+        });
+        TRIVIA_QUE_TEAM.forEach((q, i) => {
+          if (answers.queTeam[i] === q.correct) score += 1;
+        });
+        return score;
+      }
+
+      function scoreMessage(score, max) {
+        const pct = score / max;
+        if (pct === 1) return "¡Puntaje perfecto! La conocés como nadie.";
+        if (pct >= 0.75) return "¡Muy bien! La conocés re bien.";
+        if (pct >= 0.5) return "Nada mal, pero te falta un poco más de data.";
+        if (pct >= 0.25) return "Che, tenés que prestarle más atención a Sofi.";
+        return "¡Uy! Momento de conocerla mejor.";
+      }
+
+      document.getElementById("submitBtn").addEventListener("click", () => {
+        const score = computeScore();
+        document.getElementById("scoreBig").textContent = score;
+        document.getElementById("scoreOf").textContent = "de " + MAX_TOTAL + " puntos";
+        document.getElementById("scoreMsg").textContent = scoreMessage(score, MAX_TOTAL);
+        document.getElementById("resultScreen").classList.add("show");
+      });
+      document.getElementById("closeResult").addEventListener("click", () => {
+        document.getElementById("resultScreen").classList.remove("show");
+      });
+    </script>
+  </body>
+</html>
