@@ -10,12 +10,24 @@ function getOrCreateSheet(name, headerRow) {
   return sheet;
 }
 
+function normalizeName(name) {
+  return String(name || '').trim().toLowerCase();
+}
+
 function doPost(e) {
   var data = JSON.parse(e.postData.contents);
 
   if (data.tipo === 'trivia') {
     var triviaSheet = getOrCreateSheet('Trivia', ['Fecha', 'Nombre', 'Puntaje']);
-    triviaSheet.appendRow([new Date(), data.nombre, data.puntaje]);
+    var target = normalizeName(data.nombre);
+    var existingNames = triviaSheet.getDataRange().getValues().slice(1).map(function (row) {
+      return normalizeName(row[1]);
+    });
+    // Ya jugó con este mismo nombre — ignoramos el reenvío y nos quedamos
+    // con su primer resultado, en vez de agregar una fila duplicada.
+    if (existingNames.indexOf(target) === -1) {
+      triviaSheet.appendRow([new Date(), data.nombre, data.puntaje]);
+    }
   } else {
     var rsvpSheet = getOrCreateSheet('RSVP', ['Fecha', 'Nombre', 'Apellido', 'Cantidad', 'Confirma', 'Comentario']);
     rsvpSheet.appendRow([
