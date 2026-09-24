@@ -33,16 +33,38 @@
       const QUESTIONS = buildLiveQuestions();
       const app = document.getElementById("app");
 
-      // Por ahora, a propósito, esto NO se guarda en localStorage: cada
-      // vez que se recarga la página arranca en blanco (sin nombre, sin
-      // recordar qué contestó), para simplificar las pruebas.
-      let playerName = "";
+      // Guardamos nombre y última respuesta en localStorage, con manejo de
+      // errores: si por lo que sea falla (cuota llena, modo privado,
+      // bloqueado por el navegador), no queremos que reviente el resto de
+      // la página — seguimos sin persistencia en vez de romper todo.
+      function safeGet(key) {
+        try {
+          return localStorage.getItem(key);
+        } catch (e) {
+          return null;
+        }
+      }
+      function safeSet(key, value) {
+        try {
+          localStorage.setItem(key, value);
+        } catch (e) {
+          // sin persistencia esta vez, no pasa nada.
+        }
+      }
+      function safeRemove(key) {
+        try {
+          localStorage.removeItem(key);
+        } catch (e) {}
+      }
+
+      let playerName = safeGet("trivia-live-name") || "";
       let joinedGameId = null;
       // Lo último que contestamos, para no repetir mientras esperamos el reveal.
-      let answered = null;
+      let answered = JSON.parse(safeGet("trivia-live-answered") || "null");
 
       function saveAnswered(a) {
         answered = a;
+        safeSet("trivia-live-answered", JSON.stringify(a));
       }
 
       function updateStatusBar() {
@@ -60,6 +82,8 @@
           playerName = "";
           joinedGameId = null;
           answered = null;
+          safeRemove("trivia-live-name");
+          safeRemove("trivia-live-answered");
           updateStatusBar();
           renderJoinForm();
         });
@@ -76,6 +100,7 @@
           const val = document.getElementById("nameInput").value.trim();
           if (!val) return;
           playerName = val;
+          safeSet("trivia-live-name", playerName);
           updateStatusBar();
           renderWaiting();
         });
@@ -210,6 +235,7 @@
       if (!playerName) {
         renderJoinForm();
       } else {
+        updateStatusBar();
         renderWaiting();
       }
       tick();
