@@ -1,5 +1,16 @@
-function getOrCreateSheet(name, headerRow) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+// Los juegos (Trivia, Trivia en vivo) guardan sus datos en una planilla
+// separada de la del RSVP, para no mezclar todo en el mismo lugar.
+var GAMES_SPREADSHEET_ID = '1N-Kw1rjdHt2GOHJkXOXxAw8ri8N4S98akftNoALxIXo';
+
+function getRsvpSpreadsheet() {
+  return SpreadsheetApp.getActiveSpreadsheet();
+}
+
+function getGamesSpreadsheet() {
+  return SpreadsheetApp.openById(GAMES_SPREADSHEET_ID);
+}
+
+function getOrCreateSheet(ss, name, headerRow) {
   var sheet = ss.getSheetByName(name);
   if (!sheet) {
     sheet = ss.insertSheet(name);
@@ -14,7 +25,7 @@ function doPost(e) {
   var data = JSON.parse(e.postData.contents);
 
   if (data.tipo === 'trivia') {
-    var triviaSheet = getOrCreateSheet('Trivia', ['Fecha', 'Nombre', 'Puntaje']);
+    var triviaSheet = getOrCreateSheet(getGamesSpreadsheet(), 'Trivia', ['Fecha', 'Nombre', 'Puntaje']);
     triviaSheet.appendRow([new Date(), data.nombre, data.puntaje]);
   } else if (data.tipo === 'live-control') {
     setLiveState({
@@ -24,7 +35,7 @@ function doPost(e) {
       startedAt: data.startedAt
     });
   } else if (data.tipo === 'live-join') {
-    var playersSheet = getOrCreateSheet('LiveJugadores', ['Fecha', 'GameId', 'Nombre']);
+    var playersSheet = getOrCreateSheet(getGamesSpreadsheet(), 'LiveJugadores', ['Fecha', 'GameId', 'Nombre']);
     var already = playersSheet.getDataRange().getValues().slice(1).some(function (row) {
       return String(row[1]) === String(data.gameId) && row[2] === data.nombre;
     });
@@ -32,7 +43,7 @@ function doPost(e) {
       playersSheet.appendRow([new Date(), data.gameId, data.nombre]);
     }
   } else if (data.tipo === 'live-answer') {
-    var answersSheet = getOrCreateSheet('LiveRespuestas', [
+    var answersSheet = getOrCreateSheet(getGamesSpreadsheet(), 'LiveRespuestas', [
       'Fecha', 'GameId', 'PreguntaIndex', 'Nombre', 'RespuestaIndex', 'Correcta', 'Puntos'
     ]);
     var alreadyAnswered = answersSheet.getDataRange().getValues().slice(1).some(function (row) {
@@ -52,7 +63,7 @@ function doPost(e) {
       ]);
     }
   } else {
-    var rsvpSheet = getOrCreateSheet('RSVP', ['Fecha', 'Nombre', 'Apellido', 'Cantidad', 'Confirma', 'Comentario']);
+    var rsvpSheet = getOrCreateSheet(getRsvpSpreadsheet(), 'RSVP', ['Fecha', 'Nombre', 'Apellido', 'Cantidad', 'Confirma', 'Comentario']);
     rsvpSheet.appendRow([
       new Date(),
       data.nombre,
@@ -83,14 +94,14 @@ function setLiveState(state) {
 }
 
 function liveJoinedNames(gameId) {
-  var sheet = getOrCreateSheet('LiveJugadores', ['Fecha', 'GameId', 'Nombre']);
+  var sheet = getOrCreateSheet(getGamesSpreadsheet(), 'LiveJugadores', ['Fecha', 'GameId', 'Nombre']);
   return sheet.getDataRange().getValues().slice(1)
     .filter(function (row) { return String(row[1]) === String(gameId); })
     .map(function (row) { return row[2]; });
 }
 
 function liveAnswerRows(gameId) {
-  var sheet = getOrCreateSheet('LiveRespuestas', [
+  var sheet = getOrCreateSheet(getGamesSpreadsheet(), 'LiveRespuestas', [
     'Fecha', 'GameId', 'PreguntaIndex', 'Nombre', 'RespuestaIndex', 'Correcta', 'Puntos'
   ]);
   return sheet.getDataRange().getValues().slice(1)
@@ -142,7 +153,7 @@ function liveQuestionStatsData() {
 }
 
 function triviaLeaderboardData() {
-  var sheet = getOrCreateSheet('Trivia', ['Fecha', 'Nombre', 'Puntaje']);
+  var sheet = getOrCreateSheet(getGamesSpreadsheet(), 'Trivia', ['Fecha', 'Nombre', 'Puntaje']);
   var rows = sheet.getDataRange().getValues();
   var entries = [];
   // rows[0] is the header row.
