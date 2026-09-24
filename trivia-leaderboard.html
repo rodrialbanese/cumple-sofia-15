@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ranking — ¿Quién la conoce mejor?</title>
+    <link rel="icon" type="image/jpeg" href="assets/img/hero.jpg" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playball&family=Cormorant+Garamond:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/acuarela.css" />
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        padding: 3vh 4vw;
+        box-sizing: border-box;
+      }
+
+      .deco {
+        position: fixed;
+        width: 30vh;
+        height: 30vh;
+        object-fit: cover;
+        opacity: 0.35;
+        pointer-events: none;
+      }
+      .deco.tl {
+        top: 0;
+        left: 0;
+        -webkit-mask-image: radial-gradient(circle at 0% 0%, black 20%, transparent 58%);
+        mask-image: radial-gradient(circle at 0% 0%, black 20%, transparent 58%);
+      }
+      .deco.br {
+        bottom: 0;
+        right: 0;
+        -webkit-mask-image: radial-gradient(circle at 100% 100%, black 20%, transparent 58%);
+        mask-image: radial-gradient(circle at 100% 100%, black 20%, transparent 58%);
+      }
+
+      header {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        margin-bottom: 2.5vh;
+      }
+      .eyebrow {
+        font-size: 2vh;
+        letter-spacing: 0.5vh;
+        text-transform: uppercase;
+        color: var(--acento);
+        margin: 0 0 0.5vh;
+      }
+      h1.script {
+        font-size: 6.5vh;
+        line-height: 1;
+        margin: 0;
+        color: var(--texto);
+      }
+
+      .board {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        max-width: 900px;
+        display: flex;
+        flex-direction: column;
+        gap: 1.2vh;
+        overflow-y: auto;
+      }
+
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 2vh;
+        background: rgba(255, 255, 255, 0.55);
+        border: 1.5px solid var(--acento);
+        border-radius: 1.5vh;
+        padding: 1.4vh 2.2vh;
+      }
+      .row.first {
+        background: var(--acento);
+        border-color: var(--acento);
+      }
+      .row.first .rank,
+      .row.first .name,
+      .row.first .score {
+        color: #fff;
+      }
+
+      .rank {
+        font-family: var(--font-script);
+        font-weight: normal;
+        font-size: 4vh;
+        color: var(--acento);
+        width: 5vh;
+        text-align: center;
+        flex: none;
+      }
+      .name {
+        flex: 1;
+        font-size: 2.6vh;
+        font-weight: 600;
+        color: var(--texto);
+        text-align: left;
+        overflow-wrap: break-word;
+        word-break: break-word;
+        min-width: 0;
+      }
+      .score {
+        font-size: 2.6vh;
+        font-weight: 700;
+        color: var(--acento);
+        flex: none;
+      }
+
+      .empty {
+        position: relative;
+        z-index: 2;
+        color: var(--acento);
+        font-size: 2.4vh;
+        margin-top: 4vh;
+        text-align: center;
+      }
+
+      @media (max-aspect-ratio: 1/1) {
+        h1.script {
+          font-size: 5.2vh;
+        }
+        .rank {
+          font-size: 3.2vh;
+        }
+        .name,
+        .score {
+          font-size: 2.1vh;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <img class="deco tl" src="assets/img/acuarela-1.jpg" alt="" />
+    <img class="deco br" src="assets/img/acuarela-1.jpg" alt="" />
+
+    <header>
+      <p class="eyebrow">Mis XV · Sofi</p>
+      <h1 class="script">¿Quién la conoce mejor?</h1>
+    </header>
+
+    <div class="board" id="board"></div>
+    <p class="empty" id="emptyMsg" style="display: none">
+      Todavía nadie jugó — ¡escaneá el QR y sé el primero!
+    </p>
+
+    <script>
+      const GOOGLE_APPS_SCRIPT_URL =
+        "https://script.google.com/macros/s/AKfycbxODIdojFf_X3AllXpI5m7Dn4OPKWA2gBv_6fxo5mzck5ZPtlVPpNzznsgBbRGdxoVV/exec";
+      const REFRESH_MS = 8000;
+      const TOP_N = 10;
+
+      let jsonpCounter = 0;
+      function jsonp(url) {
+        return new Promise((resolve, reject) => {
+          const cbName = "triviaCb" + Date.now() + jsonpCounter++;
+          const script = document.createElement("script");
+          window[cbName] = (data) => {
+            resolve(data);
+            delete window[cbName];
+            script.remove();
+          };
+          script.onerror = () => {
+            reject(new Error("jsonp failed"));
+            delete window[cbName];
+            script.remove();
+          };
+          script.src = url + (url.includes("?") ? "&" : "?") + "callback=" + cbName;
+          document.body.appendChild(script);
+        });
+      }
+
+      function render(entries) {
+        const board = document.getElementById("board");
+        const emptyMsg = document.getElementById("emptyMsg");
+        if (!entries || entries.length === 0) {
+          board.innerHTML = "";
+          emptyMsg.style.display = "block";
+          return;
+        }
+        emptyMsg.style.display = "none";
+        board.innerHTML = entries
+          .slice(0, TOP_N)
+          .map((e, i) => {
+            return (
+              '<div class="row' +
+              (i === 0 ? " first" : "") +
+              '"><span class="rank">' +
+              (i + 1) +
+              '</span><span class="name">' +
+              e.nombre +
+              '</span><span class="score">' +
+              e.puntaje +
+              "</span></div>"
+            );
+          })
+          .join("");
+      }
+
+      function refresh() {
+        jsonp(GOOGLE_APPS_SCRIPT_URL + "?action=trivia-leaderboard")
+          .then((data) => render(data.entries))
+          .catch(() => {
+            // Si falla una actualización, dejamos el último ranking visible
+            // y reintentamos en el próximo ciclo.
+          });
+      }
+
+      refresh();
+      setInterval(refresh, REFRESH_MS);
+    </script>
+  </body>
+</html>

@@ -51,6 +51,40 @@
   margin: 0 0 22px;
 }
 
+.trivia-name {
+  margin: 0 0 30px;
+  text-align: left;
+}
+.trivia-name label {
+  display: block;
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: var(--acento);
+  margin: 0 0 6px;
+}
+.trivia-name input {
+  width: 100%;
+  font-family: var(--font-principal);
+  font-size: 17px;
+  padding: 10px 12px;
+  border: 1.5px solid var(--acento);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.6);
+  color: var(--texto);
+}
+.trivia-name .name-error {
+  display: none;
+  color: #8a3a3a;
+  font-size: 12.5px;
+  margin: 6px 0 0;
+}
+.trivia-name.error input {
+  border-color: #8a3a3a;
+}
+.trivia-name.error .name-error {
+  display: block;
+}
+
 .trivia-section {
   text-align: left;
   margin: 0 0 34px;

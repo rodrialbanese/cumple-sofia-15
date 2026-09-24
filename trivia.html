@@ -23,6 +23,12 @@
         Respondé lo que creas que dijo Sofi. Al final vas a ver tu puntaje.
       </p>
 
+      <div class="trivia-name" id="nameField">
+        <label for="playerName">Tu nombre</label>
+        <input type="text" id="playerName" placeholder="Escribí tu nombre" />
+        <p class="name-error">Escribí tu nombre para poder ver tu puntaje.</p>
+      </div>
+
       <section class="trivia-section">
         <h2>Sobre ella</h2>
         <p class="points-hint">2 puntos por acierto</p>
@@ -52,6 +58,9 @@
 
     <script src="assets/js/trivia-data.js"></script>
     <script>
+      const GOOGLE_APPS_SCRIPT_URL =
+        "https://script.google.com/macros/s/AKfycbxODIdojFf_X3AllXpI5m7Dn4OPKWA2gBv_6fxo5mzck5ZPtlVPpNzznsgBbRGdxoVV/exec";
+
       const MAX_SOBRE_ELLA = TRIVIA_SOBRE_ELLA.length * 2;
       const MAX_OTHERS = TRIVIA_ALGUNA_VEZ.length + TRIVIA_QUE_TEAM.length;
       const MAX_TOTAL = MAX_SOBRE_ELLA + MAX_OTHERS;
@@ -61,10 +70,19 @@
       answers.sobreElla = answers.sobreElla || new Array(TRIVIA_SOBRE_ELLA.length).fill(null);
       answers.algunaVez = answers.algunaVez || new Array(TRIVIA_ALGUNA_VEZ.length).fill(null);
       answers.queTeam = answers.queTeam || new Array(TRIVIA_QUE_TEAM.length).fill(null);
+      answers.name = answers.name || "";
+      answers.submitted = answers.submitted || false;
 
       function save() {
         localStorage.setItem(answersKey, JSON.stringify(answers));
       }
+
+      document.getElementById("playerName").value = answers.name;
+      document.getElementById("playerName").addEventListener("input", (e) => {
+        answers.name = e.target.value;
+        save();
+        document.getElementById("nameField").classList.remove("error");
+      });
 
       // --- Sobre ella: dropdowns ---
       const sobreEllaEl = document.getElementById("sobreElla");
@@ -196,10 +214,33 @@
       }
 
       document.getElementById("submitBtn").addEventListener("click", () => {
+        if (!answers.name.trim()) {
+          document.getElementById("nameField").classList.add("error");
+          document.getElementById("nameField").scrollIntoView({ behavior: "smooth", block: "center" });
+          return;
+        }
+
         const score = computeScore();
         document.getElementById("scoreBig").textContent = score;
         document.getElementById("scoreOf").textContent = "de " + MAX_TOTAL + " puntos";
         document.getElementById("resultScreen").classList.add("show");
+
+        if (!answers.submitted) {
+          answers.submitted = true;
+          save();
+          fetch(GOOGLE_APPS_SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors",
+            body: JSON.stringify({
+              tipo: "trivia",
+              nombre: answers.name.trim(),
+              puntaje: score,
+            }),
+          }).catch(() => {
+            // Si falla el envío, no bloqueamos al invitado — solo no va a
+            // aparecer en el ranking.
+          });
+        }
       });
       document.getElementById("closeResult").addEventListener("click", () => {
         document.getElementById("resultScreen").classList.remove("show");
