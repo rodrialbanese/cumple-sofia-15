@@ -1,8 +1,32 @@
 .bingo-wrap {
+  position: relative;
+  z-index: 2;
   max-width: 480px;
   margin: 0 auto;
   padding: 28px 18px 60px;
   text-align: center;
+}
+
+.bingo-deco {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  opacity: 0.45;
+  pointer-events: none;
+  z-index: 1;
+}
+.bingo-deco.tl {
+  top: 0;
+  left: 0;
+  -webkit-mask-image: radial-gradient(circle at 0% 0%, black 20%, transparent 55%);
+  mask-image: radial-gradient(circle at 0% 0%, black 20%, transparent 55%);
+}
+.bingo-deco.br {
+  bottom: 0;
+  right: 0;
+  -webkit-mask-image: radial-gradient(circle at 100% 100%, black 20%, transparent 55%);
+  mask-image: radial-gradient(circle at 100% 100%, black 20%, transparent 55%);
 }
 
 .bingo-wrap .eyebrow {
@@ -29,12 +53,13 @@
 
 .bingo-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 8px;
   margin-bottom: 20px;
 }
 
 .bingo-cell {
+  min-width: 0;
   aspect-ratio: 1;
   border: 1.5px solid var(--acento);
   border-radius: 10px;
@@ -53,6 +78,8 @@
   font-size: 12px;
   line-height: 1.2;
   font-weight: 600;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .bingo-cell.marked {
   background: var(--acento);
@@ -180,6 +207,9 @@
 .song-row span.title {
   font-size: 14px;
   line-height: 1.3;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  min-width: 0;
 }
 
 .host-actions {
@@ -236,10 +266,11 @@
 
 .verify-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 6px;
 }
 .verify-cell {
+  min-width: 0;
   aspect-ratio: 1;
   border-radius: 8px;
   border: 1.5px solid var(--acento);
@@ -254,6 +285,8 @@
   font-size: 10.5px;
   line-height: 1.15;
   font-weight: 600;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .verify-cell.played {
   background: var(--acento);
