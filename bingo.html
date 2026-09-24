@@ -101,7 +101,7 @@
         cardId = parseInt(localStorage.getItem("bingo-card-id"), 10);
       }
       if (!cardId) {
-        cardId = Math.floor(Math.random() * 100000) + 1;
+        cardId = Math.floor(Math.random() * 10000000) + 1;
       }
       localStorage.setItem("bingo-card-id", cardId);
       const url = new URL(location.href);
