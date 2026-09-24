@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bingo Musical — Verificador</title>
+    <link rel="icon" type="image/jpeg" href="assets/img/hero.jpg" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playball&family=Cormorant+Garamond:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/acuarela.css" />
+    <link rel="stylesheet" href="assets/css/bingo.css" />
+  </head>
+  <body>
+    <div class="bingo-wrap">
+      <p class="eyebrow">Mis XV · Sofi</p>
+      <h1 class="script">Verificador</h1>
+      <p class="bingo-rules" style="margin-bottom: 30px">
+        Uso del anfitrión: marcá cada canción a medida que suena, y cuando
+        alguien grite "¡bingo!" verificá su cartón acá abajo.
+      </p>
+
+      <section class="host-section">
+        <h2>1. Canciones sonadas</h2>
+        <p class="hint">Tocá una canción para marcarla como ya sonada</p>
+        <div class="song-list" id="songList"></div>
+        <div class="host-actions">
+          <button class="bingo-reset" id="resetSongs">
+            Reiniciar canciones sonadas
+          </button>
+        </div>
+      </section>
+
+      <section class="host-section">
+        <h2>2. Verificar cartón</h2>
+        <p class="hint">Ingresá el número de cartón del invitado</p>
+        <div class="verify-row">
+          <input
+            type="number"
+            id="cardInput"
+            placeholder="N.º"
+            min="1"
+          />
+          <button id="verifyBtn">Verificar</button>
+        </div>
+        <div id="verdict"></div>
+        <div class="verify-grid" id="verifyGrid"></div>
+      </section>
+    </div>
+
+    <script src="assets/js/bingo-songs.js"></script>
+    <script src="assets/js/bingo-core.js"></script>
+    <script>
+      const playedKey = "bingo-host-played";
+      let played = JSON.parse(localStorage.getItem(playedKey) || "[]");
+      if (played.length !== BINGO_SONGS.length) {
+        played = new Array(BINGO_SONGS.length).fill(false);
+      }
+
+      const songListEl = document.getElementById("songList");
+      function renderSongList() {
+        songListEl.innerHTML = "";
+        BINGO_SONGS.forEach((s, i) => {
+          const row = document.createElement("div");
+          row.className = "song-row" + (played[i] ? " played" : "");
+          row.innerHTML = '<span class="dot"></span><span class="title">' + s + "</span>";
+          row.addEventListener("click", () => {
+            played[i] = !played[i];
+            localStorage.setItem(playedKey, JSON.stringify(played));
+            renderSongList();
+            if (lastVerifiedId !== null) verify(lastVerifiedId);
+          });
+          songListEl.appendChild(row);
+        });
+      }
+      renderSongList();
+
+      document.getElementById("resetSongs").addEventListener("click", () => {
+        played = new Array(BINGO_SONGS.length).fill(false);
+        localStorage.setItem(playedKey, JSON.stringify(played));
+        renderSongList();
+        if (lastVerifiedId !== null) verify(lastVerifiedId);
+      });
+
+      const verdictEl = document.getElementById("verdict");
+      const verifyGridEl = document.getElementById("verifyGrid");
+      let lastVerifiedId = null;
+
+      function verify(cardId) {
+        lastVerifiedId = cardId;
+        const indices = bingoCardIndices(cardId, BINGO_SONGS.length);
+
+        let winCells = new Set();
+        let won = false;
+        for (const line of bingoLines()) {
+          if (line.every((pos) => played[indices[pos]])) {
+            won = true;
+            line.forEach((pos) => winCells.add(pos));
+          }
+        }
+
+        verdictEl.className = "verdict " + (won ? "valid" : "invalid");
+        verdictEl.textContent = won
+          ? "✅ ¡Línea válida! Cartón N.º " + String(cardId).padStart(3, "0")
+          : "❌ Todavía no completa ninguna línea (cartón N.º " +
+            String(cardId).padStart(3, "0") +
+            ")";
+
+        verifyGridEl.innerHTML = "";
+        indices.forEach((songIdx, pos) => {
+          const cell = document.createElement("div");
+          const isPlayed = played[songIdx];
+          cell.className =
+            "verify-cell" +
+            (isPlayed ? " played" : "") +
+            (winCells.has(pos) ? " win-line" : "");
+          cell.innerHTML = "<span>" + BINGO_SONGS[songIdx] + "</span>";
+          verifyGridEl.appendChild(cell);
+        });
+      }
+
+      document.getElementById("verifyBtn").addEventListener("click", () => {
+        const id = parseInt(document.getElementById("cardInput").value, 10);
+        if (id) verify(id);
+      });
+      document.getElementById("cardInput").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") document.getElementById("verifyBtn").click();
+      });
+    </script>
+  </body>
+</html>
