@@ -29,6 +29,7 @@
 
     <div class="bingo-banner" id="bingoBanner">
       <h2 class="script">¡Bingo!</h2>
+      <p class="bingo-banner-card-id" id="bingoBannerCardId">Cartón N.º —</p>
       <p>Avisale a la organización para confirmar tu premio.</p>
       <button id="closeBanner">Seguir jugando</button>
     </div>
@@ -75,6 +76,8 @@
         });
         if (won && !bingoShown) {
           bingoShown = true;
+          document.getElementById("bingoBannerCardId").textContent =
+            "Cartón N.º " + String(cardId).padStart(3, "0");
           banner.classList.add("show");
         }
       }

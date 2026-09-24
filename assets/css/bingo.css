@@ -55,7 +55,7 @@
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 8px;
-  margin-bottom: 20px;
+  margin-bottom: 36px;
 }
 
 .bingo-cell {
@@ -131,7 +131,18 @@
   font-weight: normal;
   font-size: 90px;
   color: #fff;
-  margin: 0 0 12px;
+  margin: 0 0 4px;
+}
+.bingo-banner-card-id {
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  border-radius: 999px;
+  padding: 6px 24px;
+  margin: 0 0 20px;
 }
 .bingo-banner p {
   color: var(--bg);
