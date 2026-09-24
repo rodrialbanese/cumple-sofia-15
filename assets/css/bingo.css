@@ -1,0 +1,124 @@
+.bingo-wrap {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 28px 18px 60px;
+  text-align: center;
+}
+
+.bingo-wrap .eyebrow {
+  font-family: var(--font-principal);
+  font-size: 14px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--acento);
+  margin: 0 0 4px;
+}
+
+.bingo-wrap h1.script {
+  font-size: 52px;
+  margin: 0 0 4px;
+  color: var(--texto);
+}
+
+.bingo-card-id {
+  font-size: 13px;
+  color: var(--acento);
+  letter-spacing: 1px;
+  margin: 0 0 22px;
+}
+
+.bingo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.bingo-cell {
+  aspect-ratio: 1;
+  border: 1.5px solid var(--acento);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 6px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+.bingo-cell span {
+  font-size: 12px;
+  line-height: 1.2;
+  font-weight: 600;
+}
+.bingo-cell.marked {
+  background: var(--acento);
+  transform: scale(0.97);
+}
+.bingo-cell.marked span {
+  color: #fff;
+}
+.bingo-cell.win {
+  box-shadow: 0 0 0 3px #c9a94f;
+}
+
+.bingo-rules {
+  font-size: 13px;
+  color: var(--acento);
+  margin: 0 0 24px;
+  line-height: 1.5;
+}
+
+.bingo-reset {
+  font-family: var(--font-principal);
+  font-size: 14px;
+  letter-spacing: 1px;
+  color: var(--acento);
+  background: none;
+  border: 1px solid var(--acento);
+  border-radius: 999px;
+  padding: 8px 22px;
+  cursor: pointer;
+}
+
+.bingo-banner {
+  position: fixed;
+  inset: 0;
+  background: rgba(61, 74, 58, 0.92);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 10;
+  text-align: center;
+  padding: 24px;
+}
+.bingo-banner.show {
+  display: flex;
+}
+.bingo-banner h2 {
+  font-family: var(--font-script);
+  font-weight: normal;
+  font-size: 90px;
+  color: #fff;
+  margin: 0 0 12px;
+}
+.bingo-banner p {
+  color: var(--bg);
+  font-size: 18px;
+  margin: 0 0 28px;
+}
+.bingo-banner button {
+  font-family: var(--font-principal);
+  font-size: 15px;
+  letter-spacing: 1px;
+  color: var(--texto);
+  background: var(--bg);
+  border: none;
+  border-radius: 999px;
+  padding: 10px 26px;
+  cursor: pointer;
+}

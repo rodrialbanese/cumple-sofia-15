@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bingo Musical — Mis XV Sofi</title>
+    <link rel="icon" type="image/jpeg" href="assets/img/hero.jpg" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playball&family=Cormorant+Garamond:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/acuarela.css" />
+    <link rel="stylesheet" href="assets/css/bingo.css" />
+  </head>
+  <body>
+    <!--
+      LISTA DE CANCIONES DE PRUEBA — reemplazar por la lista real antes de
+      generar los cartones definitivos (impresos y web).
+    -->
+    <script>
+      var BINGO_SONGS = [
+        "Despacito — Luis Fonsi ft. Daddy Yankee",
+        "Danza Kuduro — Don Omar ft. Lucenzo",
+        "La Bicicleta — Carlos Vives & Shakira",
+        "Chantaje — Shakira ft. Maluma",
+        "Gasolina — Daddy Yankee",
+        "Vivir Mi Vida — Marc Anthony",
+        "Mi Gente — J Balvin ft. Willy William",
+        "Felices los 4 — Maluma",
+        "Propuesta Indecente — Romeo Santos",
+        "Bailando — Enrique Iglesias",
+        "Ginza — J Balvin",
+        "Provenza — Karol G",
+        "TQG — Karol G & Shakira",
+        "Que Tire Pa Lante — Daddy Yankee",
+        "Hawái — Maluma",
+        "Con Calma — Daddy Yankee ft. Snow",
+        "Otro Trago — Sech ft. Darell",
+        "La Modelo — Ozuna ft. Cardi B",
+        "Adán y Eva — Paulo Londra",
+        "Amorfoda — Bad Bunny",
+        "Baila Baila Baila — Ozuna",
+        "El Perdón — Nicky Jam & Enrique Iglesias",
+        "Duele el Corazón — Enrique Iglesias ft. Wisin",
+        "Vente Pa' Ca — Ricky Martin ft. Maluma",
+        "La Rompe Corazones — Daddy Yankee ft. Ozuna",
+        "Loco — Enrique Iglesias ft. Romeo Santos",
+        "Tusa — Karol G & Nicki Minaj",
+        "Ella Quiere Beber — Anuel AA",
+        "Downtown — Anitta & J Balvin",
+        "Mi Niña — Los Ángeles Azules"
+      ];
+    </script>
+
+    <div class="bingo-wrap">
+      <p class="eyebrow">Mis XV · Sofi</p>
+      <h1 class="script">Bingo Musical</h1>
+      <p class="bingo-card-id" id="cardIdLabel">Cartón N.º —</p>
+      <div class="bingo-grid" id="grid"></div>
+      <p class="bingo-rules">
+        Marcá el casillero cuando suene tu canción.<br />¡Bingo al completar
+        una fila o columna!
+      </p>
+      <button class="bingo-reset" id="resetBtn">Reiniciar cartón</button>
+    </div>
+
+    <div class="bingo-banner" id="bingoBanner">
+      <h2 class="script">¡Bingo!</h2>
+      <p>Avisale a la organización para confirmar tu premio.</p>
+      <button id="closeBanner">Seguir jugando</button>
+    </div>
+
+    <script>
+      function mulberry32(seed) {
+        return function () {
+          seed |= 0;
+          seed = (seed + 0x6d2b79f5) | 0;
+          let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+          t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+      function shuffledIndices(n, rand) {
+        const arr = Array.from({ length: n }, (_, i) => i);
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(rand() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+      }
+      function cardForId(cardId, songs) {
+        const rand = mulberry32(cardId * 2654435761);
+        return shuffledIndices(songs.length, rand)
+          .slice(0, 16)
+          .map((i) => songs[i]);
+      }
+
+      const params = new URLSearchParams(location.search);
+      let cardId = parseInt(params.get("c"), 10);
+      if (!cardId) {
+        cardId = parseInt(localStorage.getItem("bingo-card-id"), 10);
+      }
+      if (!cardId) {
+        cardId = Math.floor(Math.random() * 100000) + 1;
+      }
+      localStorage.setItem("bingo-card-id", cardId);
+      const url = new URL(location.href);
+      url.searchParams.set("c", cardId);
+      history.replaceState(null, "", url);
+
+      document.getElementById("cardIdLabel").textContent =
+        "Cartón N.º " + String(cardId).padStart(3, "0");
+
+      const songs = cardForId(cardId, BINGO_SONGS);
+      const marksKey = "bingo-marks-" + cardId;
+      let marks = JSON.parse(localStorage.getItem(marksKey) || "[]");
+      if (marks.length !== 16) marks = new Array(16).fill(false);
+
+      const grid = document.getElementById("grid");
+      const banner = document.getElementById("bingoBanner");
+      let bingoShown = false;
+
+      function checkWin() {
+        const lines = [];
+        for (let r = 0; r < 4; r++)
+          lines.push([r * 4, r * 4 + 1, r * 4 + 2, r * 4 + 3]);
+        for (let c = 0; c < 4; c++) lines.push([c, c + 4, c + 8, c + 12]);
+        let winCells = new Set();
+        let won = false;
+        for (const line of lines) {
+          if (line.every((i) => marks[i])) {
+            won = true;
+            line.forEach((i) => winCells.add(i));
+          }
+        }
+        document.querySelectorAll(".bingo-cell").forEach((el, i) => {
+          el.classList.toggle("win", winCells.has(i));
+        });
+        if (won && !bingoShown) {
+          bingoShown = true;
+          banner.classList.add("show");
+        }
+      }
+
+      function render() {
+        grid.innerHTML = "";
+        songs.forEach((s, i) => {
+          const cell = document.createElement("div");
+          cell.className = "bingo-cell" + (marks[i] ? " marked" : "");
+          cell.innerHTML = "<span>" + s + "</span>";
+          cell.addEventListener("click", () => {
+            marks[i] = !marks[i];
+            localStorage.setItem(marksKey, JSON.stringify(marks));
+            render();
+          });
+          grid.appendChild(cell);
+        });
+        checkWin();
+      }
+
+      document.getElementById("resetBtn").addEventListener("click", () => {
+        marks = new Array(16).fill(false);
+        localStorage.setItem(marksKey, JSON.stringify(marks));
+        bingoShown = false;
+        banner.classList.remove("show");
+        render();
+      });
+      document.getElementById("closeBanner").addEventListener("click", () => {
+        banner.classList.remove("show");
+      });
+
+      render();
+    </script>
+  </body>
+</html>
