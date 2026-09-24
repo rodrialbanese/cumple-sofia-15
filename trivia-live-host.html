@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>¿Quién la conoce mejor? EN VIVO — Anfitrión</title>
+    <link rel="icon" type="image/jpeg" href="assets/img/hero.jpg" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playball&family=Cormorant+Garamond:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/acuarela.css" />
+    <link rel="stylesheet" href="assets/css/trivia-live.css" />
+  </head>
+  <body>
+    <img class="live-deco tl" src="assets/img/acuarela-1.jpg" alt="" />
+    <img class="live-deco br" src="assets/img/acuarela-1.jpg" alt="" />
+
+    <div class="live-header">
+      <p class="eyebrow">Mis XV · Sofi</p>
+      <h1 class="script">¿Quién la conoce mejor?</h1>
+    </div>
+
+    <div class="live-stage" id="stage"></div>
+    <div class="live-controls" id="controls"></div>
+
+    <script src="assets/js/trivia-data.js"></script>
+    <script src="assets/js/trivia-live-core.js"></script>
+    <script>
+      const API_DEFAULT =
+        "https://script.google.com/macros/s/AKfycbxODIdojFf_X3AllXpI5m7Dn4OPKWA2gBv_6fxo5mzck5ZPtlVPpNzznsgBbRGdxoVV/exec";
+      const API = new URLSearchParams(location.search).get("api") || API_DEFAULT;
+      const PLAY_URL_BASE = location.href.replace(/trivia-live-host\.html.*$/, "trivia-live-play.html");
+
+      const QUESTIONS = buildLiveQuestions();
+      const QR_SVG =
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35 35" shape-rendering="crispEdges"><path stroke="#3d4a3a" d="M1 1.5h7m1 0h2m1 0h3m2 0h2m1 0h1m1 0h1m1 0h1m2 0h7M1 2.5h1m5 0h1m1 0h2m2 0h2m2 0h2m3 0h3m2 0h1m5 0h1M1 3.5h1m1 0h3m1 0h1m2 0h1m2 0h1m6 0h2m1 0h1m1 0h1m1 0h1m1 0h3m1 0h1M1 4.5h1m1 0h3m1 0h1m1 0h3m1 0h1m1 0h4m1 0h1m2 0h2m2 0h1m1 0h3m1 0h1M1 5.5h1m1 0h3m1 0h1m3 0h2m1 0h2m2 0h3m4 0h1m1 0h1m1 0h3m1 0h1M1 6.5h1m5 0h1m3 0h5m4 0h1m4 0h1m1 0h1m5 0h1M1 7.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M9 8.5h2m1 0h2m1 0h1m2 0h3m2 0h2M1 9.5h1m1 0h2m1 0h3m8 0h2m3 0h3m2 0h1m2 0h1m1 0h2M2 10.5h2m4 0h1m1 0h1m1 0h2m3 0h1m2 0h1m1 0h1m1 0h1m2 0h2m1 0h4M5 11.5h1m1 0h1m1 0h1m1 0h1m3 0h1m1 0h3m3 0h2m1 0h5m1 0h2M3 12.5h2m5 0h1m3 0h4m2 0h1m5 0h3m1 0h1m1 0h1M1 13.5h4m2 0h2m1 0h4m2 0h1m1 0h1m6 0h2m2 0h2M1 14.5h3m4 0h2m1 0h2m1 0h1m2 0h2m1 0h3m2 0h1m2 0h1m1 0h1m1 0h1M1 15.5h1m2 0h2m1 0h2m1 0h1m1 0h1m1 0h1m1 0h2m1 0h3m5 0h3M1 16.5h4m1 0h1m1 0h1m1 0h4m1 0h1m1 0h1m4 0h2m2 0h4m1 0h1M1 17.5h3m1 0h1m1 0h1m2 0h2m2 0h3m3 0h4m1 0h3m1 0h3M1 18.5h2m2 0h2m2 0h2m1 0h1m3 0h1m1 0h1m2 0h2m1 0h4m1 0h2m2 0h1M1 19.5h2m2 0h3m2 0h1m2 0h4m4 0h3m3 0h3m1 0h2M1 20.5h2m1 0h2m2 0h1m3 0h1m1 0h3m1 0h2m1 0h1m1 0h5m1 0h1m2 0h2M1 21.5h1m1 0h1m3 0h3m2 0h1m5 0h2m1 0h2m1 0h1m5 0h3M1 22.5h2m1 0h3m1 0h2m1 0h1m1 0h1m2 0h1m1 0h7m2 0h1m2 0h1m2 0h1M5 23.5h3m1 0h2m1 0h1m1 0h2m1 0h1m1 0h1m2 0h1m1 0h2m1 0h1m1 0h1m1 0h3M2 24.5h3m12 0h1m2 0h1m4 0h1m1 0h1m1 0h2m1 0h1M1 25.5h1m2 0h1m2 0h4m1 0h3m1 0h3m4 0h8m2 0h1M9 26.5h2m3 0h1m1 0h2m1 0h2m3 0h2m3 0h2M1 27.5h7m1 0h1m2 0h1m1 0h1m4 0h2m2 0h3m1 0h1m1 0h1M1 28.5h1m5 0h1m1 0h1m4 0h4m1 0h4m1 0h2m3 0h3m1 0h1M1 29.5h1m1 0h3m1 0h1m2 0h2m2 0h2m2 0h1m2 0h9m1 0h2M1 30.5h1m1 0h3m1 0h1m1 0h3m1 0h2m6 0h4m3 0h1m1 0h1m2 0h1M1 31.5h1m1 0h3m1 0h1m1 0h1m1 0h1m3 0h1m2 0h1m4 0h6m2 0h1M1 32.5h1m5 0h1m2 0h4m1 0h4m4 0h3m1 0h3m3 0h1M1 33.5h7m1 0h1m1 0h1m1 0h2m1 0h4m2 0h1m6 0h3"/></svg>';
+
+      let local = { gameId: 0, phase: "idle", questionIndex: -1, startedAt: 0 };
+
+      function resetBtnHtml() {
+        return '<button class="live-btn-secondary" id="btnReset">Reiniciar partida</button>';
+      }
+
+      function bindControls(primaryLabel, primaryHandler, showReset) {
+        const controls = document.getElementById("controls");
+        controls.innerHTML =
+          '<button class="live-btn-primary" id="btnPrimary">' + primaryLabel + "</button>" +
+          (showReset !== false ? resetBtnHtml() : "");
+        document.getElementById("btnPrimary").addEventListener("click", primaryHandler);
+        const resetBtn = document.getElementById("btnReset");
+        if (resetBtn) resetBtn.addEventListener("click", actionReiniciar);
+      }
+
+      function postControl(state) {
+        local = state;
+        livePost(API, Object.assign({ tipo: "live-control" }, state));
+        render();
+      }
+
+      function actionReiniciar() {
+        if (!confirm("¿Reiniciar la partida? Se pierde el ranking actual.")) return;
+        postControl({ gameId: Date.now(), phase: "lobby", questionIndex: -1, startedAt: 0 });
+      }
+      function actionEmpezar() {
+        postControl({ gameId: local.gameId, phase: "question", questionIndex: 0, startedAt: Date.now() });
+      }
+      function actionRevelar() {
+        postControl({ gameId: local.gameId, phase: "reveal", questionIndex: local.questionIndex, startedAt: local.startedAt });
+      }
+      function actionSiguiente() {
+        const next = local.questionIndex + 1;
+        if (next >= QUESTIONS.length) {
+          postControl({ gameId: local.gameId, phase: "finished", questionIndex: local.questionIndex, startedAt: local.startedAt });
+        } else {
+          postControl({ gameId: local.gameId, phase: "question", questionIndex: next, startedAt: Date.now() });
+        }
+      }
+
+      function render() {
+        const stage = document.getElementById("stage");
+        const q = QUESTIONS[local.questionIndex];
+
+        if (local.phase === "idle" || local.phase === "lobby") {
+          stage.innerHTML =
+            '<div class="live-qr-card">' + QR_SVG + "</div>" +
+            '<p class="live-joined-count" id="joinedCount">Esperando jugadores…</p>' +
+            '<div class="live-joined" id="joinedList"></div>';
+          bindControls("Empezar juego", actionEmpezar);
+        } else if (local.phase === "question") {
+          const cols = q.options.length === 4 ? "" : " two";
+          stage.innerHTML =
+            '<p class="live-question-text">' + q.question + "</p>" +
+            '<div class="live-options' + cols + '">' +
+            q.options
+              .map(function (opt, i) {
+                const style = LIVE_OPTION_STYLES[i];
+                return (
+                  '<div class="live-option" style="background:' + style.bg + '">' +
+                  '<span class="shape">' + style.shape + "</span>" + opt +
+                  "</div>"
+                );
+              })
+              .join("") +
+            "</div>" +
+            '<p class="live-answer-count" id="answerCountEl">0 respuestas</p>';
+          bindControls("Mostrar respuesta", actionRevelar);
+        } else if (local.phase === "reveal") {
+          const isLast = local.questionIndex >= QUESTIONS.length - 1;
+          const cols = q.options.length === 4 ? "" : " two";
+          stage.innerHTML =
+            '<p class="live-question-text">' + q.question + "</p>" +
+            '<div class="live-options' + cols + '">' +
+            q.options
+              .map(function (opt, i) {
+                const style = LIVE_OPTION_STYLES[i];
+                const isCorrect = i === q.correctIndex;
+                return (
+                  '<div class="live-option' + (isCorrect ? " correct-answer" : " wrong-answer") + '" style="background:' + style.bg + '">' +
+                  '<span class="shape">' + style.shape + "</span>" + opt +
+                  "</div>"
+                );
+              })
+              .join("") +
+            "</div>" +
+            '<div class="live-bars" id="revealBars" style="margin-top: 3vh"></div>';
+          bindControls(isLast ? "Ver resultado final" : "Siguiente pregunta", actionSiguiente);
+          refreshRevealExtras(q);
+        } else if (local.phase === "finished") {
+          stage.innerHTML =
+            '<p class="live-question-text">¡Resultado final!</p>' +
+            '<div class="live-board" id="finalBoard"></div>';
+          bindControls("Nueva partida", actionReiniciar, false);
+          refreshFinalBoard();
+        }
+      }
+
+      function renderJoined(names) {
+        const listEl = document.getElementById("joinedList");
+        const countEl = document.getElementById("joinedCount");
+        if (!listEl || !countEl) return;
+        countEl.textContent = names.length + (names.length === 1 ? " jugador listo" : " jugadores listos");
+        listEl.innerHTML = names.map(function (n) { return '<span class="live-chip">' + n + "</span>"; }).join("");
+      }
+
+      function renderBoard(containerId, entries) {
+        const el = document.getElementById(containerId);
+        if (!el) return;
+        if (entries.length === 0) {
+          el.innerHTML = '<p style="text-align:center;color:var(--acento)">Todavía nadie sumó puntos.</p>';
+          return;
+        }
+        el.innerHTML = entries
+          .slice(0, 10)
+          .map(function (e, i) {
+            return (
+              '<div class="live-board-row' + (i === 0 ? " first" : "") + '">' +
+              '<span class="live-board-rank">' + (i + 1) + "</span>" +
+              '<span class="live-board-name">' + e.nombre + "</span>" +
+              '<span class="live-board-points">' + e.puntos + "</span>" +
+              "</div>"
+            );
+          })
+          .join("");
+      }
+
+      function refreshRevealExtras(q) {
+        liveJsonp(API + "?action=live-question-stats").then(function (data) {
+          const bars = document.getElementById("revealBars");
+          if (!bars) return;
+          bars.innerHTML = q.options
+            .map(function (opt, i) {
+              const style = LIVE_OPTION_STYLES[i];
+              const count = data.counts[i] || 0;
+              const pct = data.total ? Math.round((count / data.total) * 100) : 0;
+              return (
+                '<div class="live-bar-row">' +
+                '<span class="live-bar-shape">' + style.shape + "</span>" +
+                '<span class="live-bar-label">' + opt + "</span>" +
+                '<span class="live-bar-track"><span class="live-bar-fill" style="width:' + pct + "%;background:" + style.bg + '"></span></span>' +
+                '<span class="live-bar-count">' + count + "</span>" +
+                "</div>"
+              );
+            })
+            .join("");
+        });
+        liveJsonp(API + "?action=live-leaderboard").then(function (data) {
+          const bars = document.getElementById("revealBars");
+          if (!bars) return;
+          bars.insertAdjacentHTML(
+            "afterend",
+            '<div class="live-board" id="revealBoard" style="margin-top:2.5vh"></div>'
+          );
+          renderBoard("revealBoard", data.entries);
+        });
+      }
+
+      function refreshFinalBoard() {
+        liveJsonp(API + "?action=live-leaderboard").then(function (data) {
+          renderBoard("finalBoard", data.entries);
+        });
+      }
+
+      function poll() {
+        liveJsonp(API + "?action=live-state").then(function (data) {
+          renderJoined(data.joined || []);
+          const countEl = document.getElementById("answerCountEl");
+          if (countEl) {
+            countEl.textContent =
+              data.answerCount + (data.answerCount === 1 ? " respuesta" : " respuestas");
+          }
+        });
+      }
+
+      // Al cargar, sincronizamos con el estado real del servidor (por si
+      // recargamos la página a mitad de partida) en vez de asumir "idle".
+      liveJsonp(API + "?action=live-state").then(function (data) {
+        local = {
+          gameId: data.gameId,
+          phase: data.phase,
+          questionIndex: data.questionIndex,
+          startedAt: data.startedAt,
+        };
+        render();
+      });
+
+      setInterval(poll, 2000);
+    </script>
+  </body>
+</html>

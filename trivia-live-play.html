@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>¿Quién la conoce mejor? EN VIVO — Mis XV Sofi</title>
+    <link rel="icon" type="image/jpeg" href="assets/img/hero.jpg" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playball&family=Cormorant+Garamond:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/acuarela.css" />
+    <link rel="stylesheet" href="assets/css/trivia-live.css" />
+  </head>
+  <body>
+    <img class="live-deco tl" src="assets/img/acuarela-1.jpg" alt="" />
+    <img class="live-deco br" src="assets/img/acuarela-1.jpg" alt="" />
+
+    <div class="player-wrap">
+      <p class="eyebrow">Mis XV · Sofi</p>
+      <h1 class="script">¿Quién la conoce mejor?</h1>
+      <div id="app"></div>
+    </div>
+
+    <script src="assets/js/trivia-data.js"></script>
+    <script src="assets/js/trivia-live-core.js"></script>
+    <script>
+      const API_DEFAULT =
+        "https://script.google.com/macros/s/AKfycbxODIdojFf_X3AllXpI5m7Dn4OPKWA2gBv_6fxo5mzck5ZPtlVPpNzznsgBbRGdxoVV/exec";
+      const API = new URLSearchParams(location.search).get("api") || API_DEFAULT;
+
+      const QUESTIONS = buildLiveQuestions();
+      const app = document.getElementById("app");
+
+      let playerName = localStorage.getItem("trivia-live-name") || "";
+      let joinedGameId = null;
+      // Lo último que contestamos, para no repetir mientras esperamos el reveal.
+      let answered = JSON.parse(localStorage.getItem("trivia-live-answered") || "null");
+
+      function saveAnswered(a) {
+        answered = a;
+        localStorage.setItem("trivia-live-answered", JSON.stringify(a));
+      }
+
+      function renderJoinForm() {
+        app.innerHTML =
+          '<div class="player-name-field">' +
+          '<label for="nameInput">Tu nombre</label>' +
+          '<input type="text" id="nameInput" placeholder="Escribí tu nombre" />' +
+          "</div>" +
+          '<button class="player-btn" id="joinBtn">Unirme al juego</button>';
+        document.getElementById("joinBtn").addEventListener("click", function () {
+          const val = document.getElementById("nameInput").value.trim();
+          if (!val) return;
+          playerName = val;
+          localStorage.setItem("trivia-live-name", playerName);
+          renderWaiting();
+        });
+      }
+
+      function renderWaiting(msg) {
+        app.innerHTML = '<p class="player-waiting">' + (msg || "Ya estás adentro.<br>Esperando que arranque el juego…") + "</p>";
+      }
+
+      function ensureJoined(gameId) {
+        if (joinedGameId === gameId) return;
+        joinedGameId = gameId;
+        livePost(API, { tipo: "live-join", gameId: gameId, nombre: playerName });
+      }
+
+      function renderQuestion(state, q) {
+        const cols = q.options.length === 4 ? "" : " two";
+        app.innerHTML =
+          '<p class="player-question">' + q.question + "</p>" +
+          '<div class="player-options">' +
+          q.options
+            .map(function (opt, i) {
+              const style = LIVE_OPTION_STYLES[i];
+              return (
+                '<button class="player-option" style="background:' + style.bg + '" data-i="' + i + '">' +
+                '<span class="shape">' + style.shape + "</span>" + opt +
+                "</button>"
+              );
+            })
+            .join("") +
+          "</div>";
+        Array.prototype.forEach.call(document.querySelectorAll(".player-option"), function (btn) {
+          btn.addEventListener("click", function () {
+            const i = parseInt(btn.getAttribute("data-i"), 10);
+            submitAnswer(state, q, i);
+          });
+        });
+      }
+
+      function submitAnswer(state, q, pickedIndex) {
+        Array.prototype.forEach.call(document.querySelectorAll(".player-option"), function (btn) {
+          btn.disabled = true;
+        });
+        const elapsed = Date.now() - state.startedAt;
+        const correct = pickedIndex === q.correctIndex;
+        const points = liveComputePoints(correct, elapsed);
+        saveAnswered({
+          gameId: state.gameId,
+          questionIndex: state.questionIndex,
+          pickedIndex: pickedIndex,
+          correct: correct,
+          points: points,
+        });
+        livePost(API, {
+          tipo: "live-answer",
+          gameId: state.gameId,
+          questionIndex: state.questionIndex,
+          nombre: playerName,
+          respuestaIndex: pickedIndex,
+          correcta: correct,
+          puntos: points,
+        });
+        renderWaiting("¡Enviado!<br>Esperando a los demás…");
+      }
+
+      function renderReveal(state, q) {
+        const hasAnswered = answered && answered.gameId === state.gameId && answered.questionIndex === state.questionIndex;
+        const correct = hasAnswered && answered.correct;
+        const points = hasAnswered ? answered.points : 0;
+
+        app.innerHTML =
+          '<p class="player-reveal-icon ' + (correct ? "ok" : "no") + '">' + (correct ? "✓" : "✗") + "</p>" +
+          '<p class="player-reveal-points">+' + points + "</p>" +
+          '<p class="player-reveal-total" id="revealTotal">Calculando puntaje total…</p>';
+
+        liveJsonp(API + "?action=live-leaderboard").then(function (data) {
+          const entries = data.entries || [];
+          const idx = entries.findIndex(function (e) { return e.nombre === playerName; });
+          const total = idx >= 0 ? entries[idx].puntos : 0;
+          const rank = idx >= 0 ? idx + 1 : "-";
+          const totalEl = document.getElementById("revealTotal");
+          if (totalEl) {
+            totalEl.textContent = "Puntaje total: " + total + " · Puesto N.º " + rank;
+          }
+        });
+      }
+
+      function renderFinished() {
+        app.innerHTML = '<p class="player-waiting" id="finalMsg">Calculando resultado final…</p>';
+        liveJsonp(API + "?action=live-leaderboard").then(function (data) {
+          const entries = data.entries || [];
+          const idx = entries.findIndex(function (e) { return e.nombre === playerName; });
+          const el = document.getElementById("finalMsg");
+          if (!el) return;
+          if (idx === 0) {
+            el.innerHTML = "🏆 ¡Ganaste!<br>" + entries[0].puntos + " puntos";
+          } else if (idx >= 0) {
+            el.innerHTML = "Terminaste en el puesto N.º " + (idx + 1) + "<br>" + entries[idx].puntos + " puntos";
+          } else {
+            el.innerHTML = "¡Juego terminado!";
+          }
+        });
+      }
+
+      function tick() {
+        if (!playerName) return; // todavía no se unió
+        liveJsonp(API + "?action=live-state").then(function (state) {
+          ensureJoined(state.gameId);
+
+          if (state.phase === "idle" || state.phase === "lobby") {
+            renderWaiting();
+            return;
+          }
+
+          const q = QUESTIONS[state.questionIndex];
+          const hasAnsweredThis = answered && answered.gameId === state.gameId && answered.questionIndex === state.questionIndex;
+
+          if (state.phase === "question") {
+            if (hasAnsweredThis) {
+              renderWaiting("¡Enviado!<br>Esperando a los demás…");
+            } else {
+              renderQuestion(state, q);
+            }
+          } else if (state.phase === "reveal") {
+            renderReveal(state, q);
+          } else if (state.phase === "finished") {
+            renderFinished();
+          }
+        });
+      }
+
+      if (!playerName) {
+        renderJoinForm();
+      } else {
+        renderWaiting();
+      }
+      tick();
+      setInterval(tick, 1800);
+    </script>
+  </body>
+</html>

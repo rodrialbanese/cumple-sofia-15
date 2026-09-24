@@ -1,0 +1,436 @@
+html,
+body {
+  height: 100%;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.live-deco {
+  position: fixed;
+  width: 26vh;
+  height: 26vh;
+  object-fit: cover;
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 0;
+}
+.live-deco.tl {
+  top: 0;
+  left: 0;
+  -webkit-mask-image: radial-gradient(circle at 0% 0%, black 20%, transparent 58%);
+  mask-image: radial-gradient(circle at 0% 0%, black 20%, transparent 58%);
+}
+.live-deco.br {
+  bottom: 0;
+  right: 0;
+  -webkit-mask-image: radial-gradient(circle at 100% 100%, black 20%, transparent 58%);
+  mask-image: radial-gradient(circle at 100% 100%, black 20%, transparent 58%);
+}
+
+.live-header {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 2vh 4vw 1vh;
+  flex: none;
+}
+.live-header .eyebrow {
+  font-size: 2vh;
+  letter-spacing: 0.5vh;
+  text-transform: uppercase;
+  color: var(--acento);
+  margin: 0 0 0.5vh;
+}
+.live-header h1.script {
+  font-size: 5.5vh;
+  line-height: 1;
+  margin: 0;
+  color: var(--texto);
+}
+
+.live-stage {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1vh 4vw;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* Lobby */
+.live-qr-card {
+  background: #fff;
+  border: 2px solid var(--acento);
+  border-radius: 2vh;
+  padding: 2vh;
+  display: inline-block;
+  margin-bottom: 2vh;
+}
+.live-qr-card svg {
+  display: block;
+  width: 22vh;
+  height: 22vh;
+}
+.live-joined {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1vh;
+  justify-content: center;
+  max-width: 900px;
+  max-height: 20vh;
+  overflow-y: auto;
+}
+.live-chip {
+  background: rgba(111, 138, 104, 0.18);
+  border: 1px solid var(--acento);
+  border-radius: 999px;
+  padding: 0.6vh 1.6vh;
+  font-size: 2vh;
+  color: var(--texto);
+}
+.live-joined-count {
+  font-size: 2.2vh;
+  color: var(--acento);
+  margin: 1.5vh 0 1vh;
+}
+
+/* Question */
+.live-question-text {
+  font-family: var(--font-script);
+  font-weight: normal;
+  font-size: 5vh;
+  color: var(--texto);
+  text-align: center;
+  margin: 0 0 3vh;
+  max-width: 1100px;
+}
+.live-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5vh;
+  width: 100%;
+  max-width: 1100px;
+}
+.live-options.two {
+  grid-template-columns: 1fr 1fr;
+}
+.live-option {
+  border: none;
+  border-radius: 1.5vh;
+  padding: 2.5vh 2vh;
+  font-family: var(--font-principal);
+  font-size: 2.6vh;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 1.4vh;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+}
+.live-option .shape {
+  font-size: 2.2vh;
+  flex: none;
+}
+.live-option:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+.live-option.picked {
+  box-shadow: 0 0 0 0.6vh #fff inset;
+}
+.live-option.correct-answer {
+  box-shadow: 0 0 0 0.6vh #2e5c2e inset;
+}
+.live-option.wrong-answer {
+  opacity: 0.4;
+}
+
+.live-answer-count {
+  margin-top: 2.5vh;
+  font-size: 2.2vh;
+  color: var(--acento);
+}
+
+/* Reveal */
+.live-reveal-icon {
+  font-size: 8vh;
+  margin: 0 0 1vh;
+}
+.live-reveal-icon.ok {
+  color: var(--acento);
+}
+.live-reveal-icon.no {
+  color: #8a3a3a;
+}
+.live-reveal-points {
+  font-family: var(--font-script);
+  font-weight: normal;
+  font-size: 6vh;
+  color: var(--texto);
+  margin: 0 0 1vh;
+}
+.live-reveal-total {
+  font-size: 2.4vh;
+  color: var(--acento);
+  margin: 0 0 3vh;
+}
+
+.live-bars {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  gap: 1vh;
+}
+.live-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 1.5vh;
+}
+.live-bar-shape {
+  font-size: 2vh;
+  width: 3vh;
+  flex: none;
+  text-align: center;
+}
+.live-bar-track {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 999px;
+  height: 3.2vh;
+  overflow: hidden;
+}
+.live-bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+.live-bar-label {
+  font-size: 1.8vh;
+  color: var(--texto);
+  min-width: 8vh;
+  text-align: left;
+  overflow-wrap: break-word;
+}
+.live-bar-count {
+  font-size: 1.8vh;
+  color: var(--acento);
+  width: 3vh;
+  text-align: right;
+  flex: none;
+}
+
+/* Leaderboard (mini + final) */
+.live-board {
+  width: 100%;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8vh;
+  overflow-y: auto;
+  max-height: 60vh;
+}
+.live-board-row {
+  display: flex;
+  align-items: center;
+  gap: 1.4vh;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1.5px solid var(--acento);
+  border-radius: 1.2vh;
+  padding: 1vh 1.8vh;
+}
+.live-board-row.first {
+  background: var(--acento);
+  border-color: var(--acento);
+}
+.live-board-row.first .live-board-rank,
+.live-board-row.first .live-board-name,
+.live-board-row.first .live-board-points {
+  color: #fff;
+}
+.live-board-rank {
+  font-family: var(--font-script);
+  font-weight: normal;
+  font-size: 3vh;
+  color: var(--acento);
+  width: 4vh;
+  text-align: center;
+  flex: none;
+}
+.live-board-name {
+  flex: 1;
+  font-size: 2.2vh;
+  font-weight: 600;
+  color: var(--texto);
+  overflow-wrap: break-word;
+  min-width: 0;
+}
+.live-board-points {
+  font-size: 2.2vh;
+  font-weight: 700;
+  color: var(--acento);
+  flex: none;
+}
+
+/* Controls (host only) */
+.live-controls {
+  position: relative;
+  z-index: 2;
+  flex: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2vh;
+  padding: 1.5vh 4vw 2vh;
+}
+.live-btn-primary {
+  font-family: var(--font-principal);
+  font-size: 2.2vh;
+  letter-spacing: 0.05vh;
+  color: #fff;
+  background: var(--acento);
+  border: none;
+  border-radius: 999px;
+  padding: 1.4vh 4vh;
+  cursor: pointer;
+}
+.live-btn-secondary {
+  font-family: var(--font-principal);
+  font-size: 1.8vh;
+  color: var(--acento);
+  background: none;
+  border: 1px solid var(--acento);
+  border-radius: 999px;
+  padding: 1.2vh 3vh;
+  cursor: pointer;
+}
+
+/* Player page specifics */
+.player-wrap {
+  position: relative;
+  z-index: 2;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 24px 16px 40px;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+.player-name-field {
+  text-align: left;
+  margin: 20px 0;
+}
+.player-name-field label {
+  display: block;
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: var(--acento);
+  margin: 0 0 6px;
+}
+.player-name-field input {
+  width: 100%;
+  font-family: var(--font-principal);
+  font-size: 17px;
+  padding: 10px 12px;
+  border: 1.5px solid var(--acento);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.6);
+  color: var(--texto);
+  box-sizing: border-box;
+}
+.player-btn {
+  font-family: var(--font-principal);
+  font-size: 16px;
+  letter-spacing: 1px;
+  color: #fff;
+  background: var(--acento);
+  border: none;
+  border-radius: 999px;
+  padding: 12px 28px;
+  cursor: pointer;
+  width: 100%;
+}
+.player-waiting {
+  font-size: 16px;
+  color: var(--acento);
+  margin-top: 40px;
+  line-height: 1.6;
+}
+.player-question {
+  font-family: var(--font-script);
+  font-weight: normal;
+  font-size: 30px;
+  color: var(--texto);
+  margin: 10px 0 20px;
+}
+.player-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.player-option {
+  min-width: 0;
+  border: none;
+  border-radius: 12px;
+  padding: 22px 10px;
+  font-family: var(--font-principal);
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.player-option .shape {
+  font-size: 20px;
+}
+.player-option:disabled {
+  opacity: 0.5;
+}
+.player-locked-msg {
+  margin-top: 24px;
+  font-size: 15px;
+  color: var(--acento);
+}
+.player-reveal-icon {
+  font-size: 60px;
+  margin: 10px 0;
+}
+.player-reveal-icon.ok {
+  color: var(--acento);
+}
+.player-reveal-icon.no {
+  color: #8a3a3a;
+}
+.player-reveal-points {
+  font-family: var(--font-script);
+  font-weight: normal;
+  font-size: 44px;
+  color: var(--texto);
+  margin: 0 0 6px;
+}
+.player-reveal-total {
+  font-size: 15px;
+  color: var(--acento);
+  margin-bottom: 6px;
+}
+.player-reveal-rank {
+  font-size: 14px;
+  color: var(--texto);
+}

@@ -16,6 +16,41 @@ function doPost(e) {
   if (data.tipo === 'trivia') {
     var triviaSheet = getOrCreateSheet('Trivia', ['Fecha', 'Nombre', 'Puntaje']);
     triviaSheet.appendRow([new Date(), data.nombre, data.puntaje]);
+  } else if (data.tipo === 'live-control') {
+    setLiveState({
+      gameId: data.gameId,
+      phase: data.phase,
+      questionIndex: data.questionIndex,
+      startedAt: data.startedAt
+    });
+  } else if (data.tipo === 'live-join') {
+    var playersSheet = getOrCreateSheet('LiveJugadores', ['Fecha', 'GameId', 'Nombre']);
+    var already = playersSheet.getDataRange().getValues().slice(1).some(function (row) {
+      return String(row[1]) === String(data.gameId) && row[2] === data.nombre;
+    });
+    if (!already) {
+      playersSheet.appendRow([new Date(), data.gameId, data.nombre]);
+    }
+  } else if (data.tipo === 'live-answer') {
+    var answersSheet = getOrCreateSheet('LiveRespuestas', [
+      'Fecha', 'GameId', 'PreguntaIndex', 'Nombre', 'RespuestaIndex', 'Correcta', 'Puntos'
+    ]);
+    var alreadyAnswered = answersSheet.getDataRange().getValues().slice(1).some(function (row) {
+      return String(row[1]) === String(data.gameId) &&
+        Number(row[2]) === Number(data.questionIndex) &&
+        row[3] === data.nombre;
+    });
+    if (!alreadyAnswered) {
+      answersSheet.appendRow([
+        new Date(),
+        data.gameId,
+        data.questionIndex,
+        data.nombre,
+        data.respuestaIndex,
+        data.correcta,
+        data.puntos
+      ]);
+    }
   } else {
     var rsvpSheet = getOrCreateSheet('RSVP', ['Fecha', 'Nombre', 'Apellido', 'Cantidad', 'Confirma', 'Comentario']);
     rsvpSheet.appendRow([
@@ -31,6 +66,79 @@ function doPost(e) {
   return ContentService
     .createTextOutput(JSON.stringify({ ok: true }))
     .setMimeType(ContentService.MimeType.JSON);
+}
+
+// ---- Trivia en vivo (estilo Kahoot) ----
+
+function getLiveState() {
+  var raw = PropertiesService.getScriptProperties().getProperty('liveState');
+  if (!raw) {
+    return { gameId: 0, phase: 'idle', questionIndex: -1, startedAt: 0 };
+  }
+  return JSON.parse(raw);
+}
+
+function setLiveState(state) {
+  PropertiesService.getScriptProperties().setProperty('liveState', JSON.stringify(state));
+}
+
+function liveJoinedNames(gameId) {
+  var sheet = getOrCreateSheet('LiveJugadores', ['Fecha', 'GameId', 'Nombre']);
+  return sheet.getDataRange().getValues().slice(1)
+    .filter(function (row) { return String(row[1]) === String(gameId); })
+    .map(function (row) { return row[2]; });
+}
+
+function liveAnswerRows(gameId) {
+  var sheet = getOrCreateSheet('LiveRespuestas', [
+    'Fecha', 'GameId', 'PreguntaIndex', 'Nombre', 'RespuestaIndex', 'Correcta', 'Puntos'
+  ]);
+  return sheet.getDataRange().getValues().slice(1)
+    .filter(function (row) { return String(row[1]) === String(gameId); });
+}
+
+function liveStateData() {
+  var state = getLiveState();
+  var answerCount = liveAnswerRows(state.gameId).filter(function (row) {
+    return Number(row[2]) === Number(state.questionIndex);
+  }).length;
+  return {
+    gameId: state.gameId,
+    phase: state.phase,
+    questionIndex: state.questionIndex,
+    startedAt: state.startedAt,
+    joined: liveJoinedNames(state.gameId),
+    answerCount: answerCount
+  };
+}
+
+function liveLeaderboardData() {
+  var state = getLiveState();
+  var rows = liveAnswerRows(state.gameId);
+  var totals = {};
+  rows.forEach(function (row) {
+    var nombre = row[3];
+    var puntos = Number(row[6]) || 0;
+    if (!totals[nombre]) totals[nombre] = { nombre: nombre, puntos: 0, respondidas: 0 };
+    totals[nombre].puntos += puntos;
+    totals[nombre].respondidas += 1;
+  });
+  var entries = Object.keys(totals).map(function (k) { return totals[k]; });
+  entries.sort(function (a, b) { return b.puntos - a.puntos; });
+  return entries;
+}
+
+function liveQuestionStatsData() {
+  var state = getLiveState();
+  var rows = liveAnswerRows(state.gameId).filter(function (row) {
+    return Number(row[2]) === Number(state.questionIndex);
+  });
+  var counts = [0, 0, 0, 0];
+  rows.forEach(function (row) {
+    var idx = Number(row[4]);
+    if (idx >= 0 && idx < counts.length) counts[idx]++;
+  });
+  return { counts: counts, total: rows.length };
 }
 
 function triviaLeaderboardData() {
@@ -62,6 +170,12 @@ function doGet(e) {
 
   if (e.parameter.action === 'trivia-leaderboard') {
     payload = { ok: true, entries: triviaLeaderboardData() };
+  } else if (e.parameter.action === 'live-state') {
+    payload = Object.assign({ ok: true }, liveStateData());
+  } else if (e.parameter.action === 'live-leaderboard') {
+    payload = { ok: true, entries: liveLeaderboardData() };
+  } else if (e.parameter.action === 'live-question-stats') {
+    payload = Object.assign({ ok: true }, liveQuestionStatsData());
   }
 
   var json = JSON.stringify(payload);
