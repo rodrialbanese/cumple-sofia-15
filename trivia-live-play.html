@@ -205,6 +205,14 @@
         });
       }
 
+      // tick() corre cada 1.8s mientras dure cualquier fase — sin esto,
+      // "reveal" y "finished" se volvían a dibujar (y a pedir el ranking
+      // de nuevo) en cada ciclo, reiniciando el "Calculando..." antes de
+      // que llegara la respuesta anterior. Solo renderizamos una vez por
+      // pregunta/partida; los ciclos siguientes no hacen nada si ya
+      // mostramos esa misma pantalla.
+      let lastRenderedKey = null;
+
       function tick() {
         if (!playerName) return; // todavía no se unió
         liveJsonp(API + "?action=live-state").then(function (state) {
@@ -222,12 +230,24 @@
             if (hasAnsweredThis) {
               renderWaiting("¡Enviado!<br>Esperando a los demás…");
             } else {
-              renderQuestion(state, q);
+              const key = "question:" + state.gameId + ":" + state.questionIndex;
+              if (lastRenderedKey !== key) {
+                lastRenderedKey = key;
+                renderQuestion(state, q);
+              }
             }
           } else if (state.phase === "reveal") {
-            renderReveal(state, q);
+            const key = "reveal:" + state.gameId + ":" + state.questionIndex;
+            if (lastRenderedKey !== key) {
+              lastRenderedKey = key;
+              renderReveal(state, q);
+            }
           } else if (state.phase === "finished") {
-            renderFinished();
+            const key = "finished:" + state.gameId;
+            if (lastRenderedKey !== key) {
+              lastRenderedKey = key;
+              renderFinished();
+            }
           }
         });
       }
@@ -239,7 +259,7 @@
         renderWaiting();
       }
       tick();
-      setInterval(tick, 1800);
+      setInterval(tick, 900);
     </script>
   </body>
 </html>
