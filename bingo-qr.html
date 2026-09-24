@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bingo Musical — Escaneá para jugar</title>
+    <link rel="icon" type="image/jpeg" href="assets/img/hero.jpg" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playball&family=Cormorant+Garamond:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/acuarela.css" />
+    <style>
+      html,
+      body {
+        height: 100%;
+        overflow: hidden;
+      }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      .deco {
+        position: absolute;
+        width: 34vh;
+        height: 34vh;
+        object-fit: cover;
+        opacity: 0.4;
+        pointer-events: none;
+      }
+      .deco.tl {
+        top: 0;
+        left: 0;
+        -webkit-mask-image: radial-gradient(
+          circle at 0% 0%,
+          black 20%,
+          transparent 58%
+        );
+        mask-image: radial-gradient(circle at 0% 0%, black 20%, transparent 58%);
+      }
+      .deco.br {
+        bottom: 0;
+        right: 0;
+        -webkit-mask-image: radial-gradient(
+          circle at 100% 100%,
+          black 20%,
+          transparent 58%
+        );
+        mask-image: radial-gradient(
+          circle at 100% 100%,
+          black 20%,
+          transparent 58%
+        );
+      }
+
+      .stage {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7vw;
+        padding: 4vh 6vw;
+        flex-wrap: wrap;
+        text-align: center;
+      }
+
+      .info {
+        text-align: center;
+      }
+      .eyebrow {
+        font-size: 2.6vh;
+        letter-spacing: 0.6vh;
+        text-transform: uppercase;
+        color: var(--acento);
+        margin: 0 0 1vh;
+      }
+      h1.script {
+        font-size: 11vh;
+        line-height: 1;
+        margin: 0 0 1.5vh;
+        color: var(--texto);
+      }
+      .subtitle {
+        font-size: 3.2vh;
+        margin: 0 0 3vh;
+        color: var(--texto);
+      }
+      .flor {
+        width: 9vh;
+      }
+
+      .qr-card {
+        background: #fff;
+        border: 2px solid var(--acento);
+        border-radius: 3vh;
+        padding: 3.2vh;
+        box-shadow: 0 1.5vh 4vh rgba(61, 74, 58, 0.18);
+        animation: pulse 2.6s ease-in-out infinite;
+      }
+      .qr-card svg {
+        display: block;
+        width: 38vh;
+        height: 38vh;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          box-shadow: 0 1.5vh 4vh rgba(61, 74, 58, 0.18),
+            0 0 0 0 rgba(111, 138, 104, 0.35);
+        }
+        50% {
+          box-shadow: 0 1.5vh 4vh rgba(61, 74, 58, 0.18),
+            0 0 0 1.4vh rgba(111, 138, 104, 0);
+        }
+      }
+
+      .link {
+        margin-top: 2vh;
+        font-size: 2.4vh;
+        letter-spacing: 0.05vh;
+        color: var(--acento);
+      }
+
+      @media (max-aspect-ratio: 1/1) {
+        h1.script {
+          font-size: 8vh;
+        }
+        .qr-card svg {
+          width: 32vh;
+          height: 32vh;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <img class="deco tl" src="assets/img/acuarela-1.jpg" alt="" />
+    <img class="deco br" src="assets/img/acuarela-1.jpg" alt="" />
+
+    <div class="stage">
+      <div class="info">
+        <p class="eyebrow">Mis XV · Sofi</p>
+        <h1 class="script">Bingo Musical</h1>
+        <p class="subtitle">Escaneá y jugá desde tu celular</p>
+        <img
+          class="flor"
+          src="assets/img/flor.png"
+          alt=""
+        />
+      </div>
+
+      <div>
+        <div class="qr-card">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35 35" shape-rendering="crispEdges"><path stroke="#3d4a3a" d="M1 1.5h7m2 0h2m1 0h1m3 0h1m2 0h1m3 0h1m2 0h7M1 2.5h1m5 0h1m2 0h1m1 0h2m2 0h2m1 0h1m1 0h3m1 0h1m1 0h1m5 0h1M1 3.5h1m1 0h3m1 0h1m1 0h5m1 0h3m3 0h2m4 0h1m1 0h3m1 0h1M1 4.5h1m1 0h3m1 0h1m1 0h1m2 0h2m2 0h1m2 0h2m1 0h1m1 0h2m1 0h1m1 0h3m1 0h1M1 5.5h1m1 0h3m1 0h1m1 0h3m1 0h5m3 0h2m1 0h1m2 0h1m1 0h3m1 0h1M1 6.5h1m5 0h1m1 0h2m1 0h1m2 0h1m3 0h2m1 0h2m3 0h1m5 0h1M1 7.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M9 8.5h1m2 0h1m4 0h1m2 0h4M1 9.5h1m1 0h5m2 0h1m2 0h2m3 0h3m3 0h2m1 0h5M1 10.5h3m1 0h1m3 0h1m1 0h1m1 0h2m2 0h2m1 0h1m3 0h1m2 0h2m1 0h4M2 11.5h1m3 0h2m5 0h6m2 0h1m1 0h1m1 0h2m2 0h1m1 0h2M3 12.5h3m2 0h1m1 0h2m1 0h2m3 0h2m5 0h3m1 0h3M3 13.5h5m5 0h1m1 0h3m3 0h3m1 0h2m1 0h3M2 14.5h1m1 0h1m1 0h1m3 0h1m1 0h1m1 0h1m1 0h1m2 0h1m4 0h1m2 0h1m3 0h3M1 15.5h1m1 0h8m2 0h2m1 0h2m3 0h3m1 0h5m1 0h2M1 16.5h3m1 0h2m1 0h4m4 0h1m5 0h2m2 0h2m1 0h1m1 0h1M1 17.5h1m1 0h2m2 0h4m2 0h1m2 0h1m1 0h2m3 0h1m2 0h1m1 0h2m3 0h1M2 18.5h1m2 0h1m3 0h4m2 0h1m1 0h1m1 0h6m2 0h2m1 0h4M2 19.5h1m1 0h1m1 0h6m1 0h2m1 0h1m2 0h1m1 0h2m3 0h4m1 0h2M1 20.5h1m1 0h1m1 0h2m4 0h1m1 0h1m8 0h2m2 0h7M2 21.5h2m1 0h1m1 0h2m2 0h1m1 0h1m1 0h2m2 0h2m1 0h1m1 0h1m3 0h3M1 22.5h1m2 0h2m2 0h3m1 0h1m2 0h4m2 0h4m2 0h1m2 0h1m2 0h1M1 23.5h1m1 0h3m1 0h2m1 0h1m4 0h1m2 0h1m1 0h1m4 0h1m4 0h1m1 0h1M1 24.5h1m1 0h1m4 0h4m2 0h1m2 0h1m1 0h5m1 0h8M1 25.5h1m5 0h1m1 0h3m5 0h2m1 0h1m2 0h7m2 0h2M9 26.5h2m2 0h1m1 0h1m1 0h2m1 0h2m3 0h1m3 0h1m1 0h1m1 0h1M1 27.5h7m2 0h4m2 0h3m4 0h3m1 0h1m1 0h1m1 0h2M1 28.5h1m5 0h1m1 0h1m2 0h2m1 0h7m2 0h2m3 0h3m1 0h1M1 29.5h1m1 0h3m1 0h1m1 0h3m2 0h1m1 0h2m3 0h3m1 0h6m1 0h2M1 30.5h1m1 0h3m1 0h1m1 0h2m1 0h1m2 0h2m2 0h1m4 0h3m2 0h1m1 0h1m1 0h1M1 31.5h1m1 0h3m1 0h1m1 0h1m2 0h7m2 0h1m1 0h6M1 32.5h1m5 0h1m3 0h2m1 0h1m1 0h1m2 0h1m2 0h2m2 0h2m1 0h3M1 33.5h7m1 0h2m5 0h1m1 0h1m4 0h3m1 0h2m3 0h1"/></svg>
+        </div>
+        <p class="link">cumple-sofia-15.vercel.app/bingo.html</p>
+      </div>
+    </div>
+  </body>
+</html>
