@@ -75,10 +75,15 @@ function liveJsonp(url) {
   });
 }
 
+// navigator.sendBeacon entrega el POST sin esperar ni seguir la redirección
+// cross-domain que hace Apps Script — con fetch(), esa redirección puede
+// tardar muchos segundos (a veces más de un minuto) en resolver del lado
+// del navegador, aunque el dato ya se haya guardado. sendBeacon evita eso.
 function livePost(apiUrl, body) {
-  return fetch(apiUrl, {
-    method: "POST",
-    mode: "no-cors",
-    body: JSON.stringify(body),
-  });
+  var json = JSON.stringify(body);
+  if (navigator.sendBeacon) {
+    var blob = new Blob([json], { type: "text/plain;charset=UTF-8" });
+    if (navigator.sendBeacon(apiUrl, blob)) return;
+  }
+  fetch(apiUrl, { method: "POST", mode: "no-cors", body: json });
 }
