@@ -52,7 +52,6 @@
     <div class="trivia-result" id="resultScreen">
       <p class="score-big" id="scoreBig">0</p>
       <p class="score-of" id="scoreOf">de 0 puntos</p>
-      <p class="score-msg" id="scoreMsg"></p>
       <button id="closeResult">Volver a ver mis respuestas</button>
     </div>
 
@@ -208,20 +207,10 @@
         return score;
       }
 
-      function scoreMessage(score, max) {
-        const pct = score / max;
-        if (pct === 1) return "¡Puntaje perfecto! La conocés como nadie.";
-        if (pct >= 0.75) return "¡Muy bien! La conocés re bien.";
-        if (pct >= 0.5) return "Nada mal, pero te falta un poco más de data.";
-        if (pct >= 0.25) return "Che, tenés que prestarle más atención a Sofi.";
-        return "¡Uy! Momento de conocerla mejor.";
-      }
-
       document.getElementById("submitBtn").addEventListener("click", () => {
         const score = computeScore();
         document.getElementById("scoreBig").textContent = score;
         document.getElementById("scoreOf").textContent = "de " + MAX_TOTAL + " puntos";
-        document.getElementById("scoreMsg").textContent = scoreMessage(score, MAX_TOTAL);
         document.getElementById("resultScreen").classList.add("show");
       });
       document.getElementById("closeResult").addEventListener("click", () => {

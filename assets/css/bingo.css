@@ -8,7 +8,7 @@
 }
 
 .bingo-deco {
-  position: absolute;
+  position: fixed;
   width: 150px;
   height: 150px;
   object-fit: cover;

@@ -8,7 +8,7 @@
 }
 
 .trivia-deco {
-  position: absolute;
+  position: fixed;
   width: 150px;
   height: 150px;
   object-fit: cover;
@@ -185,12 +185,6 @@ select.trivia-select {
 .trivia-result .score-of {
   font-size: 18px;
   color: var(--bg);
-  margin: 0 0 10px;
-}
-.trivia-result .score-msg {
-  font-size: 20px;
-  color: #fff;
-  max-width: 340px;
   margin: 0 0 30px;
 }
 .trivia-result button {
