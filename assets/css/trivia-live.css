@@ -217,9 +217,9 @@ body {
   transition: width 0.4s ease;
 }
 .live-bar-label {
+  flex: 0 0 22vh;
   font-size: 1.8vh;
   color: var(--texto);
-  min-width: 8vh;
   text-align: left;
   overflow-wrap: break-word;
 }
