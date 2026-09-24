@@ -23,11 +23,6 @@
         Respondé lo que creas que dijo Sofi. Al final vas a ver tu puntaje.
       </p>
 
-      <div class="trivia-name">
-        <label for="playerName">Tu nombre</label>
-        <input type="text" id="playerName" placeholder="Escribí tu nombre" />
-      </div>
-
       <section class="trivia-section">
         <h2>Sobre ella</h2>
         <p class="points-hint">2 puntos por acierto</p>
@@ -66,17 +61,10 @@
       answers.sobreElla = answers.sobreElla || new Array(TRIVIA_SOBRE_ELLA.length).fill(null);
       answers.algunaVez = answers.algunaVez || new Array(TRIVIA_ALGUNA_VEZ.length).fill(null);
       answers.queTeam = answers.queTeam || new Array(TRIVIA_QUE_TEAM.length).fill(null);
-      answers.name = answers.name || "";
 
       function save() {
         localStorage.setItem(answersKey, JSON.stringify(answers));
       }
-
-      document.getElementById("playerName").value = answers.name;
-      document.getElementById("playerName").addEventListener("input", (e) => {
-        answers.name = e.target.value;
-        save();
-      });
 
       // --- Sobre ella: dropdowns ---
       const sobreEllaEl = document.getElementById("sobreElla");
