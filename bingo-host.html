@@ -60,10 +60,18 @@
         played = new Array(BINGO_SONGS.length).fill(false);
       }
 
+      // Orden alfabético solo para mostrar la lista más fácil de ubicar;
+      // `played` sigue indexado por la posición original en BINGO_SONGS,
+      // que es la que usa bingoCardIndices() para armar los cartones.
+      const sortedOrder = BINGO_SONGS.map((s, i) => i).sort((a, b) =>
+        BINGO_SONGS[a].localeCompare(BINGO_SONGS[b], "es", { sensitivity: "base" })
+      );
+
       const songListEl = document.getElementById("songList");
       function renderSongList() {
         songListEl.innerHTML = "";
-        BINGO_SONGS.forEach((s, i) => {
+        sortedOrder.forEach((i) => {
+          const s = BINGO_SONGS[i];
           const row = document.createElement("div");
           row.className = "song-row" + (played[i] ? " played" : "");
           row.innerHTML = '<span class="dot"></span><span class="title">' + s + "</span>";
