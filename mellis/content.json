@@ -52,6 +52,7 @@
   "config": {
     "googleSheetUrl": "https://docs.google.com/spreadsheets/d/1SSfUtwNZTe20OQ4p8McJiIBDKzoYw9n_tBHVpe-ac_o",
     "googleAppsScriptUrl": "https://script.google.com/macros/s/AKfycbyPVb3857EI3pRuzSHpBwMcKOXGK2HCZc_n9ZjaOLwQlbxjaGzlO7JfznhWhu9Jf3bGkw/exec",
-    "youtubeVideoId": "XsSpBZXW538"
+    "youtubeVideoId": "wlwhOvS5YBQ",
+    "youtubeStartSeconds": 11
   }
 }

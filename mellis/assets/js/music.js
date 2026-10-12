@@ -7,7 +7,7 @@ function onYouTubeIframeAPIReady() {
     height: '1',
     width: '1',
     videoId: CONFIG.youtubeVideoId,
-    playerVars: { autoplay: 0, rel: 0, playsinline: 1 }
+    playerVars: { autoplay: 0, rel: 0, playsinline: 1, start: CONFIG.youtubeStartSeconds || 0 }
   });
 }
 

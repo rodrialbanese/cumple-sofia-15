@@ -88,6 +88,7 @@
           <option value="Audiowide" data-css="cursive">Audiowide (sugerencia)</option>
         </select>
       </label>
+      <label><input type="checkbox" id="fontApplyBody" checked> Aplicar también al texto</label>
       <span id="fontPreview">XV</span>
     </div>
 
@@ -126,6 +127,7 @@
     var cAcento = document.getElementById('cAcento');
     var cFlor = document.getElementById('cFlor');
     var fontSelect = document.getElementById('fontSelect');
+    var fontApplyBody = document.getElementById('fontApplyBody');
     var fontPreview = document.getElementById('fontPreview');
     var frame = document.getElementById('siteFrame');
 
@@ -162,7 +164,11 @@
       if (!doc) return;
       ensureFontLoaded(doc, fontName);
       doc.documentElement.style.setProperty('--font-script', "'" + fontName + "', cursive");
-      doc.documentElement.style.setProperty('--font-principal', "'" + fontName + "', cursive");
+      if (fontApplyBody.checked) {
+        doc.documentElement.style.setProperty('--font-principal', "'" + fontName + "', cursive");
+      } else {
+        doc.documentElement.style.setProperty('--font-principal', "'Cormorant Garamond', serif");
+      }
     }
 
     cBg.addEventListener('input', applyColors);
@@ -170,6 +176,7 @@
     cAcento.addEventListener('input', applyColors);
     cFlor.addEventListener('input', applyColors);
     fontSelect.addEventListener('change', applyFont);
+    fontApplyBody.addEventListener('change', applyFont);
 
     // cargar todas las fuentes en ESTA pagina tambien, para que el <select>
     // y el preview de al lado se vean con la tipografia real
@@ -193,12 +200,9 @@
       cAcento.value = ORIGINAL.acento;
       cFlor.value = ORIGINAL.flor;
       fontSelect.value = ORIGINAL.font;
+      fontApplyBody.checked = true;
       applyColors();
       applyFont();
-      // el diseño original usa Cormorant Garamond para el texto de cuerpo,
-      // aunque el picker (al elegir una fuente) la pise para todo.
-      var doc = frame.contentDocument;
-      if (doc) doc.documentElement.style.setProperty('--font-principal', "'Cormorant Garamond', serif");
     });
 
     document.getElementById('btnOk').addEventListener('click', function () {
@@ -215,7 +219,9 @@
         '  --acento: ' + cAcento.value + ';\n' +
         '  --flor: ' + cFlor.value + ';\n' +
         "  --font-script: '" + fontName + "', cursive;\n" +
-        "  --font-principal: '" + fontName + "', cursive;\n" +
+        (fontApplyBody.checked
+          ? "  --font-principal: '" + fontName + "', cursive;\n"
+          : "  --font-principal: 'Cormorant Garamond', serif;\n") +
         '}\n\n' +
         '<!-- agregar este <link> en el <head> si la fuente no es Playball -->\n' +
         '<link href="https://fonts.googleapis.com/css2?family=' + FONT_FAMILY_PARAM[fontName] + '&display=swap" rel="stylesheet">';
