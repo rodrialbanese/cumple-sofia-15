@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Probar estilos — Cami y Fran</title>
+  <style>
+    html, body { margin: 0; padding: 0; height: 100%; font-family: Arial, sans-serif; }
+    #panel {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding: 10px 16px;
+      background: #222;
+      color: #fff;
+      font-size: 13px;
+    }
+    #panel .group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-right: 16px;
+      border-right: 1px solid #444;
+    }
+    #panel .group:last-of-type { border-right: none; }
+    #panel label { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+    #panel input[type="color"] {
+      width: 36px;
+      height: 30px;
+      border: none;
+      padding: 0;
+      background: none;
+      cursor: pointer;
+    }
+    #panel select {
+      background: #333;
+      color: #fff;
+      border: 1px solid #555;
+      border-radius: 4px;
+      padding: 6px 8px;
+      font-size: 13px;
+    }
+    #panel code {
+      background: #111;
+      padding: 3px 7px;
+      border-radius: 4px;
+      font-size: 11px;
+    }
+    #panel button {
+      background: #444;
+      color: #fff;
+      border: 1px solid #666;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    #panel button:hover { background: #555; }
+    #frameWrap { height: calc(100% - 56px); }
+    #siteFrame { width: 100%; height: 100%; border: none; display: block; }
+    #fontPreview {
+      font-size: 22px;
+      min-width: 90px;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="panel">
+    <div class="group">
+      <label>Fondo <input type="color" id="cBg" value="#f3f3f5"></label>
+      <label>Texto <input type="color" id="cTexto" value="#2a2a2e"></label>
+      <label>Acento <input type="color" id="cAcento" value="#83838c"></label>
+      <label>Borde <input type="color" id="cFlor" value="#c9c9cf"></label>
+    </div>
+
+    <div class="group">
+      <label>
+        Fuente de títulos:
+        <select id="fontSelect">
+          <option value="Playball" data-css="cursive" selected>Playball (actual)</option>
+          <option value="Monoton" data-css="cursive">Monoton</option>
+          <option value="Righteous" data-css="cursive">Righteous</option>
+          <option value="Bungee Shade" data-css="cursive">Bungee Shade</option>
+          <option value="Fascinate Inline" data-css="cursive">Fascinate Inline</option>
+          <option value="Audiowide" data-css="cursive">Audiowide (sugerencia)</option>
+        </select>
+      </label>
+      <span id="fontPreview">XV</span>
+    </div>
+
+    <div class="group">
+      <button id="btnCopiar">Copiar valores</button>
+      <button id="btnReset">Volver al original</button>
+      <button id="btnOk">OK, listo</button>
+    </div>
+  </div>
+
+  <div id="frameWrap">
+    <iframe id="siteFrame" src="index.html"></iframe>
+  </div>
+
+  <script>
+    var ORIGINAL = {
+      bg: '#f3f3f5',
+      texto: '#2a2a2e',
+      acento: '#83838c',
+      flor: '#c9c9cf',
+      font: 'Playball'
+    };
+
+    // family param para Google Fonts (con + en vez de espacios)
+    var FONT_FAMILY_PARAM = {
+      'Playball': 'Playball',
+      'Monoton': 'Monoton',
+      'Righteous': 'Righteous',
+      'Bungee Shade': 'Bungee+Shade',
+      'Fascinate Inline': 'Fascinate+Inline',
+      'Audiowide': 'Audiowide'
+    };
+
+    var cBg = document.getElementById('cBg');
+    var cTexto = document.getElementById('cTexto');
+    var cAcento = document.getElementById('cAcento');
+    var cFlor = document.getElementById('cFlor');
+    var fontSelect = document.getElementById('fontSelect');
+    var fontPreview = document.getElementById('fontPreview');
+    var frame = document.getElementById('siteFrame');
+
+    function applyColors() {
+      var doc = frame.contentDocument;
+      if (!doc) return;
+      doc.documentElement.style.setProperty('--bg', cBg.value);
+      doc.documentElement.style.setProperty('--texto', cTexto.value);
+      doc.documentElement.style.setProperty('--acento', cAcento.value);
+      doc.documentElement.style.setProperty('--flor', cFlor.value);
+    }
+
+    function ensureFontLoaded(doc, fontName) {
+      var param = FONT_FAMILY_PARAM[fontName];
+      var linkId = 'probar-estilos-font-link';
+      var existing = doc.getElementById(linkId);
+      var href = 'https://fonts.googleapis.com/css2?family=' + param + '&display=swap';
+      if (existing) {
+        if (existing.getAttribute('href') !== href) existing.setAttribute('href', href);
+        return;
+      }
+      var link = doc.createElement('link');
+      link.id = linkId;
+      link.rel = 'stylesheet';
+      link.href = href;
+      doc.head.appendChild(link);
+    }
+
+    function applyFont() {
+      var fontName = fontSelect.value;
+      fontPreview.style.fontFamily = "'" + fontName + "', cursive";
+
+      var doc = frame.contentDocument;
+      if (!doc) return;
+      ensureFontLoaded(doc, fontName);
+      doc.documentElement.style.setProperty('--font-script', "'" + fontName + "', cursive");
+    }
+
+    cBg.addEventListener('input', applyColors);
+    cTexto.addEventListener('input', applyColors);
+    cAcento.addEventListener('input', applyColors);
+    cFlor.addEventListener('input', applyColors);
+    fontSelect.addEventListener('change', applyFont);
+
+    // cargar todas las fuentes en ESTA pagina tambien, para que el <select>
+    // y el preview de al lado se vean con la tipografia real
+    (function preloadAllFonts() {
+      var families = Object.keys(FONT_FAMILY_PARAM).map(function (k) { return FONT_FAMILY_PARAM[k]; });
+      var href = 'https://fonts.googleapis.com/css2?' + families.map(function (f) { return 'family=' + f; }).join('&') + '&display=swap';
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = href;
+      document.head.appendChild(link);
+    })();
+
+    frame.addEventListener('load', function () {
+      applyColors();
+      applyFont();
+    });
+
+    document.getElementById('btnReset').addEventListener('click', function () {
+      cBg.value = ORIGINAL.bg;
+      cTexto.value = ORIGINAL.texto;
+      cAcento.value = ORIGINAL.acento;
+      cFlor.value = ORIGINAL.flor;
+      fontSelect.value = ORIGINAL.font;
+      applyColors();
+      applyFont();
+    });
+
+    document.getElementById('btnOk').addEventListener('click', function () {
+      document.getElementById('panel').style.display = 'none';
+      document.getElementById('frameWrap').style.height = '100%';
+    });
+
+    document.getElementById('btnCopiar').addEventListener('click', function () {
+      var fontName = fontSelect.value;
+      var texto =
+        ':root {\n' +
+        '  --bg: ' + cBg.value + ';\n' +
+        '  --texto: ' + cTexto.value + ';\n' +
+        '  --acento: ' + cAcento.value + ';\n' +
+        '  --flor: ' + cFlor.value + ';\n' +
+        "  --font-script: '" + fontName + "', cursive;\n" +
+        "  --font-principal: 'Cormorant Garamond', serif;\n" +
+        '}\n\n' +
+        '<!-- agregar este <link> en el <head> si la fuente no es Playball -->\n' +
+        '<link href="https://fonts.googleapis.com/css2?family=' + FONT_FAMILY_PARAM[fontName] + '&display=swap" rel="stylesheet">';
+      navigator.clipboard.writeText(texto).then(function () {
+        var btn = document.getElementById('btnCopiar');
+        var original = btn.textContent;
+        btn.textContent = '¡Copiado!';
+        setTimeout(function () { btn.textContent = original; }, 1500);
+      });
+    });
+  </script>
+</body>
+</html>

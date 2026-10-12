@@ -29,21 +29,21 @@
     },
     "cuando": {
       "fecha": "14 de noviembre 2026",
-      "horario": "21:00 a 05:30 hs"
+      "horario": "21:00 hs"
     },
     "donde": {
-      "lugar": "Salón Comedor Chañarense",
+      "lugar": "Comedor Chañarense",
       "direccion": "",
       "_nota": "Sin botón 'Cómo llegar' en esta invitación."
     },
     "fotos": {
-      "texto": "Queremos ver sus fotos, pueden subirlas a nuestro álbum compartido",
+      "texto": "Queremos ver sus fotos, podés subirlas a nuestro álbum compartido",
       "googlePhotosAlbumUrl": "https://photos.app.goo.gl/fgYp8JHi5xRbn65F7"
     },
     "rsvp": {
       "titulo": "Confirmá tu asistencia",
       "fechaLimite": "Antes del 4 de noviembre 2026",
-      "textoBoton": "Confirma aquí, ¡los esperamos!"
+      "textoBoton": "Confirmá aquí, ¡te esperamos!"
     }
   },
 
