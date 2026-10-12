@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nuestros XV Cami y Fran</title>
+    <link rel="icon" type="image/jpeg" href="assets/img/bolas.jpg" />
+    <meta property="og:title" content="Nuestros XV Cami y Fran" />
+    <meta
+      property="og:description"
+      content="Queremos que seas parte de este día y celebres con nosotros"
+    />
+    <meta property="og:image" content="assets/img/bolas.jpg" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playball&family=Cormorant+Garamond:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css"
+    />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+  <body>
+    <script>
+      // TODO: falta youtubeVideoId (música de fondo), si se quiere usar.
+      var CONFIG = {
+        eventDate: "2026-11-14T21:00:00-03:00",
+        googlePhotosAlbumUrl: "https://photos.app.goo.gl/fgYp8JHi5xRbn65F7",
+        googleAppsScriptUrl: "https://script.google.com/macros/s/AKfycbyPVb3857EI3pRuzSHpBwMcKOXGK2HCZc_n9ZjaOLwQlbxjaGzlO7JfznhWhu9Jf3bGkw/exec",
+        youtubeVideoId: "",
+      };
+    </script>
+
+    <svg width="0" height="0" style="position: absolute">
+      <defs>
+        <!-- Divisor decorativo simple. Sumar flor-mini.png (u otro ícono)
+             cuando definamos la paleta/estilo. -->
+        <symbol id="braid" viewBox="0 0 96 20">
+          <path
+            d="M0,10 C4,3 8,3 12,10 C16,17 20,17 24,10 C28,3 32,3 36,10 C40,17 44,17 48,10 C52,3 56,3 60,10 C64,17 68,17 72,10 C76,3 80,3 84,10 C88,17 92,17 96,10"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.4"
+            opacity="0.7"
+          />
+          <path
+            d="M0,10 C4,17 8,17 12,10 C16,3 20,3 24,10 C28,17 32,17 36,10 C40,3 44,3 48,10 C52,17 56,17 60,10 C64,3 68,3 72,10 C76,17 80,17 84,10 C88,3 92,3 96,10"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.4"
+            opacity="0.45"
+          />
+        </symbol>
+      </defs>
+    </svg>
+
+    <div id="gate">
+      <!-- TODO: agregar imágenes de fondo (assets/img/) para las 4 esquinas, ver .deco-water en styles.css -->
+      <h1 id="gateTitle">Nuestros XV<br />Cami y Fran</h1>
+      <p id="gateSubtitle">Queremos que seas parte de este día y celebres con nosotros</p>
+      <button id="enterButton">Ingresar</button>
+    </div>
+
+    <div
+      id="youtubePlayer"
+      style="position: absolute; width: 1px; height: 1px; overflow: hidden"
+    ></div>
+    <button id="musicToggle" aria-label="Música">❙❙</button>
+
+    <div id="hero">
+      <h1>
+        <strong class="script">Nuestros XV<br />Cami y Fran</strong>
+      </h1>
+      <div class="countdown">
+        <div class="box">
+          <span class="num" id="countDays">0</span><span class="lbl">Días</span>
+        </div>
+        <div class="box">
+          <span class="num" id="countHours">00</span
+          ><span class="lbl">Horas</span>
+        </div>
+        <div class="box">
+          <span class="num" id="countMinutes">00</span
+          ><span class="lbl">Min</span>
+        </div>
+        <div class="box">
+          <span class="num" id="countSeconds">00</span
+          ><span class="lbl">Seg</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider mini">
+      <svg class="braid" viewBox="0 0 96 20"><use href="#braid" /></svg>
+    </div>
+
+    <section class="section" data-aos="fade-up" data-aos-once="true">
+      <img
+        class="icon-anim"
+        src="assets/img/icons/bola.webp"
+        alt=""
+        width="160"
+        height="160"
+        loading="lazy"
+      />
+      <h2 class="script">Nuestros XV</h2>
+      <p>Cami y Fran</p>
+    </section>
+
+    <div class="divider">
+      <svg class="braid" viewBox="0 0 96 20"><use href="#braid" /></svg>
+    </div>
+
+    <section class="section" data-aos="fade-up" data-aos-once="true">
+      <img
+        class="icon-anim"
+        src="assets/img/icons/calendario.webp"
+        alt=""
+        width="160"
+        height="160"
+        loading="lazy"
+      />
+      <h2 class="script">¿Cuándo?</h2>
+      <p>14 de noviembre 2026<br />21:00 a 05:30 hs</p>
+    </section>
+
+    <div class="divider mini">
+      <svg class="braid" viewBox="0 0 96 20"><use href="#braid" /></svg>
+    </div>
+
+    <section class="section" data-aos="fade-up" data-aos-once="true">
+      <img
+        class="icon-anim"
+        src="assets/img/icons/mapa.webp"
+        alt=""
+        width="160"
+        height="160"
+        loading="lazy"
+      />
+      <h2 class="script">¿Dónde?</h2>
+      <p>Salón Comedor Chañarense</p>
+    </section>
+
+    <div class="divider mini">
+      <svg class="braid" viewBox="0 0 96 20"><use href="#braid" /></svg>
+    </div>
+
+    <section class="section" data-aos="fade-up" data-aos-once="true">
+      <img
+        class="icon-anim"
+        src="assets/img/icons/compartida.webp"
+        alt=""
+        width="160"
+        height="160"
+        loading="lazy"
+      />
+      <h2 class="script">Quiero ver tus fotos</h2>
+      <p>Queremos ver sus fotos, pueden subirlas a nuestro álbum compartido</p>
+      <a
+        class="btn"
+        id="photosAlbumLink"
+        href="#"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Ir al álbum</a
+      >
+    </section>
+
+    <div class="divider mini">
+      <svg class="braid" viewBox="0 0 96 20"><use href="#braid" /></svg>
+    </div>
+
+    <section class="section" data-aos="fade-up" data-aos-once="true">
+      <img
+        class="icon-anim"
+        src="assets/img/icons/sobre.webp"
+        alt=""
+        width="160"
+        height="160"
+        loading="lazy"
+      />
+      <h2 class="script">Confirmá tu asistencia</h2>
+      <p>Antes del 4 de noviembre 2026</p>
+      <form id="rsvpForm">
+        <div>
+          <label for="rsvpNombre">Nombre</label>
+          <input id="rsvpNombre" name="nombre" type="text" required />
+        </div>
+        <div>
+          <label for="rsvpApellido">Apellido</label>
+          <input id="rsvpApellido" name="apellido" type="text" required />
+        </div>
+        <div>
+          <label for="rsvpCantidad">Cantidad de personas</label>
+          <input
+            id="rsvpCantidad"
+            name="cantidad"
+            type="number"
+            min="1"
+            value="1"
+            required
+          />
+        </div>
+        <div class="radios">
+          <label
+            ><input type="radio" name="confirma" value="si" checked />
+            ¡Confirmo!</label
+          >
+          <label
+            ><input type="radio" name="confirma" value="no" /> No podré
+            asistir</label
+          >
+        </div>
+        <div>
+          <label for="rsvpComentario">Comentario (opcional)</label>
+          <textarea id="rsvpComentario" name="comentario" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn">Confirma aquí, ¡los esperamos!</button>
+        <p id="rsvpFeedback" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <!-- footer.footer vino vacío en content.json; armé esto con nombre + fecha, reemplazar si quieren otro texto -->
+    <footer id="footer">Nuestros XV Cami y Fran · 14 de noviembre 2026</footer>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js"
+      defer
+    ></script>
+    <script src="assets/js/countdown.js" defer></script>
+    <script src="assets/js/rsvp.js" defer></script>
+    <script src="assets/js/gate.js" defer></script>
+    <script src="assets/js/music.js" defer></script>
+    <script src="https://www.youtube.com/iframe_api" defer></script>
+    <script src="assets/js/rsvp-form.js" defer></script>
+    <script src="assets/js/main.js" defer></script>
+  </body>
+</html>

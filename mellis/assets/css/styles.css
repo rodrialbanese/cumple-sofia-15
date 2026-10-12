@@ -1,0 +1,284 @@
+/* Tema plateado */
+:root {
+  --bg: #f3f3f5;
+  --texto: #2a2a2e;
+  --acento: #83838c;
+  --flor: #c9c9cf;
+  --font-script: 'Playball', cursive;
+  --font-principal: 'Cormorant Garamond', serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-principal);
+  background: var(--bg);
+  color: var(--texto);
+  overflow-x: hidden;
+}
+
+.script { font-family: var(--font-script); font-weight: normal; }
+
+/* Decoración: imágenes de fondo en las esquinas, fundidas hacia el fondo */
+.deco-water {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  object-fit: cover;
+  pointer-events: none;
+  opacity: 0.95;
+}
+.deco-water.tl {
+  top: 0;
+  left: 0;
+  -webkit-mask-image: radial-gradient(circle at 0% 0%, black 35%, transparent 70%);
+  mask-image: radial-gradient(circle at 0% 0%, black 35%, transparent 70%);
+}
+.deco-water.tr {
+  top: 0;
+  right: 0;
+  -webkit-mask-image: radial-gradient(circle at 100% 0%, black 35%, transparent 70%);
+  mask-image: radial-gradient(circle at 100% 0%, black 35%, transparent 70%);
+}
+.deco-water.bl {
+  bottom: 0;
+  left: 0;
+  -webkit-mask-image: radial-gradient(circle at 0% 100%, black 35%, transparent 70%);
+  mask-image: radial-gradient(circle at 0% 100%, black 35%, transparent 70%);
+}
+.deco-water.br {
+  bottom: 0;
+  right: 0;
+  -webkit-mask-image: radial-gradient(circle at 100% 100%, black 35%, transparent 70%);
+  mask-image: radial-gradient(circle at 100% 100%, black 35%, transparent 70%);
+}
+
+.divider {
+  display: flex;
+  justify-content: center;
+  padding: 22px 0;
+  background: var(--bg);
+}
+.divider .braid {
+  width: 120px;
+  height: 25px;
+  color: var(--acento);
+}
+.divider.mini { padding: 14px 0; }
+.divider.mini .braid { width: 86px; height: 18px; }
+
+/* Pantalla de entrada */
+#gate {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 0 32px;
+  text-align: center;
+  transition: opacity .5s ease;
+  overflow: hidden;
+}
+#gate h1, #gate p, #gate button {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .8s ease, transform .8s ease;
+}
+#gate h1.show, #gate p.show, #gate button.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+#gate h1 {
+  color: var(--acento);
+  font-family: var(--font-script);
+  font-size: 2.6rem;
+  font-weight: normal;
+  margin: 0 0 16px;
+}
+#gate p {
+  color: var(--texto);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  margin: 0 0 28px;
+  max-width: 320px;
+}
+#gate button {
+  background: var(--acento);
+  color: #fff;
+  border: none;
+  padding: 12px 34px;
+  border-radius: 999px;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  font-family: var(--font-principal);
+}
+
+/* Hero */
+#hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  background-color: #0e0e10;
+  background-image: linear-gradient(180deg, rgba(10,10,12,.35), rgba(10,10,12,.75)), url('../img/bolas.jpg');
+  background-size: cover;
+  background-position: center;
+  padding: 24px;
+  overflow: hidden;
+}
+#hero h1 { font-weight: normal; margin: 0 0 28px; line-height: 1.15; }
+#hero h1 { font-family: var(--font-principal); font-size: 1.1rem; letter-spacing: 4px; text-transform: uppercase; }
+#hero h1 strong { font-size: 4.4rem; font-weight: normal; display: inline-block; margin: 8px 0; text-transform: none; }
+#hero h1 .sub { font-size: 1.6rem; letter-spacing: 3px; font-family: var(--font-principal); }
+
+.countdown { display: flex; gap: 16px; }
+.countdown .box { text-align: center; min-width: 52px; }
+.countdown .num { display: block; font-size: 1.8rem; font-weight: 600; font-family: var(--font-principal); }
+.countdown .lbl { font-size: .62rem; letter-spacing: 1px; opacity: .85; text-transform: uppercase; }
+
+/* Secciones */
+.section { padding: 56px 24px; text-align: center; background: var(--bg); color: var(--texto); }
+.icon-anim { display: block; width: 72px; height: 72px; margin: 0 auto 10px; }
+.section h2 { font-family: var(--font-script); font-size: 1.8rem; font-weight: normal; color: var(--acento); margin: 0 0 14px; }
+.section p { font-size: 1.05rem; line-height: 1.6; margin: 0; }
+.section .btn {
+  display: inline-block;
+  margin-top: 20px;
+  border: 1px solid var(--acento);
+  color: var(--acento);
+  padding: 10px 26px;
+  border-radius: 999px;
+  font-size: .85rem;
+  letter-spacing: 1px;
+  text-decoration: none;
+  background: none;
+  font-family: var(--font-principal);
+  cursor: pointer;
+}
+.section .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* RSVP */
+#rsvpForm {
+  max-width: 300px;
+  margin: 24px auto 0;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+#rsvpForm label { font-size: .8rem; letter-spacing: .5px; display: block; margin-bottom: 4px; opacity: .75; }
+#rsvpForm input[type="text"], #rsvpForm input[type="number"], #rsvpForm textarea {
+  width: 100%;
+  padding: 9px 10px;
+  border: 1px solid var(--flor);
+  border-radius: 6px;
+  background: transparent;
+  font-family: var(--font-principal);
+  font-size: 1rem;
+  color: var(--texto);
+}
+#rsvpForm .radios { display: flex; gap: 16px; font-size: .95rem; }
+#rsvpForm .radios input { width: auto; }
+#rsvpFeedback { margin-top: 14px; font-size: .85rem; }
+
+/* Footer */
+#footer {
+  background: var(--acento);
+  color: #fff;
+  text-align: center;
+  padding: 32px 24px 96px;
+  font-family: var(--font-script);
+  font-size: 1.2rem;
+  position: relative;
+}
+
+/* Botón flotante de música */
+#musicToggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--acento);
+  color: #fff;
+  border: none;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  z-index: 90;
+  cursor: pointer;
+}
+#musicToggle.visible { display: flex; }
+
+#youtubePlayer {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  border: 0;
+  overflow: hidden;
+}
+
+/* Modal de datos para regalo */
+.modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 24px;
+}
+.modal.open { display: flex; }
+.modal-overlay { position: absolute; inset: 0; background: rgba(0,0,0,.55); }
+.modal-card {
+  position: relative;
+  background: var(--bg);
+  border-radius: 16px;
+  padding: 36px 28px 28px;
+  max-width: 320px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, .25);
+}
+.modal-card h3 { font-size: 1.7rem; font-weight: normal; color: var(--acento); margin: 0 0 20px; }
+.modal-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--texto);
+  cursor: pointer;
+}
+.modal-data { margin: 0; }
+.modal-data div { margin-bottom: 14px; }
+.modal-data div:last-child { margin-bottom: 0; }
+.modal-data dt {
+  font-size: .72rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  opacity: .7;
+  margin: 0 0 2px;
+}
+.modal-data dd { margin: 0; font-size: 1.05rem; word-break: break-word; }
+
+@media (min-width: 768px) {
+  #gate h1 { font-size: 3.2rem; }
+  #hero h1 strong { font-size: 4.6rem; }
+  .section { padding: 80px 24px; max-width: 720px; margin-left: auto; margin-right: auto; }
+}
