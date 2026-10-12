@@ -139,7 +139,7 @@ html, body {
 }
 #hero h1 { font-weight: normal; margin: 0 0 28px; line-height: 1.15; }
 #hero h1 { font-family: var(--font-principal); font-size: 1.1rem; letter-spacing: 4px; text-transform: uppercase; }
-#hero h1 strong { font-size: clamp(1.7rem, 9vw, 3.8rem); font-weight: normal; display: inline-block; margin: 8px 0; text-transform: none; white-space: nowrap; }
+#hero h1 strong { font-size: clamp(2.1rem, 11.5vw, 4.4rem); font-weight: normal; display: inline-block; margin: 8px 0; text-transform: none; white-space: nowrap; }
 #hero h1 .sub { font-size: 1.6rem; letter-spacing: 3px; font-family: var(--font-principal); }
 
 .countdown { display: flex; gap: 16px; }

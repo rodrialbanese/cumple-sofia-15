@@ -162,6 +162,7 @@
       if (!doc) return;
       ensureFontLoaded(doc, fontName);
       doc.documentElement.style.setProperty('--font-script', "'" + fontName + "', cursive");
+      doc.documentElement.style.setProperty('--font-principal', "'" + fontName + "', cursive");
     }
 
     cBg.addEventListener('input', applyColors);
@@ -194,6 +195,10 @@
       fontSelect.value = ORIGINAL.font;
       applyColors();
       applyFont();
+      // el diseño original usa Cormorant Garamond para el texto de cuerpo,
+      // aunque el picker (al elegir una fuente) la pise para todo.
+      var doc = frame.contentDocument;
+      if (doc) doc.documentElement.style.setProperty('--font-principal', "'Cormorant Garamond', serif");
     });
 
     document.getElementById('btnOk').addEventListener('click', function () {
@@ -210,7 +215,7 @@
         '  --acento: ' + cAcento.value + ';\n' +
         '  --flor: ' + cFlor.value + ';\n' +
         "  --font-script: '" + fontName + "', cursive;\n" +
-        "  --font-principal: 'Cormorant Garamond', serif;\n" +
+        "  --font-principal: '" + fontName + "', cursive;\n" +
         '}\n\n' +
         '<!-- agregar este <link> en el <head> si la fuente no es Playball -->\n' +
         '<link href="https://fonts.googleapis.com/css2?family=' + FONT_FAMILY_PARAM[fontName] + '&display=swap" rel="stylesheet">';
