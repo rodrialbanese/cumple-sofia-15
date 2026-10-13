@@ -28,7 +28,7 @@
       "texto": "Te invitamos a celebrar esta noche con nosotros"
     },
     "cuando": {
-      "fecha": "14 de noviembre 2026",
+      "fecha": "Sábado 14 de noviembre 2026",
       "horario": "21:00 hs"
     },
     "donde": {
@@ -53,7 +53,7 @@
   "config": {
     "googleSheetUrl": "https://docs.google.com/spreadsheets/d/1SSfUtwNZTe20OQ4p8McJiIBDKzoYw9n_tBHVpe-ac_o",
     "googleAppsScriptUrl": "https://script.google.com/macros/s/AKfycbyPVb3857EI3pRuzSHpBwMcKOXGK2HCZc_n9ZjaOLwQlbxjaGzlO7JfznhWhu9Jf3bGkw/exec",
-    "youtubeVideoId": "wlwhOvS5YBQ",
-    "youtubeStartSeconds": 11
+    "youtubeVideoId": "uSD4vsh1zDA",
+    "youtubeStartSeconds": 0
   }
 }
